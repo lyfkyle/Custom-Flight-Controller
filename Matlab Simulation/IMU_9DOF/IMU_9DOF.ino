@@ -83,8 +83,7 @@ void setup() {
   delay(10);
   Serial.println("bypass mode enabled");
   
-  
-  // TODO set mag to continuous measurement mode.
+  //set mag to continuous measurement mode.
   I2C_M.writeByte(MPU9250_RA_MAG_ADDRESS, 0x0A, 0x06); //0x06 = 00000110 = continuous measurenment mode 2. 100Hz output data rate.
   Serial.println("mag continuous measurement mode set");
   

@@ -10,6 +10,7 @@ global rg;
 global rm;
 global i;
 global sMag;
+global s;
 i=1;
 t = [0];
 m = [0];
@@ -26,6 +27,11 @@ p = plot(t,m,'MarkerSize',5);
 axis([-5 5 -5 5 -5 5]);
 grid on;
 
+% Create push button
+btn = uicontrol('Style', 'pushbutton', 'String', 'Clear',...
+        'Position', [20 20 50 20],...
+        'Callback', @stop);    
+
 try
     s=serial('com6');
 catch
@@ -39,8 +45,3 @@ s.BytesAvailableFcn = {@callback,p};
 fopen(s);
 
 pause;
-fclose(s);
-delete(s);
-clear s;
-close all;
-clear all;

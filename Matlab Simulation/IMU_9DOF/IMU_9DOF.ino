@@ -13,7 +13,7 @@ MPU9250 accelgyro;
 I2Cdev   I2C_M;
 
 uint8_t buffer_m[6];
-
+uint8_t buffer_;
 
 int16_t ax, ay, az;
 int16_t gx, gy, gz;
@@ -36,8 +36,8 @@ volatile float my_sample[3];
 volatile float mz_sample[3];
 
 static float mx_centre = -23;
-static float my_centre = 28;
-static float mz_centre = 13;
+static float my_centre = 28.5;
+static float mz_centre = 12.2;
 
 volatile int mx_max =0;
 volatile int my_max =0;
@@ -71,8 +71,22 @@ void setup() {
 	Serial.println("Testing device connections...");
 	Serial.println(accelgyro.testConnection() ? "MPU9250 connection successful" : "MPU9250 connection failed");
 
+  //set gyro output data rate to 1000hz
   accelgyro.setGyroDLPFMode(1);
+  //set gyro range to 500dps.
   accelgyro.setFullScaleGyroRange(1);
+  //set accel output data rate to 1000hz
+  accelgyro.setAccDLPFMode(1);
+
+  //set i2c bypass enable pin to true to access magnetometer
+  I2Cdev::writeByte(0x68, MPU9250_RA_INT_PIN_CFG, 0x02);
+  delay(10);
+  Serial.println("bypass mode enabled");
+  
+  
+  // TODO set mag to continuous measurement mode.
+  I2C_M.writeByte(MPU9250_RA_MAG_ADDRESS, 0x0A, 0x06); //0x06 = 00000110 = continuous measurenment mode 2. 100Hz output data rate.
+  Serial.println("mag continuous measurement mode set");
   
 	delay(1000);
 	Serial.println("     ");
@@ -83,65 +97,38 @@ void setup() {
 
 void loop() 
 {   
-  //Mxyz_init_calibrated ();
-  
+  //get gyro data and calculate time spent for getting that data.
   startTime = micros();
   getGyro_Data();
-  endTime = micros();
-  elapsedTime = endTime-startTime;
 
 	getAccel_Data();
 	getCompassDate_calibrated(); // compass data has been calibrated here 
-//	getHeading();				//before we use this function we should run 'getCompassDate_calibrated()' frist, so that we can get calibrated data ,then we can get correct angle .					
-//	getTiltHeading();           
 
 
-/*
-	Serial.println("calibration parameter: ");
-	Serial.print(mx_centre);
-	Serial.print("         ");
-	Serial.print(my_centre);
-	Serial.print("         ");
-	Serial.println(mz_centre);
-	Serial.println("     ");
-*/
-	
-	//Serial.println("Acceleration(g) of X,Y,Z:");
 	Serial.print(Axyz[0]); 
 	Serial.print(" ");
 	Serial.print(Axyz[1]); 
 	Serial.print(" ");
 	Serial.print(Axyz[2]); 
   Serial.print(" ");
-	//Serial.println("Gyro(degress/s) of X,Y,Z:");
 	Serial.print(Gxyz[0]); 
 	Serial.print(" ");
 	Serial.print(Gxyz[1]); 
 	Serial.print(" ");
 	Serial.print(Gxyz[2]); 
   Serial.print(" ");
-	//Serial.println("Compass Value of X,Y,Z:");
 	Serial.print(Mxyz[0]); 
 	Serial.print(" ");
 	Serial.print(Mxyz[1]); 
 	Serial.print(" ");
 	Serial.print(Mxyz[2]);
   Serial.print(" ");
-  /*
-	Serial.println("The clockwise angle between the magnetic north and X-Axis:");
-	Serial.print(heading);
-	Serial.println(" ");
-	Serial.println("The clockwise angle between the magnetic north and the projection of the positive X-Axis in the horizontal plane:");
-	Serial.println(tiltheading);
-	Serial.println("   ");
-	Serial.println("   ");
-    Serial.println("   ");*/
 
-
+  endTime = micros();
+  elapsedTime = endTime-startTime;
   Serial.println(elapsedTime);
   
 	delay(10);
-
 }
 
 
@@ -258,7 +245,7 @@ void get_one_sample_date_mxyz()
 
 void getAccel_Data(void)
 {
-  accelgyro.getMotion9(&ax, &ay, &az, &gx, &gy, &gz, &mx, &my, &mz);
+  accelgyro.getAcceleration(&ax,&ay,&az);
   Axyz[0] = (double) ax / 16384;//16384  LSB/g
   Axyz[1] = (double) ay / 16384;
   Axyz[2] = (double) az / 16384; 
@@ -266,34 +253,44 @@ void getAccel_Data(void)
 
 void getGyro_Data(void)
 {
-  accelgyro.getMotion9(&ax, &ay, &az, &gx, &gy, &gz, &mx, &my, &mz);
+  accelgyro.getRotation(&gx, &gy, &gz);
   Gxyz[0] = (double) gx * 500 / 32768;//131 LSB(��/s)
   Gxyz[1] = (double) gy * 500 / 32768;
   Gxyz[2] = (double) gz * 500 / 32768;
 }
 
-void getCompass_Data(void)
+uint8_t getCompass_Data()
 {
-	I2C_M.writeByte(MPU9150_RA_MAG_ADDRESS, 0x0A, 0x01); //enable the magnetometer
-	delay(10);
-	I2C_M.readBytes(MPU9150_RA_MAG_ADDRESS, MPU9150_RA_MAG_XOUT_L, 6, buffer_m);
-	
+  uint8_t dataReady = getCompassDataReady();
+  if (dataReady == 1){
+    I2C_M.readBytes(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, 6, buffer_m);
+    I2C_M.readByte(MPU9250_RA_MAG_ADDRESS, 0x09, &buffer_);//read ST2 register as required by magnetometer.Otherwise the data is protected and won't be updated.
     mx = ((int16_t)(buffer_m[1]) << 8) | buffer_m[0] ;
-	my = ((int16_t)(buffer_m[3]) << 8) | buffer_m[2] ;
-	mz = ((int16_t)(buffer_m[5]) << 8) | buffer_m[4] ;	
-	
-	//Mxyz[0] = (double) mx * 1200 / 4096;
-	//Mxyz[1] = (double) my * 1200 / 4096;
-	//Mxyz[2] = (double) mz * 1200 / 4096;
-	Mxyz[0] = (double) mx * 4800 / 8192;
-	Mxyz[1] = (double) my * 4800 / 8192;
-	Mxyz[2] = (double) mz * 4800 / 8192;
+    my = ((int16_t)(buffer_m[3]) << 8) | buffer_m[2] ;
+    mz = ((int16_t)(buffer_m[5]) << 8) | buffer_m[4] ;  
+    //14 bit output.
+    Mxyz[0] = (double) mx * 4912 / 8192;
+    Mxyz[1] = (double) my * 4912 / 8192;
+    Mxyz[2] = (double) mz * 4912 / 8192;
+  }
+  //else use the previous data.
+  return dataReady;
 }
 
 void getCompassDate_calibrated ()
 {
-	getCompass_Data();
-	Mxyz[0] = Mxyz[0] - mx_centre;
-	Mxyz[1] = Mxyz[1] - my_centre;
-	Mxyz[2] = Mxyz[2] - mz_centre;	
+	uint8_t dataReady = getCompass_Data();
+  if (dataReady == 1){
+    Mxyz[0] = Mxyz[0] - mx_centre;
+    Mxyz[1] = Mxyz[1] - my_centre;
+    Mxyz[2] = Mxyz[2] - mz_centre;  
+  }
+  //else do nothing.
 }
+
+uint8_t getCompassDataReady(){
+  I2C_M.readByte(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_ST1, &buffer_);
+  buffer_ = (buffer_&0x01);//remove the front 7 bits.
+  return buffer_;
+}
+

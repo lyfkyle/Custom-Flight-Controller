@@ -335,16 +335,16 @@ void MPU9250::setFullScaleAccelRange(uint8_t range) {
 
 //ACCEL_CONFIG2 register
 uint8_t MPU9250::getAccDLPFMode() {
-    I2Cdev::readBits(devAddr, MPU9250_RA_ACCEL_CONFIG2, 2, 3, buffer);
+    I2Cdev::readBits(devAddr, MPU9250_RA_ACCEL_CONFIG2, 2, 3, buffer); //Start from bit 2, total length of configuration bits is 3.
     return buffer[0];
 }
 
 void MPU9250::setAccDLPFMode(uint8_t bandwidth) {
-    I2Cdev::writeBits(devAddr, MPU9250_RA_ACCEL_CONFIG2, 2, 3, bandwidth);
+    I2Cdev::writeBits(devAddr, MPU9250_RA_ACCEL_CONFIG2, 2, 3, bandwidth);//Start from bit 2, total length of configuration bits is 3.
 }
 
 void MPU9250::setAccFchoice(uint8_t destination){
-    I2Cdev::writeBits(devAddr, MPU9250_RA_ACCEL_CONFIG2, 3, 1, destination);
+    I2Cdev::writeBits(devAddr, MPU9250_RA_ACCEL_CONFIG2, 3, 1, destination); //Start from bit 3, total length of configuration bits is 1.
 }
 
 
@@ -1497,9 +1497,9 @@ void MPU9250::getMotion9(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
   //read mag
   I2Cdev::writeByte(devAddr, MPU9250_RA_INT_PIN_CFG, 0x02); //set i2c bypass enable pin to true to access magnetometer
   delay(10);
-  I2Cdev::writeByte(MPU9150_RA_MAG_ADDRESS, 0x0A, 0x01); //enable the magnetometer
+  I2Cdev::writeByte(MPU9250_RA_MAG_ADDRESS, 0x0A, 0x01); //enable the magnetometer
   delay(10);
-  I2Cdev::readBytes(MPU9150_RA_MAG_ADDRESS, MPU9150_RA_MAG_XOUT_L, 6, buffer);
+  I2Cdev::readBytes(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, 6, buffer);
   *mx = (((int16_t)buffer[1]) << 8) | buffer[0];
     *my = (((int16_t)buffer[3]) << 8) | buffer[2];
     *mz = (((int16_t)buffer[5]) << 8) | buffer[4];    

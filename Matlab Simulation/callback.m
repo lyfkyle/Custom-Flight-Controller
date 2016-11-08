@@ -33,7 +33,7 @@ function callback(s, BytesAvailable,p)
     %gyro = (IMUdata(4:6)/32768)*500; 
     gyro = (IMUdata(4:6))';
     
-    dt = IMUdata(10)/1000000;
+    dt = (IMUdata(10)+10000)/1000000;
     
     %Result = (ClassicEKF(acc,gyro,dt))';
     Result = (Qkf(acc,gyro,mag,dt,extAcc))';

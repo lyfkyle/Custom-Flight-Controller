@@ -21,7 +21,7 @@ function result = ClassicEKF(acc,gyro,dt)
   else
       temp1 = temp1/magnitude*sin(magnitude*dt/2);
   end
-  a = cos(magnitude/2);
+  a = cos(magnitude/2*dt);
   skew = skewSymmetric(a,temp1);
   A_top = [a,(temp1')*(-1)];
   A_btm = [temp1,skew];

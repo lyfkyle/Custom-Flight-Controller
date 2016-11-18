@@ -40,6 +40,7 @@ end
 set(s,'BaudRate',115200,'DataBits',8,'StopBits',1,'Parity','none','FlowControl','none');
 s.BytesAvailableFcnMode = 'terminator';%terminator is set to LF?line feed = "\n"?, meaning that one line has ended.
 s.BytesAvailableFcn = {@callback,p};
+
 %s.BytesAvailableFcn = @callback;
 
 fopen(s);

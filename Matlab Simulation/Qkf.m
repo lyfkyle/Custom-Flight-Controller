@@ -64,10 +64,12 @@ function result = Qkf(acc,gyro,mag,dt,extAcc)
   %update
   S = H*P*H'+R;
   K = (P*H')/S;
-    
+  
+  %if external acceleration, kalman gain for acceleration should be 0.
   if(extAcc == 1)
       K(1:4,1:4)=0
   end
+  
   X_updated = (I-K*H)*X;
   X_updated = X_updated/norm(X_updated);
   P_updated = (I-K*H)*P*(I-K*H)' + K*R*K';

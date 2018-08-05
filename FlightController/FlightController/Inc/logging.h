@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
-
 /*
  * Defines
  */
@@ -17,10 +15,10 @@
 #define LOG_ERROR (2)
 #define LOG_WARNING (3)
 
-#define LOGE (...) LogPrint(LOG_ERROR, LOG_TAG, __VA_ARGS__)
-#define LOGI (...) LogPrint(LOG_INFO, LOG_TAG, __VA_ARGS__)
-#define LOGW (...) LogPrint(LOG_WARNING, LOG_TAG, __VA_ARGS__)
-#define LOGV (...) LogPrint(LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) LogPrint(LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define LOGI(...) LogPrint(LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGW(...) LogPrint(LOG_WARNING, LOG_TAG, __VA_ARGS__)
+#define LOGV(...) LogPrint(LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
 
 /*
  * Static

@@ -5,7 +5,7 @@
 
 static UART_HandleTypeDef huart3;
 
-void UART_Init()
+bool UART_Init()
 {
    huart3.Instance = USART3;
    huart3.Init.BaudRate = 115200;
@@ -17,8 +17,9 @@ void UART_Init()
    huart3.Init.OverSampling = UART_OVERSAMPLING_16;
    if (HAL_UART_Init(&huart3) != HAL_OK)
    {
-      Error_Handler();
+      return false;
    }
+   return true;
 }
 
 void UART_Send(const char* pData, const int dataSize)

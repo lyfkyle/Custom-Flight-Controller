@@ -34,14 +34,17 @@ THE SOFTWARE.
 ===============================================
 */
 
+//TODO change I2C read/write api
+
+#include <i2c.h>
+#include "stm32f4xx_hal.h"
+
 #include "myMPU9250.hpp"
 
 /** Default constructor, uses default I2C address.
  * @see MPU9250_DEFAULT_ADDRESS
  */
 
-uint8_t buffer[14];
-   
 MPU9250::MPU9250(I2C_HandleTypeDef* hi2c) {
     this->hi2c = hi2c;
     devAddr = 0xD0;
@@ -70,7 +73,7 @@ MPU9250::MPU9250(I2C_HandleTypeDef* hi2c) {
  * the default internal clock source.
  */
 void MPU9250::initialize() {
-    
+
     //set clock source
     setClockSource(MPU9250_CLOCK_PLL_XGYRO);
     //set gyro output data rate to 1000hz
@@ -121,7 +124,8 @@ void MPU9250::initialize() {
  * @see MPU9250_CFG_DLPF_CFG_LENGTH
  */
 uint8_t MPU9250::getGyroDLPFMode() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSizeToRead = 1;
+    I2C_Read(devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     return buffer[0];
 }
 /** Set digital low-pass filter configuration.
@@ -133,10 +137,11 @@ uint8_t MPU9250::getGyroDLPFMode() {
  * @see MPU9250_CFG_DLPF_CFG_LENGTH
  */
 void MPU9250::setGyroDLPFMode(uint8_t mode) {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSize = 1;
+    I2C_Read(devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t*)buffer, &dataSize);
     uint8_t temp = (buffer[0] & 0xF8);
     temp = (temp | mode);
-    HAL_I2C_Mem_Write(hi2c,devAddr, MPU9250_RA_CONFIG,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    I2C_Write(devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
 }
 
 // GYRO_CONFIG register
@@ -159,7 +164,8 @@ void MPU9250::setGyroDLPFMode(uint8_t mode) {
  * @see MPU9250_GCONFIG_FS_SEL_LENGTH
  */
 uint8_t MPU9250::getFullScaleGyroRange() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_GYRO_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSizeToRead = 1;
+    I2C_Read(devAddr, MPU9250_RA_GYRO_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     return buffer[0];
 }
 /** Set full-scale gyroscope range.
@@ -171,12 +177,14 @@ uint8_t MPU9250::getFullScaleGyroRange() {
  * @see MPU9250_GCONFIG_FS_SEL_LENGTH
  */
 void MPU9250::setFullScaleGyroRange(uint8_t range) {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_GYRO_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSize = 1;
+    I2C_Read(devAddr, MPU9250_RA_GYRO_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
     uint8_t temp = (buffer[0] & 0xE7);
     temp = (temp | (range<<3));
     //set fchoice_b to 00 as well
     temp = (temp & 0xFC);
-    HAL_I2C_Mem_Write(hi2c,devAddr, MPU9250_RA_GYRO_CONFIG,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    dataSize = 1;
+    I2C_Write(devAddr, MPU9250_RA_GYRO_CONFIG,I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
 }
 
 // ACCEL_CONFIG register
@@ -199,7 +207,8 @@ void MPU9250::setFullScaleGyroRange(uint8_t range) {
  * @see MPU9250_ACONFIG_AFS_SEL_LENGTH
  */
 uint8_t MPU9250::getFullScaleAccelRange() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSizeToRead = 1;
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     return buffer[0];
 }
 /** Set full-scale accelerometer range.
@@ -207,25 +216,29 @@ uint8_t MPU9250::getFullScaleAccelRange() {
  * @see getFullScaleAccelRange()
  */
 void MPU9250::setFullScaleAccelRange(uint8_t range) {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSize = 1;
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
     uint8_t temp = (buffer[0] & 0xE7);
     temp = (temp | (range<<3));
-    HAL_I2C_Mem_Write(hi2c,devAddr, MPU9250_RA_ACCEL_CONFIG,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    I2C_Write(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
 }
 
 //ACCEL_CONFIG2 register
 uint8_t MPU9250::getAccDLPFMode() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_ACCEL_CONFIG2, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);  
+    uint16_t dataSizeToRead = 1;
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG2, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer, &dataSizeToRead);
     return buffer[0];
 }
 
 void MPU9250::setAccDLPFMode(uint8_t bandwidth) {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_ACCEL_CONFIG2, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSize = 1;
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG2, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer, &dataSize);
     uint8_t temp = (buffer[0] & 0xF8);
     temp = (temp | bandwidth);
     //set fchoice_b to 0
     temp = (temp & 0xF7);
-    HAL_I2C_Mem_Write(hi2c,devAddr, MPU9250_RA_ACCEL_CONFIG2,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    dataSize = 1;
+    I2C_Write(devAddr, MPU9250_RA_ACCEL_CONFIG2,I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
 }
 
 // ACCEL_*OUT_* registers
@@ -247,24 +260,25 @@ void MPU9250::setAccDLPFMode(uint8_t bandwidth) {
  * @see MPU9250_RA_ACCEL_XOUT_H
  */
 void MPU9250::getMotion9(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz, int16_t* mx, int16_t* my, int16_t* mz) {
-    
-  //get accel and gyro
-  getMotion6(ax, ay, az, gx, gy, gz);
-  
-  //read mag
-  uint8_t temp =0x02; 
-  HAL_I2C_Mem_Write(hi2c,devAddr, MPU9250_RA_INT_PIN_CFG,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
-  //I2Cdev::writeByte(devAddr, MPU9250_RA_INT_PIN_CFG, 0x02); //set i2c bypass enable pin to true to access magnetometer
-  HAL_Delay(10);
-  temp = 0x01;
-  HAL_I2C_Mem_Write(hi2c,MPU9250_RA_MAG_ADDRESS, 0x0A,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
-  //I2Cdev::writeByte(MPU9250_RA_MAG_ADDRESS, 0x0A, 0x01); //enable the magnetometer
-  HAL_Delay(10);
-  HAL_I2C_Mem_Read(hi2c,MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L,I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,6,100);
-  //I2Cdev::readBytes(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, 6, buffer);
-  *mx = (((int16_t)buffer[1]) << 8) | buffer[0];
+
+    //get accel and gyro
+    getMotion6(ax, ay, az, gx, gy, gz);
+
+    //read mag
+    uint8_t temp =0x02;
+    I2C_Write(devAddr, MPU9250_RA_INT_PIN_CFG,I2C_MEMADD_SIZE_8BIT, &temp, 1);
+    //I2Cdev::writeByte(devAddr, MPU9250_RA_INT_PIN_CFG, 0x02); //set i2c bypass enable pin to true to access magnetometer
+    HAL_Delay(10);
+    temp = 0x01;
+    I2C_Write(MPU9250_RA_MAG_ADDRESS, 0x0A, I2C_MEMADD_SIZE_8BIT, &temp, 1);
+    //I2Cdev::writeByte(MPU9250_RA_MAG_ADDRESS, 0x0A, 0x01); //enable the magnetometer
+    HAL_Delay(10);
+    uint16_t dataSizeToRead = 6;
+    I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    //I2Cdev::readBytes(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, 6, buffer);
+    *mx = (((int16_t)buffer[1]) << 8) | buffer[0];
     *my = (((int16_t)buffer[3]) << 8) | buffer[2];
-    *mz = (((int16_t)buffer[5]) << 8) | buffer[4];    
+    *mz = (((int16_t)buffer[5]) << 8) | buffer[4];
 }
 /** Get raw 6-axis motion sensor readings (accel/gyro).
  * Retrieves all currently available motion sensor values.
@@ -279,7 +293,8 @@ void MPU9250::getMotion9(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
  * @see MPU9250_RA_ACCEL_XOUT_H
  */
 void MPU9250::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz) {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_ACCEL_XOUT_H,I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,14,100);
+    uint16_t dataSizeToRead = 14;
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_XOUT_H, 14, buffer);
     *ax = (((int16_t)buffer[0]) << 8) | buffer[1];
     *ay = (((int16_t)buffer[2]) << 8) | buffer[3];
@@ -325,7 +340,8 @@ void MPU9250::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
  * @see MPU9250_RA_GYRO_XOUT_H
  */
 void MPU9250::getAcceleration(int16_t* x, int16_t* y, int16_t* z) {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_ACCEL_XOUT_H,I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,6,100);
+    uint16_t dataSizeToRead = 6;
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_XOUT_H, 6, buffer);
     *x = (((int16_t)buffer[0]) << 8) | buffer[1];
     *y = (((int16_t)buffer[2]) << 8) | buffer[3];
@@ -337,7 +353,8 @@ void MPU9250::getAcceleration(int16_t* x, int16_t* y, int16_t* z) {
  * @see MPU9250_RA_ACCEL_XOUT_H
  */
 int16_t MPU9250::getAccelerationX() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_ACCEL_XOUT_H,I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,2,100);
+    uint16_t dataSizeToRead = 2;
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
   //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_XOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -347,7 +364,8 @@ int16_t MPU9250::getAccelerationX() {
  * @see MPU9250_RA_ACCEL_YOUT_H
  */
 int16_t MPU9250::getAccelerationY() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_ACCEL_YOUT_H,I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,2,100);
+    uint16_t dataSizeToRead = 2;
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_YOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_YOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -357,7 +375,8 @@ int16_t MPU9250::getAccelerationY() {
  * @see MPU9250_RA_ACCEL_ZOUT_H
  */
 int16_t MPU9250::getAccelerationZ() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_ACCEL_ZOUT_H,I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,2,100);
+    uint16_t dataSizeToRead = 2;
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_ZOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_ZOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -369,7 +388,8 @@ int16_t MPU9250::getAccelerationZ() {
  * @see MPU9250_RA_TEMP_OUT_H
  */
 int16_t MPU9250::getTemperature() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_TEMP_OUT_H,I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,2,100);
+    uint16_t dataSizeToRead = 2;
+    I2C_Read(devAddr, MPU9250_RA_TEMP_OUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_TEMP_OUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -409,7 +429,8 @@ int16_t MPU9250::getTemperature() {
  * @see MPU9250_RA_GYRO_XOUT_H
  */
 void MPU9250::getRotation(int16_t* x, int16_t* y, int16_t* z) {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_GYRO_XOUT_H, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,6,100);
+    uint16_t dataSizeToRead = 6;
+    I2C_Read(devAddr, MPU9250_RA_GYRO_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_GYRO_XOUT_H, 6, buffer);
     *x = (((int16_t)buffer[0]) << 8) | buffer[1];
     *y = (((int16_t)buffer[2]) << 8) | buffer[3];
@@ -421,7 +442,8 @@ void MPU9250::getRotation(int16_t* x, int16_t* y, int16_t* z) {
  * @see MPU9250_RA_GYRO_XOUT_H
  */
 int16_t MPU9250::getRotationX() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_GYRO_XOUT_H, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,2,100);
+    uint16_t dataSizeToRead = 2;
+    I2C_Read(devAddr, MPU9250_RA_GYRO_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_GYRO_XOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -431,7 +453,8 @@ int16_t MPU9250::getRotationX() {
  * @see MPU9250_RA_GYRO_YOUT_H
  */
 int16_t MPU9250::getRotationY() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_GYRO_YOUT_H, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,2,100);
+    uint16_t dataSizeToRead = 2;
+    I2C_Read(devAddr, MPU9250_RA_GYRO_YOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_GYRO_YOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -441,7 +464,8 @@ int16_t MPU9250::getRotationY() {
  * @see MPU9250_RA_GYRO_ZOUT_H
  */
 int16_t MPU9250::getRotationZ() {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_GYRO_ZOUT_H, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,2,100);
+    uint16_t dataSizeToRead = 2;
+    I2C_Read(devAddr, MPU9250_RA_GYRO_ZOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_GYRO_ZOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -455,10 +479,12 @@ int16_t MPU9250::getRotationZ() {
  * @see MPU9250_PWR1_SLEEP_BIT
  */
 void MPU9250::setSleepEnabled(bool enabled) {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSize = 1;
+    I2C_Read(devAddr, MPU9250_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
     uint8_t temp = (buffer[0] & 0xBF);
     temp = (temp | (enabled<<6));
-    HAL_I2C_Mem_Write(hi2c,devAddr, MPU9250_RA_PWR_MGMT_1,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    dataSize = 1;
+    I2C_Write(devAddr, MPU9250_RA_PWR_MGMT_1,I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
     //I2Cdev::writeBit(devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_SLEEP_BIT, enabled);
 }
 
@@ -493,10 +519,12 @@ void MPU9250::setSleepEnabled(bool enabled) {
  * @see MPU9250_PWR1_CLKSEL_LENGTH
  */
 void MPU9250::setClockSource(uint8_t source) {
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSize = 1;
+    I2C_Read(devAddr, MPU9250_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
     uint8_t temp = ((buffer[0]) & (0xF8));
     temp = (temp | source);
-    HAL_I2C_Mem_Write(hi2c,devAddr, MPU9250_RA_PWR_MGMT_1,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    dataSize = 1;
+    I2C_Write(devAddr, MPU9250_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
     //I2Cdev::writeBits(devAddr, MPU9250_RA_PWR_MGMT_1, MPU9250_PWR1_CLKSEL_BIT, MPU9250_PWR1_CLKSEL_LENGTH, source);
 }
 
@@ -510,52 +538,59 @@ void MPU9250::setClockSource(uint8_t source) {
  */
 
 uint8_t MPU9250::getDeviceID(){
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_WHO_AM_I, I2C_MEMADD_SIZE_8BIT,&ID,1,100);
+    uint16_t dataSize = 1;
+    I2C_Read(devAddr, MPU9250_RA_WHO_AM_I, I2C_MEMADD_SIZE_8BIT, &ID, &dataSize);
     return ID;
 }
 
 void MPU9250::setBypassEnableAndInterrupt(){
     uint8_t temp = 0x22;
-    HAL_I2C_Mem_Write(hi2c,devAddr, MPU9250_RA_INT_PIN_CFG,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    I2C_Write(devAddr, MPU9250_RA_INT_PIN_CFG, I2C_MEMADD_SIZE_8BIT, &temp, 1);
     HAL_Delay(10);
     //I2Cdev::writeByte(0x68, MPU9250_RA_INT_PIN_CFG, 0x02);
 }
 
 void MPU9250::enableInterrupt(){
-    HAL_I2C_Mem_Read(hi2c,devAddr, MPU9250_RA_INT_ENABLE, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,1,100);
+    uint16_t dataSize = 1;
+    I2C_Read(devAddr, MPU9250_RA_INT_ENABLE, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
     uint8_t temp = ((buffer[0]) & (0xA6)); // 0xA6 = 10100110 -> clear bits 6,4,3,0
     temp = (temp | 0x01); //set last bit to enable data ready interrupt
-    HAL_I2C_Mem_Write(hi2c,devAddr, MPU9250_RA_INT_ENABLE,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    dataSize = 1;
+    I2C_Write(devAddr, MPU9250_RA_INT_ENABLE,I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
 }
 
 void MPU9250::setMagContMeasMode(){
     uint8_t temp = 0x06;
-    HAL_I2C_Mem_Write(hi2c,MPU9250_RA_MAG_ADDRESS, 0x0A,I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    I2C_Write(MPU9250_RA_MAG_ADDRESS, 0x0A, I2C_MEMADD_SIZE_8BIT, &temp, 1);
     //I2C_M.writeByte(MPU9250_RA_MAG_ADDRESS, 0x0A, 0x06);
 }
 
 void MPU9250::getMagData(int16_t* mx,int16_t* my, int16_t* mz){
-    HAL_I2C_Mem_Read(hi2c,MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,6,100);
+    uint16_t dataSizeToRead = 6;
+    I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
     //I2C_M.readBytes(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, 6, buffer_m);
-    
+
     /*read ST2 register as required by magnetometer.Otherwise the data is protected and won't be updated.*/
     uint8_t temp;
-    HAL_I2C_Mem_Read(hi2c,MPU9250_RA_MAG_ADDRESS, 0x09, I2C_MEMADD_SIZE_8BIT, &temp,1,100);
+    dataSizeToRead = 1;
+    I2C_Read(MPU9250_RA_MAG_ADDRESS, 0x09, I2C_MEMADD_SIZE_8BIT, &temp, &dataSizeToRead);
     //I2C_M.readByte(MPU9250_RA_MAG_ADDRESS, 0x09, &buffer_);
-    
+
     *mx = ((int16_t)(buffer[1]) << 8) | buffer[0] ;
     *my = ((int16_t)(buffer[3]) << 8) | buffer[2] ;
-    *mz = ((int16_t)(buffer[5]) << 8) | buffer[4] ; 
+    *mz = ((int16_t)(buffer[5]) << 8) | buffer[4] ;
 }
 
 uint8_t MPU9250::getCompassDataReady(){
    uint8_t temp;
-   HAL_I2C_Mem_Read(hi2c,MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_ST1, I2C_MEMADD_SIZE_8BIT, &temp,1,100); 
+   uint16_t dataSizeToRead = 1;
+   I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_ST1, I2C_MEMADD_SIZE_8BIT, &temp, &dataSizeToRead);
    //I2C_M.readByte(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_ST1, &buffer_);
    temp = (temp & 0x01);//remove the front 7 bits.
    return temp;
 }
 
 void MPU9250::readIntStatus(){
-   HAL_I2C_Mem_Read(hi2c,devAddr,MPU9250_RA_DMP_INT_STATUS,I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer,6,100);
+   uint16_t dataSizeToRead = 6;
+   I2C_Read(devAddr, MPU9250_RA_DMP_INT_STATUS, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
 }

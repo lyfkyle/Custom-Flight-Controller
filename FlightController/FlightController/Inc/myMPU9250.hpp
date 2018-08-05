@@ -37,8 +37,6 @@ THE SOFTWARE.
 #ifndef _MPU9250_H_
 #define _MPU9250_H_
 
-#include "stm32f4xx_hal.h"
-
 //Magnetometer Registers
 #define MPU9250_RA_MAG_ADDRESS    0x18 //0x0C shift left by 1 bit
 #define MPU9250_RA_MAG_XOUT_L   0x03
@@ -49,7 +47,7 @@ THE SOFTWARE.
 #define MPU9250_RA_MAG_ZOUT_H   0x08
 #define MPU9250_RA_MAG_ST1      0x02
 
-#define MPU9250_DEFAULT_ADDRESS     0xDO // address pin low (GND), default for InvenSense evaluation board, 0x68 shift left by 1 bit     
+#define MPU9250_DEFAULT_ADDRESS     0xDO // address pin low (GND), default for InvenSense evaluation board, 0x68 shift left by 1 bit
 
 #define MPU9250_RA_XG_OFFS_TC       0x00 //[7] PWR_MODE, [6:1] XG_OFFS_TC, [0] OTP_BNK_VLD
 #define MPU9250_RA_YG_OFFS_TC       0x01 //[7] PWR_MODE, [6:1] YG_OFFS_TC, [0] OTP_BNK_VLD
@@ -406,7 +404,7 @@ class MPU9250 {
         //MPU9250(uint8_t address,I2C_HandleTypeDef hi2c);
 
         void initialize();
-        
+
         // CONFIG register
         uint8_t getGyroDLPFMode();
         void setGyroDLPFMode(uint8_t bandwidth);
@@ -452,26 +450,26 @@ class MPU9250 {
 
         // WHO_AM_I register
         uint8_t getDeviceID();
-        
+
         //INT_PIN_CONFIG register
         //set I2c Bypass enable to access magnetometer and configure interrupt
         void setBypassEnableAndInterrupt();
-        
+
         //INT_ENABLE register
         void enableInterrupt();
-        
+
         //set Mag into Continuous Measuremnt Mode;
         void setMagContMeasMode();
-        
+
         //read Mag Data
         void getMagData(int16_t* mx,int16_t* my, int16_t* mz);
-        
+
         //check whether mag data is ready.
         uint8_t getCompassDataReady();
 
-        //read Int_Status register to clear interrupt 
+        //read Int_Status register to clear interrupt
         void readIntStatus();
-        
+
     private:
         I2C_HandleTypeDef* hi2c;
         uint8_t devAddr;

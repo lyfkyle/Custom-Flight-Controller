@@ -6,7 +6,7 @@
 
 static I2C_HandleTypeDef hi2c1;
 
-void I2C_Init()
+bool I2C_Init()
 {
    hi2c1.Instance = I2C1;
    hi2c1.Init.ClockSpeed = 100000;
@@ -19,8 +19,9 @@ void I2C_Init()
    hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
    if (HAL_I2C_Init(&hi2c1) != HAL_OK)
    {
-      Error_Handler();
+      return false;
    }
+   return true;
 }
 
 void I2C_Write(uint16_t devAddr, uint16_t memAddr, uint16_t memAddSize, uint8_t *pData, uint16_t size)
@@ -28,7 +29,7 @@ void I2C_Write(uint16_t devAddr, uint16_t memAddr, uint16_t memAddSize, uint8_t 
    HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, memAddSize, pData, size, I2C_TIMEOUT);
 }
 
-void I2C_Read(uint16_t devAddress, uint16_t memAddress, uint16_t memAddSize, uint8_t *pData, uint16_t* pSize)
+void I2C_Read(uint16_t devAddr, uint16_t memAddr, uint16_t memAddSize, uint8_t *pData, uint16_t* pSize)
 {
    // TODO check manual for the size
    HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, memAddSize, pData, *pSize, I2C_TIMEOUT);

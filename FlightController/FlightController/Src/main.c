@@ -334,8 +334,10 @@ int main(void)
 
    /* Initialize all configured peripherals */
    MX_GPIO_Init();
-   MX_USART3_UART_Init();
-   MX_I2C1_Init();
+   I2C_Init();
+   UART_Init();
+   // MX_USART3_UART_Init();
+   // MX_I2C1_Init();
 
    /* USER CODE BEGIN 2 */
    uint8_t deviceID;
@@ -395,11 +397,11 @@ int main(void)
                }
                initDataRdy = 1;
             }
-         }else{
+         } else {
             /*data not ready*/
             printf("Data not Ready \r\n");
          }
-      }else{
+      } else {
          if (MPU9250_DataRdyFlag){
             /*get data*/
             getGyroData();

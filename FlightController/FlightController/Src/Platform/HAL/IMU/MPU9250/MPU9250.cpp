@@ -39,14 +39,15 @@ THE SOFTWARE.
 #include <i2c.h>
 #include "stm32f4xx_hal.h"
 
-#include "myMPU9250.hpp"
+#include "MPU9250.h"
+#include "MPU9250_def.h"
 
 /** Default constructor, uses default I2C address.
  * @see MPU9250_DEFAULT_ADDRESS
  */
 
-MPU9250::MPU9250(I2C_HandleTypeDef* hi2c) {
-    this->hi2c = hi2c;
+MPU9250::MPU9250()
+{
     devAddr = 0xD0;
     for (int i=0;i<15;i++){
       buffer[i] = 0x00;
@@ -72,8 +73,8 @@ MPU9250::MPU9250(I2C_HandleTypeDef* hi2c) {
  * the clock source to use the X Gyro for reference, which is slightly better than
  * the default internal clock source.
  */
-void MPU9250::initialize() {
-
+void MPU9250::Init()
+{
     //set clock source
     setClockSource(MPU9250_CLOCK_PLL_XGYRO);
     //set gyro output data rate to 1000hz
@@ -88,7 +89,7 @@ void MPU9250::initialize() {
     //set i2c bypass enable pin to true to access magnetometer and configure interrupt
     setBypassEnableAndInterrupt();
     //enable interrupt
-    //enableInterrupt();
+    //enableInterrupt(); wait until IMU to call this
     //set mag to continuous measurement mode
     setMagContMeasMode();
 }

@@ -1,3 +1,4 @@
+#include "stm32f429xx.h"
 
 #include <arm_math.h>
 #include <math.h>
@@ -11,7 +12,9 @@
  * Defines
  */
 
-#define CTRL_UTIL_DEBUG(0)
+#define LOG_TAG ("Ctrler_Util")
+
+#define CTRL_UTIL_DEBUG (0)
 #if CTRL_UTIL_DEBUG
 #define LOG(...) LOGI //TODO here
 #else
@@ -26,12 +29,12 @@
  * Static
  */
 
-arm_matrix_instance_f32 sMatrix_RotYawInv; // rotation matrix of yaw angle
-arm_matrix_instance_f32 sVector_DesiredAtt;
-arm_matrix_instante_f32 sVector_Temp;
-float32_t sMatrixData_RotYawInv[9];
-float32_t sVectorData_DesiredAtt[3];
-float32_t sVectorData_Temp[3];
+static arm_matrix_instance_f32 sMatrix_RotYawInv; // rotation matrix of yaw angle
+static arm_matrix_instance_f32 sVector_DesiredAtt;
+static arm_matrix_instance_f32 sVector_Temp;
+static float32_t sMatrixData_RotYawInv[9];
+static float32_t sVectorData_DesiredAtt[3];
+static float32_t sVectorData_Temp[3];
 
 /*
  * Code
@@ -42,12 +45,14 @@ bool Controller_Init()
    arm_mat_init_f32(&sMatrix_RotYawInv,3,3,(float32_t*)sMatrixData_RotYawInv);
    arm_mat_init_f32(&sVector_DesiredAtt,3,1,(float32_t*)sVectorData_DesiredAtt);
    arm_mat_init_f32(&sVector_Temp,3,1,(float32_t*)sVectorData_Temp);
+
+   return true;
 }
 
 bool Controller_GetAttSetpointFromAccSetpoint(FCAttType* pAtt, double xAccSetpoint, double yAccSetpoint, double zAccSetpoint, double yawSetpoint)
 {
    // input validity check
-   if (pAtt = NULL) {
+   if (pAtt == NULL) {
       LOGE("input arg NULL\r\n");
       return false;
    }
@@ -77,7 +82,7 @@ bool Controller_GetAttSetpointFromAccSetpoint(FCAttType* pAtt, double xAccSetpoi
    sMatrixData_RotYawInv[8] = 1;
 
    // temp = RotYaw' * u2
-   arm_mat_mult_f32(&sMatrixData_RotYawInv, &sVector_DesiredAtt, &sVector_Temp);
+   arm_mat_mult_f32(&sMatrix_RotYawInv, &sVector_DesiredAtt, &sVector_Temp);
 
    // pitch = atan(z_b_temp(1) / z_b_temp(3));
    // roll = asin(z_b_temp(2)* (-1));

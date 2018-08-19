@@ -2,9 +2,49 @@
 
 #include "QKF.h"
 
+#define LOG_TAG ("QKF")
+
+
 QKF::QKF()
 {
-   InitMatrix();
+    memset(data_matrix_I, 0 ,16);
+    data_matrix_I[0] = 1;
+    data_matrix_I[5] = 1;
+    data_matrix_I[10] = 1;
+    data_matrix_I[15] = 1;
+    memset(data_matrix_R, 0, 64);
+    memset(data_matrix_rg, 0, 9);
+    data_matrix_rg[0] = 0.01;
+    data_matrix_rg[4] = 0.01;
+    data_matrix_rg[8] = 0.01;
+    memset(data_matrix_rm, 0, 9);
+    data_matrix_rm[0] = 0.05;
+    data_matrix_rm[4] = 0.05;
+    data_matrix_rm[8] = 0.05;
+    memset(data_matrix_ra, 0, 9);
+    data_matrix_ra[0] = 0.008;
+    data_matrix_ra[4] = 0.008;
+    data_matrix_ra[8] = 0.008;
+    memset(data_matrix_P_prev, 0, 16);
+    data_matrix_P_prev[0] = 1;
+    data_matrix_P_prev[5] = 1;
+    data_matrix_P_prev[10] = 1;
+    data_matrix_P_prev[15] = 1;
+    memset(data_matrix_X_prev, 0, 4);
+    data_matrix_X_prev[0] = 1;
+    memset(data_matrix_X, 0, 4);
+    data_matrix_X[0] = 1;
+
+    // gravity
+    memset(gravity, 0, 3);
+    gravity[2] = UAV_G; // by default
+    // magConst
+    memset(magConst, 0, 3); // by default all 0
+
+    dt = 1 / QKF_FREQUENCY;
+    firstRun = 1;
+
+    InitMatrix();
 }
 
 void QKF::InitMatrix()
@@ -61,6 +101,20 @@ void QKF::InitMatrix()
    arm_mat_init_f32(&Matrix_temp_64,8,8,(float32_t*)temp_matrix_64);
 }
 
+void QKF::SetGravityVector(float* pGravity)
+{
+    for (int i = 0; i < 3; i++) {
+        gravity[i] = pGravity[i];
+    }
+}
+
+void QKF::SetMagConstVector(float* pMagConst)
+{
+    for (int i = 0; i < 3; i++) {
+        magConst[i] = pMagConst[i];
+    }
+}
+
 bool QKF::PredictState(FCSensorDataType* pGyroData)
 {
    // Input validity check
@@ -68,7 +122,7 @@ bool QKF::PredictState(FCSensorDataType* pGyroData)
       LOGI("pGyroData == NULL, no need prediction", __func__);
       return true;
    }
-   float* Gxyz = (float*) pGryoData; //TODO
+   float* Gxyz = (float*) pGyroData; //TODO
 
    /*step 1-> calculate A ->state transition matrix*/
    /*temp1 = [gyro(1)*pi/180;gyro(2)*pi/180;gyro(3)*pi/180];*/
@@ -189,7 +243,7 @@ bool QKF::PredictState(FCSensorDataType* pGyroData)
    return true;
 }
 
-bool void QKF::UpdateState(FCSensorDataType* pAccData, FCSensorDataType* pMagData)
+bool QKF::UpdateState(FCSensorDataType* pAccData, FCSensorDataType* pMagData)
 {
    // Input validity check
    if (pAccData == NULL) {
@@ -206,7 +260,7 @@ bool void QKF::UpdateState(FCSensorDataType* pAccData, FCSensorDataType* pMagDat
    /*Step 5 --------------> Calculate H*/
    /*tmp = Za-G;*/
    for(int i=0;i<3;i++){
-      temp_vector[i] = Axyz[i]-gravity[i];
+      temp_vector[i] = Axyz[i] - gravity[i];
    }
 
    /*Hleft = [0;tmp]; + Hright = [(-1)*tmp';skewH*(-1)];*/
@@ -248,7 +302,7 @@ bool void QKF::UpdateState(FCSensorDataType* pAccData, FCSensorDataType* pMagDat
 
    /*tmp = Zm-M;*/
    for(int i=0;i<3;i++){
-      temp_vector[i] = Mxyz[i]-MagConst[i];
+      temp_vector[i] = Mxyz[i] - magConst[i];
    }
 
    /*Hleft = [0;tmp]; + Hright = [(-1)*tmp';skewH*(-1)];*/
@@ -262,7 +316,7 @@ bool void QKF::UpdateState(FCSensorDataType* pAccData, FCSensorDataType* pMagDat
 
    /*tmp1 = Zm+M;*/
    for(int i=0;i<3;i++){
-      temp_vector[i] = Mxyz[i]+MagConst[i];
+      temp_vector[i] = Mxyz[i] + magConst[i];
    }
 
    /*skewH = skewSymmetric(0,tmp1);*/

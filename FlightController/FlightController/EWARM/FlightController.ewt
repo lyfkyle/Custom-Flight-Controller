@@ -1169,16 +1169,13 @@
     <group>
       <name>User</name>
       <group>
+        <name>Defines</name>
+        <file>
+          <name>$PROJ_DIR$\..\Inc\UAV_Defines.h</name>
+        </file>
+      </group>
+      <group>
         <name>Driver</name>
-        <group>
-          <name>GPIO</name>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\GPIO\gpio.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\gpio.h</name>
-          </file>
-        </group>
         <group>
           <name>I2C</name>
           <file>
@@ -1186,6 +1183,15 @@
           </file>
           <file>
             <name>$PROJ_DIR$\..\Inc\i2c.h</name>
+          </file>
+        </group>
+        <group>
+          <name>Interrupt</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Driver\Interrupt\Interrupt.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\Interrupt.h</name>
           </file>
         </group>
         <group>
@@ -1210,12 +1216,30 @@
             <group>
               <name>MPU9250</name>
               <file>
-                <name>$PROJ_DIR$\..\Src\Platform\HAL\IMU\MPU9250\myMPU9250.cpp</name>
+                <name>$PROJ_DIR$\..\Src\Platform\HAL\IMU\MPU9250\MPU9250.cpp</name>
               </file>
               <file>
-                <name>$PROJ_DIR$\..\Inc\myMPU9250.hpp</name>
+                <name>$PROJ_DIR$\..\Inc\MPU9250.h</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\Inc\MPU9250_def.h</name>
               </file>
             </group>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\HAL\IMU\IMU.cpp</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\IMU.h</name>
+            </file>
+          </group>
+          <group>
+            <name>Logging</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Lib\Logging\logging.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\logging.h</name>
+            </file>
           </group>
           <group>
             <name>Motor</name>
@@ -1228,15 +1252,6 @@
           <name>Lib</name>
           <group>
             <name>EKF</name>
-          </group>
-          <group>
-            <name>Logging</name>
-            <file>
-              <name>$PROJ_DIR$\..\Src\Platform\Lib\Logging\logging.c</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\Inc\logging.h</name>
-            </file>
           </group>
           <group>
             <name>PID</name>
@@ -1261,7 +1276,28 @@
       <group>
         <name>Product</name>
         <group>
+          <name>App</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Product\App\TestApp\TestIMU.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\TestIMU.h</name>
+          </file>
+        </group>
+        <group>
           <name>CmdListener</name>
+        </group>
+        <group>
+          <name>Component</name>
+          <group>
+            <name>DeviceCtrl</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Product\Component\DeviceCtrl\DeviceCtrl.cpp</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\DeviceCtrl.h</name>
+            </file>
+          </group>
         </group>
         <group>
           <name>Controller</name>
@@ -1294,12 +1330,6 @@
           </file>
           <file>
             <name>$PROJ_DIR$\..\Inc\controller_vel.h</name>
-          </file>
-        </group>
-        <group>
-          <name>Defines</name>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\UAV_Defines.h</name>
           </file>
         </group>
         <group>

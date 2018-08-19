@@ -1,10 +1,69 @@
 #include "stm32f4xx_hal.h"
 
-#include "gpio.h"
 
-//TODO split out mpu9250 interrupt
+#include <i2c.h>
+#include <IMU.h>
+#include <Interrupt.h>
+#include <logging.h>
+#include <uart.h>
 
-void GPIO_Init()
+#include "DeviceCtrl.h"
+
+
+#define LOG_TAG ("DeviceCtrl")
+
+/*
+ * Static
+ */
+
+static IMU* spIMU = NULL;
+
+/*
+ * Code
+ */
+void DeviceInit()
+{
+    HAL_Init();
+
+    DeviceClkConfig();
+    DeviceGPIOInit();
+
+    DriversInit();
+    // UserHalInit(); TODO
+}
+
+void DriversInit()
+{
+    // Init interrupt drivers
+    InterruptInit();
+    // Init i2c drivers
+    I2C_Init();
+    // Init uart drivers
+    UART_Init();
+}
+
+/** Configure pins as
+* Analog
+* Input
+* Output
+* EVENT_OUT
+* EXTI
+PC1   ------> ETH_MDC
+PA1   ------> ETH_REF_CLK
+PA2   ------> ETH_MDIO
+PA7   ------> ETH_CRS_DV
+PC4   ------> ETH_RXD0
+PC5   ------> ETH_RXD1
+PB13   ------> ETH_TXD1
+PA8   ------> USB_OTG_FS_SOF
+PA9   ------> USB_OTG_FS_VBUS
+PA10   ------> USB_OTG_FS_ID
+PA11   ------> USB_OTG_FS_DM
+PA12   ------> USB_OTG_FS_DP
+PG11   ------> ETH_TX_EN
+PG13   ------> ETH_TXD0
+*/
+void DeviceGPIOInit()
 {
    GPIO_InitTypeDef GPIO_InitStruct;
 
@@ -45,12 +104,6 @@ void GPIO_Init()
    GPIO_InitStruct.Pull = GPIO_NOPULL;
    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-   /*Configure GPIO pin : MPU9250_Interrupt_Pin */
-   GPIO_InitStruct.Pin = MPU9250_Interrupt_Pin;
-   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-   GPIO_InitStruct.Pull = GPIO_NOPULL;
-   HAL_GPIO_Init(MPU9250_Interrupt_GPIO_Port, &GPIO_InitStruct);
 
    /*Configure GPIO pin : RMII_TXD1_Pin */
    GPIO_InitStruct.Pin = RMII_TXD1_Pin;
@@ -104,4 +157,71 @@ void GPIO_Init()
    /* EXTI interrupt init*/
    HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
+}
+
+/** System Clock Configuration
+*/
+void DeviceClkConfig(void)
+{
+
+   RCC_OscInitTypeDef RCC_OscInitStruct;
+   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+
+   /**Configure the main internal regulator output voltage
+   */
+   __HAL_RCC_PWR_CLK_ENABLE();
+
+   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+
+   /**Initializes the CPU, AHB and APB busses clocks
+   */
+   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+   RCC_OscInitStruct.HSICalibrationValue = 16;
+   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+   RCC_OscInitStruct.PLL.PLLM = 16;
+   RCC_OscInitStruct.PLL.PLLN = 360;
+   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+   RCC_OscInitStruct.PLL.PLLQ = 4;
+   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+   {
+      // Error_Handler();
+   }
+
+   /**Initializes the CPU, AHB and APB busses clocks
+   */
+   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+      |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV4;
+   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+   {
+      // Error_Handler();
+   }
+
+   /**Configure the Systick interrupt time
+   */
+   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+
+   /**Configure the Systick
+   */
+   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+
+   /* SysTick_IRQn interrupt configuration */
+   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+}
+
+bool UserHalInit()
+{
+    spIMU = new IMU();
+    if (!spIMU) {
+        LOGE("IMU init failed\r\n");
+        return false;
+    }
+    return true;
 }

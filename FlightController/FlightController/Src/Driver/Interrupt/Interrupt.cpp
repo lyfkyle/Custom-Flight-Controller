@@ -1,3 +1,40 @@
+#include <stdlib.h>
+
+#include "Interrupt.h"
+
+/*
+ * Static
+ */
+
+// TODO temporarily use static coz only IMU needs interrupt
+// Should use a list structure to store them inside list./ Static array?
+static void* spIMU = NULL;
+static void* spI2C = NULL;
+static Interrupt_Handler sIMUIntHandler = NULL;
+static Interrupt_Handler sI2CIntHandler = NULL;
+
+void InterruptInit()
+{
+
+}
+
+void Interrupt_RegisterISR(int moduleId, void* pParam, Interrupt_Handler handler)
+{
+    switch (moduleId) {
+        case INTERRUPT_MODULE_IMU:
+            spIMU = pParam;
+            sIMUIntHandler = handler;
+            break;
+        case INTERRUPT_MODULE_I2C:
+            spI2C = pParam;
+            sI2CIntHandler = handler;
+            break;
+        default:
+            break;
+    }
+}
+
+// Interrupt service routines:
 /**
   ******************************************************************************
   * @file    stm32f4xx_it.c
@@ -35,75 +72,39 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_it.h"
 
-/* USER CODE BEGIN 0 */
-/* USER CODE END 0 */
-
-/* External variables --------------------------------------------------------*/
-extern I2C_HandleTypeDef hi2c1;
-
-/******************************************************************************/
-/*            Cortex-M4 Processor Interruption and Exception Handlers         */
-/******************************************************************************/
-
-/**
-* @brief This function handles System service call via SWI instruction.
-*/
-void SVC_Handler(void)
-{
-  /* USER CODE BEGIN SVCall_IRQn 0 */
-
-  /* USER CODE END SVCall_IRQn 0 */
-  /* USER CODE BEGIN SVCall_IRQn 1 */
-
-  /* USER CODE END SVCall_IRQn 1 */
-}
-
-/**
-* @brief This function handles Pendable request for system service.
-*/
-void PendSV_Handler(void)
-{
-  /* USER CODE BEGIN PendSV_IRQn 0 */
-
-  /* USER CODE END PendSV_IRQn 0 */
-  /* USER CODE BEGIN PendSV_IRQn 1 */
-
-  /* USER CODE END PendSV_IRQn 1 */
-}
-
-/**
-* @brief This function handles System tick timer.
-*/
-void SysTick_Handler(void)
-{
-  /* USER CODE BEGIN SysTick_IRQn 0 */
-
-  /* USER CODE END SysTick_IRQn 0 */
-  HAL_IncTick();
-  HAL_SYSTICK_IRQHandler();
-  /* USER CODE BEGIN SysTick_IRQn 1 */
-
-  /* USER CODE END SysTick_IRQn 1 */
-}
-
-/******************************************************************************/
-/* STM32F4xx Peripheral Interrupt Handlers                                    */
-/* Add here the Interrupt Handlers for the used peripherals.                  */
-/* For the available peripheral interrupt handler names,                      */
-/* please refer to the startup file (startup_stm32f4xx.s).                    */
-/******************************************************************************/
-
 /**
 * @brief This function handles I2C1 event interrupt.
 */
-// See Interrupt module
+void I2C1_EV_IRQHandler(void)
+{
+    /* USER CODE BEGIN I2C1_EV_IRQn 0 */
+
+    /* USER CODE END I2C1_EV_IRQn 0 */
+    if (sI2CIntHandler) {
+        sI2CIntHandler(spI2C);
+    }
+    /* USER CODE BEGIN I2C1_EV_IRQn 1 */
+
+    /* USER CODE END I2C1_EV_IRQn 1 */
+}
 
 /**
 * @brief This function handles EXTI line[15:10] interrupts.
 */
-// See Interrupt module
+void EXTI15_10_IRQHandler(void)
+{
+    /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+    /*set data ready flag if pin is high*/
+    if (HAL_GPIO_ReadPin(GPIOF,GPIO_PIN_12)){
+        if (sIMUIntHandler) {
+            sIMUIntHandler(spIMU);
+        }
+    }
+    /* USER CODE END EXTI15_10_IRQn 0 */
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
+    /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
-/* USER CODE BEGIN 1 */
+    /* USER CODE END EXTI15_10_IRQn 1 */
+}
 
-/* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

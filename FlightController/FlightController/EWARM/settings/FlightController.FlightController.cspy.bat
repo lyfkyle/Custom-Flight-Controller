@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\software\IAR\common\bin\cspybat" -f "D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\settings\FlightController.FlightController.general.xcl" --backend -f "D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\settings\FlightController.FlightController.driver.xcl" 
+"E:\software\IAR\common\bin\cspybat" -f "D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\settings\FlightController.FlightController.general.xcl" --backend -f "D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\settings\FlightController.FlightController.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\software\IAR\common\bin\cspybat" -f "D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\settings\FlightController.FlightController.general.xcl" "--debug_file=%~1" --backend -f "D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\settings\FlightController.FlightController.driver.xcl" 
+"E:\software\IAR\common\bin\cspybat" -f "D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\settings\FlightController.FlightController.general.xcl" "--debug_file=%~1" --backend -f "D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\settings\FlightController.FlightController.driver.xcl" 
 
 @echo off 
 :end

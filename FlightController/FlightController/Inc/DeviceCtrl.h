@@ -52,9 +52,6 @@
 #define LD2_Pin GPIO_PIN_7
 #define LD2_GPIO_Port GPIOB
 
-
-
-
 void DeviceInit();
 void DeviceGPIOInit();
 void DeviceClkConfig();

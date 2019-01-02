@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.80.3.12102/W32 for ARM                01/Sep/2018  16:23:15
+# IAR ELF Linker V7.80.3.12102/W32 for ARM                02/Jan/2019  18:16:02
 # Copyright 2007-2016 IAR Systems AB.
 #
 #    Output file  =  
@@ -21,6 +21,7 @@
 #        D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\FlightController\Obj\main.o
 #        D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\FlightController\Obj\MPU9250.o
 #        D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\FlightController\Obj\PID.o
+#        D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\FlightController\Obj\pwm.o
 #        D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\FlightController\Obj\QKF.o
 #        D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\FlightController\Obj\startup_stm32f429xx.o
 #        D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM\FlightController\Obj\stm32f4xx_hal.o
@@ -52,7 +53,7 @@
 #        --config
 #        D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightController\EWARM/stm32f429xx_flash.icf
 #        --semihosting --entry __iar_program_start
-#        D:\software\IAR\arm\CMSIS\Lib\IAR\iar_cortexM4lf_math.a --vfe
+#        E:\software\IAR\arm\CMSIS\Lib\IAR\iar_cortexM4lf_math.a --vfe
 #
 ###############################################################################
 
@@ -524,7 +525,7 @@ I2C_DMAAbort(__DMA_HandleTypeDef *)
                         0x08001509   0x6e  Code  Lc  stm32f4xx_hal_i2c.o [1]
 I2C_ITError(I2C_HandleTypeDef *)
                         0x08001139  0x156  Code  Lc  stm32f4xx_hal_i2c.o [1]
-I2C_Init()              0x08005e55   0x56  Code  Gb  i2c.o [1]
+I2C_Init                0x08005e55   0x56  Code  Gb  i2c.o [1]
 I2C_IsAcknowledgeFailed(I2C_HandleTypeDef *)
                         0x080017a5   0x2e  Code  Lc  stm32f4xx_hal_i2c.o [1]
 I2C_ItHandler(void *)   0x08005e49    0xc  Code  Lc  i2c.o [1]
@@ -542,8 +543,7 @@ I2C_Master_ADDR(I2C_HandleTypeDef *)
                         0x08000d3d  0x1f0  Code  Lc  stm32f4xx_hal_i2c.o [1]
 I2C_Master_SB(I2C_HandleTypeDef *)
                         0x08000ca1   0x8e  Code  Lc  stm32f4xx_hal_i2c.o [1]
-I2C_Read(unsigned short, unsigned short, unsigned short, unsigned char *, unsigned short *)
-                        0x08005edf   0x34  Code  Gb  i2c.o [1]
+I2C_Read                0x08005edf   0x34  Code  Gb  i2c.o [1]
 I2C_RequestMemoryRead(I2C_HandleTypeDef *, unsigned short, unsigned short, unsigned short, unsigned int, unsigned int)
                         0x08001393  0x16c  Code  Lc  stm32f4xx_hal_i2c.o [1]
 I2C_RequestMemoryWrite(I2C_HandleTypeDef *, unsigned short, unsigned short, unsigned short, unsigned int, unsigned int)
@@ -570,8 +570,7 @@ I2C_WaitOnRXNEFlagUntilTimeout(I2C_HandleTypeDef *, unsigned int, unsigned int)
                         0x08001743   0x62  Code  Lc  stm32f4xx_hal_i2c.o [1]
 I2C_WaitOnTXEFlagUntilTimeout(I2C_HandleTypeDef *, unsigned int, unsigned int)
                         0x0800169f   0x52  Code  Lc  stm32f4xx_hal_i2c.o [1]
-I2C_Write(unsigned short, unsigned short, unsigned short, unsigned char *, unsigned short)
-                        0x08005eab   0x34  Code  Gb  i2c.o [1]
+I2C_Write               0x08005eab   0x34  Code  Gb  i2c.o [1]
 IMU::CalibrateMag()     0x08006465  0x10a  Code  Gb  IMU.o [1]
 IMU::GetRawCompassData(FCSensorDataType *)
                         0x080063d1   0x94  Code  Gb  IMU.o [1]
@@ -632,9 +631,8 @@ SystemInit              0x08006731   0x4c  Code  Gb  system_stm32f4xx.o [1]
 TestIMU_Main()          0x0800667d   0x8c  Code  Gb  TestIMU.o [1]
 TestIMU_Main()::__func__
                         0x08006a18   0x10  Data  Lc  TestIMU.o [1]
-UART_Init()             0x080062cd   0x46  Code  Gb  uart.o [1]
-UART_Send(char const *, int)
-                        0x08006313   0x1a  Code  Gb  uart.o [1]
+UART_Init               0x080062cd   0x46  Code  Gb  uart.o [1]
+UART_Send               0x08006313   0x1a  Code  Gb  uart.o [1]
 UART_SetConfig(UART_HandleTypeDef *)
                         0x0800548d  0x312  Code  Lc  stm32f4xx_hal_uart.o [1]
 UART_WaitOnFlagUntilTimeout(UART_HandleTypeDef *, unsigned int, FlagStatus, unsigned int, unsigned int)

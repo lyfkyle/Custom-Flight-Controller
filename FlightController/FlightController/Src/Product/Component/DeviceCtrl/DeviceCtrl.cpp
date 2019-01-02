@@ -9,7 +9,6 @@
 
 #include "DeviceCtrl.h"
 
-
 #define LOG_TAG ("DeviceCtrl")
 
 /*
@@ -21,6 +20,7 @@ static IMU* spIMU = NULL;
 /*
  * Code
  */
+
 void DeviceInit()
 {
     HAL_Init();
@@ -164,7 +164,6 @@ void DeviceGPIOInit()
 */
 void DeviceClkConfig(void)
 {
-
    RCC_OscInitTypeDef RCC_OscInitStruct;
    RCC_ClkInitTypeDef RCC_ClkInitStruct;
 

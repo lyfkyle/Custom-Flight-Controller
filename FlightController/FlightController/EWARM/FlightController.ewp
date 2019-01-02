@@ -1007,6 +1007,15 @@
           </file>
         </group>
         <group>
+          <name>PWM</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Driver\PWM\pwm.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\pwm.h</name>
+          </file>
+        </group>
+        <group>
           <name>UART</name>
           <file>
             <name>$PROJ_DIR$\..\Src\Driver\UART\uart.c</name>
@@ -1153,6 +1162,9 @@
       </group>
       <file>
         <name>$PROJ_DIR$\..\Src\main.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Inc\stm32f4xx_hal_conf.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\stm32f4xx_hal_msp.c</name>

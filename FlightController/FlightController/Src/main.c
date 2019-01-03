@@ -1,10 +1,16 @@
+/* USER CODE BEGIN Header */
 /**
 ******************************************************************************
-* File Name          : main.c
-* Description        : Main program body
+* @file           : main.c
+* @brief          : Main program body
 ******************************************************************************
+** This notice applies to any and all portions of this file
+* that are not between comment pairs USER CODE BEGIN and
+* USER CODE END. Other portions of this file, whether 
+* inserted by the user or by software development tools
+* are owned by their respective copyright owners.
 *
-* COPYRIGHT(c) 2016 STMicroelectronics
+* COPYRIGHT(c) 2019 STMicroelectronics
 *
 * Redistribution and use in source and binary forms, with or without modification,
 * are permitted provided that the following conditions are met:
@@ -30,15 +36,32 @@
 *
 ******************************************************************************
 */
+/* USER CODE END Header */
+
 /* Includes ------------------------------------------------------------------*/
-// #include "main.h"
-#include "stm32f4xx_hal.h"
+#include "main.h"
 
-#include <DeviceCtrl.h>
-#include <TestIMU.h>
-
-
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "TestIMU.h"
+#include "DeviceCtrl.h"
+#include "logging.h"
 /* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
@@ -50,119 +73,28 @@
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-//void SystemClock_Config(void);
-//void Error_Handler(void);
-//static void MX_GPIO_Init(void);
-//static void MX_USART3_UART_Init(void);
-//static void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
 /* USER CODE END PFP */
 
+/* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//MPU9250 *myMPU = new MPU9250 (&hi2c1);
+
 /* USER CODE END 0 */
 
-
-
-/*
- * Code
- */
-
+/**
+* @brief  The application entry point.
+* @retval int
+*/
 int main(void)
 {
-
-    /* USER CODE BEGIN 1 */
-
-    /* USER CODE END 1 */
-
-    /* MCU Configuration----------------------------------------------------------*/
-    DeviceInit();
-   printf("DeviceInit finished \r\n");
-
-   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   //HAL_Init();
-
-   /* Configure the system clock */
-   //SystemClock_Config();
-
-   /* Initialize all configured peripherals */
-   //MX_GPIO_Init();
-   //I2C_Init();
-   //UART_Init();
-   // MX_USART3_UART_Init();
-   // MX_I2C1_Init();
-
-    /* USER CODE BEGIN 2 */
-
-
-   /* USER CODE END 2 */
-
-   /* Infinite loop */
-   /* USER CODE BEGIN WHILE */
-   TestIMU_Main();
+    if (!DeviceInit()) {
+        return -1;
+    }
+    TestIMU_Main();
+    return 0;
 }
-
-
-
-/* USER CODE END 4 */
-#ifdef __GNUC__
-/* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
-set to 'Yes') calls __io_putchar() */
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-#else
-#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-#endif /* __GNUC__ */
-
-/**
-* @brief  Retargets the C library printf function to the USART.
-* @param  None
-* @retval None
-*/
-PUTCHAR_PROTOTYPE
-{
-   /* Place your implementation of fputc here */
-   /* e.g. write a character to the USART3 and Loop until the end of transmission */
-   // HAL_UART_Transmit(&huart3, (uint8_t *)&ch, 1, 0xFFFF);
-
-   return ch;
-}
-
-/**
-* @brief  This function is executed in case of error occurrence.
-* @param  None
-* @retval None
-*/
-void Error_Handler(void)
-{
-   /* USER CODE BEGIN Error_Handler */
-   /* User can add his own implementation to report the HAL error return state */
-   while(1)
-   {
-   }
-   /* USER CODE END Error_Handler */
-}
-
-#ifdef USE_FULL_ASSERT
-
-/**
-* @brief Reports the name of the source file and the source line number
-* where the assert_param error has occurred.
-* @param file: pointer to the source file name
-* @param line: assert_param error line source number
-* @retval None
-*/
-void assert_failed(uint8_t* file, uint32_t line)
-{
-   /* USER CODE BEGIN 6 */
-   /* User can add his own implementation to report the file name and line number,
-   ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-   /* USER CODE END 6 */
-
-}
-
-#endif
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

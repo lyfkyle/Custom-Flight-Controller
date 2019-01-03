@@ -1186,21 +1186,21 @@
           </file>
         </group>
         <group>
-          <name>Interrupt</name>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\Interrupt\Interrupt.cpp</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\Interrupt.h</name>
-          </file>
-        </group>
-        <group>
           <name>PWM</name>
           <file>
             <name>$PROJ_DIR$\..\Src\Driver\PWM\pwm.c</name>
           </file>
           <file>
             <name>$PROJ_DIR$\..\Inc\pwm.h</name>
+          </file>
+        </group>
+        <group>
+          <name>SBUS</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Driver\SBUS\sbus.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\sbus.h</name>
           </file>
         </group>
         <group>
@@ -1272,12 +1272,30 @@
             </file>
           </group>
           <group>
+            <name>PingPongBuffer</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Lib\PingPongBuffer\ping_pong_buffer.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\ping_pong_buffer.h</name>
+            </file>
+          </group>
+          <group>
             <name>QKF</name>
             <file>
               <name>$PROJ_DIR$\..\Src\Platform\Lib\QKF\QKF.cpp</name>
             </file>
             <file>
               <name>$PROJ_DIR$\..\Inc\QKF.h</name>
+            </file>
+          </group>
+          <group>
+            <name>Ringbuffer</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Lib\Ringbuffer\ringbuf.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\ringbuf.h</name>
             </file>
           </group>
         </group>
@@ -1305,6 +1323,15 @@
             </file>
             <file>
               <name>$PROJ_DIR$\..\Inc\DeviceCtrl.h</name>
+            </file>
+          </group>
+          <group>
+            <name>InterruptMgr</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Product\Component\InterruptMgr\interrupt_mgr.cpp</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\interrupt_mgr.h</name>
             </file>
           </group>
         </group>

@@ -1,13 +1,11 @@
 #include <stdlib.h>
 #include <stdint.h>
-#include <stm32f4xx_hal.h>
 
-#include <Interrupt.h>
-#include <logging.h>
+#include "stm32f4xx_hal.h"
 
 #include "IMU.h"
 
-//TODO
+#include "logging.h"
 
 /*
  * Defines
@@ -27,6 +25,7 @@
  */
 
 // GPIO interrupt definition
+#define MPU9250_ID                   0x73
 #define MPU9250_Interrupt_Pin        GPIO_PIN_12
 #define MPU9250_Interrupt_GPIO_Port  GPIOF
 
@@ -35,14 +34,10 @@ IMU::IMU() :
 {
    /*Configure GPIO pin : MPU9250_Interrupt_Pin */
    GPIO_InitTypeDef GPIO_InitStruct;
-
    GPIO_InitStruct.Pin = MPU9250_Interrupt_Pin;
    GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
    GPIO_InitStruct.Pull = GPIO_NOPULL;
    HAL_GPIO_Init(MPU9250_Interrupt_GPIO_Port, &GPIO_InitStruct);
-
-   // Register interrupt to interrupt manager
-   Interrupt_RegisterISR(INTERRUPT_MODULE_IMU, this, OnGyroAccDataReady);
 
    mGyroAccDataRdyFlag = false;
    mSensorBiasCalibrateFlag = false;
@@ -51,17 +46,22 @@ IMU::IMU() :
    mDataReadyCb = NULL;
 }
 
+IMU& IMU::GetInstance()
+{
+    static IMU imu;
+    return imu;
+}
+
 bool IMU::Init()
 {
-    LOG("%s", __func__);
+    LOG("%s\r\n", __func__);
     // sanity check whoami register
-    uint8_t deviceID;
-    deviceID = mIMU.getDeviceID();
-    if (deviceID == 0x71) {
+    uint8_t deviceID = mIMU.getDeviceID();
+    if (deviceID == MPU9250_ID) {
         mIMU.Init(); //initialzie
         mReadyToStart = true;
     } else {
-        LOGE("mIMU ID wrong");
+        LOGE("mIMU ID wrong, ID = %x\r\n", deviceID);
         return false;
     }
 
@@ -281,18 +281,17 @@ void IMU::CalibrateSensorBias()
 /*
  * Interrupt Handler
  */
-void IMU::SetGyroAccDataReadyFlg()
+inline void IMU::SetGyroAccDataReadyFlg()
 {
     mGyroAccDataRdyFlag = true;
 }
 
-void IMU::OnGyroAccDataReady(void* pIMUIn)
+void IMU::OnGyroAccDataReady()
 {
-    IMU* pIMU = (IMU*) pIMUIn;
-    pIMU->SetGyroAccDataReadyFlg();
+    SetGyroAccDataReadyFlg();
 
-    if (pIMU->mDataReadyCb != NULL) {
-        pIMU->mDataReadyCb();
+    if (mDataReadyCb != NULL) {
+        mDataReadyCb();
     }
 }
 

@@ -16,7 +16,7 @@ stlinkfoundProbes=
 stlinkResetStyle=0
 stlinkResetStrategy=1
 [DebugChecksum]
-Checksum=-1099843362
+Checksum=1848023069
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -103,9 +103,8 @@ ShowTiming=1
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Bp0=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\Platform\HAL\IMU\IMU.cpp}.254.1" 0 0 1 "" 0 "" 0
-Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\Product\App\TestApp\TestIMU.cpp}.114.1" 0 0 1 "" 0 "" 0
-Count=2
+Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\Product\App\TestApp\TestIMU.cpp}.114.1" 0 0 1 "" 0 "" 0
+Count=1
 [Aliases]
 Count=0
 SuppressDialog=0

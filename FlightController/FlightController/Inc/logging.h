@@ -12,13 +12,14 @@
 
 #define LOG_VERBOSE (0)
 #define LOG_INFO  (1)
-#define LOG_ERROR (2)
-#define LOG_WARNING (3)
+#define LOG_WARNING (2)
+#define LOG_ERROR (3)
 
 #define LOGE(...) LogPrint(LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #define LOGI(...) LogPrint(LOG_INFO, LOG_TAG, __VA_ARGS__)
 #define LOGW(...) LogPrint(LOG_WARNING, LOG_TAG, __VA_ARGS__)
 #define LOGV(...) LogPrint(LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
+#define PRINT(...) Print(__VA_ARGS__)
 
 /*
  * Static
@@ -35,5 +36,6 @@ static char LEVEL_MAP[] = {
  * Prototype
  */
 void LogPrint(int level, const char* pTag, const char* pFmt, ...);
+void Print(const char* pFmt, ...);
 
 #endif

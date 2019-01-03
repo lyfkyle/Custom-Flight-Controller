@@ -31,14 +31,16 @@ private:
     //FCSensorDataType rawGyroData;
     //FCSensorDataType rawAccData;
     //FCSensorDataType rawMagData;
+    
+    // private constructor, singleton paradigm
+    IMU();  
 public:
-    //cb
+    static IMU& GetInstance();
+    
+     //cb
     DataReadyCb mDataReadyCb;
-
-    IMU();
-
     void SetGyroAccDataReadyFlg();
-    static void OnGyroAccDataReady(void* pIMU);
+    void OnGyroAccDataReady();
     bool Init();
     bool Start();
     bool SetDataReadyCb(DataReadyCb cb);

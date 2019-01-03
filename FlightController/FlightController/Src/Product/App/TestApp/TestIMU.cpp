@@ -47,16 +47,16 @@ static void IMUDataReadyCb()
 
 void TestIMU_Main()
 {
-    LOGI("%s", __func__);
-
-    IMU* pIMU = new IMU();
-    if (!pIMU->Init()) {
+    LOGI("%s\r\n", __func__);
+    
+    IMU& imu = IMU::GetInstance();
+    if (!imu.Init()) {
         LOGE("IMU init failed\r\n");
         return;
     }
-
+    return;
     LOGI("%s, calibrating mag", __func__);
-    pIMU->CalibrateMag();
+    imu.CalibrateMag();
     LOGI("Mag Calibration done! \r\n");
     HAL_Delay(4000);
     LOGI("Put the device to rest!! \r\n");
@@ -65,10 +65,10 @@ void TestIMU_Main()
     return;
 
     // Register dataReady Cb
-    pIMU->SetDataReadyCb(IMUDataReadyCb);
+    imu.SetDataReadyCb(IMUDataReadyCb);
 
     // start IMU
-    if (!pIMU->Start()) {
+    if (!imu.Start()) {
         LOGE("Failed to start IMU\r\n");
         return;
     }
@@ -76,8 +76,8 @@ void TestIMU_Main()
     QKF* pQKF = new QKF();
     float gravityVector[3];
     float magConst[3];
-    pIMU->GetGravityVector(gravityVector);
-    pIMU->GetMagConstVector(magConst);
+    imu.GetGravityVector(gravityVector);
+    imu.GetMagConstVector(magConst);
     pQKF->SetGravityVector(gravityVector);
     pQKF->SetMagConstVector(magConst);
 
@@ -91,9 +91,9 @@ void TestIMU_Main()
     {
         if (sIMUDataReady) {
             // Get Data
-            pIMU->GetAccelData(&accData);
-            pIMU->GetGyroData(&gyroData);
-            while (!pIMU->GetCompassData(&magData)) {
+            imu.GetAccelData(&accData);
+            imu.GetGyroData(&gyroData);
+            while (!imu.GetCompassData(&magData)) {
                 LOGI("magData not ready, retry");
             }
 
@@ -111,7 +111,6 @@ void TestIMU_Main()
         }
    }
 
-   delete pIMU;
    delete pQKF;
 }
 

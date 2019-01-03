@@ -1,6 +1,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <uart.h>
 
@@ -23,5 +24,16 @@ void LogPrint(int level, const char* pTag, const char* pFmt, ...)
    snprintf(headerBuf, HEADER_LEN, "%c|%-12.12s: ", LEVEL_MAP[level], pTag);
    UART_Send(headerBuf, HEADER_LEN);
    UART_Send(msgBuf, MSG_LEN);
+   memset(msgBuf, 0, MSG_LEN);
+}
+
+void Print(const char* pFmt, ...)
+{
+   va_list args;
+   va_start(args, pFmt);
+   vsprintf(msgBuf, pFmt, args);
+   va_end(args);
+   UART_Send(msgBuf, MSG_LEN);
+   memset(msgBuf, 0, MSG_LEN); // clear buffer
 }
 

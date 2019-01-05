@@ -49,10 +49,12 @@ IMU::IMU() :
     mReadyToStart = false;
     mDataReadyCb = NULL;
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; ++i) {
         magConst[i] = 0.0f;
         gravity[i] = 0.0f;
         gyroBias[i] = 0.0f;
+        mMagOffset[i] = 0.0f;
+        mMagScale[i] = 1.0f;
     }
 }
 
@@ -185,9 +187,9 @@ bool IMU::GetCompassData(FCSensorDataType* pMagData)
         Mxyz[0] = (float) mx * 4912 / 8192;
         Mxyz[1] = (float) my * 4912 / 8192;
         Mxyz[2] = (float) mz * 4912 / 8192;
-        Mxyz[0] = Mxyz[0] - mx_centre;
-        Mxyz[1] = Mxyz[1] - my_centre;
-        Mxyz[2] = Mxyz[2] - mz_centre;
+        Mxyz[0] = (Mxyz[0] - mMagOffset[0]) * mMagScale[0];
+        Mxyz[1] = (Mxyz[1] - mMagOffset[1]) * mMagScale[1];
+        Mxyz[2] = (Mxyz[2] - mMagOffset[2]) * mMagScale[2];
 
         /*frame transformation -> coz mag is mounted on different axies with gyro and accel*/
         pMagData->x = Mxyz[1];
@@ -220,8 +222,9 @@ bool IMU::GetRawCompassData(FCSensorDataType* pMagData)
 void IMU::CalibrateMag()
 {
     uint16_t ii = 0, sample_count = 0;
-    float mag_max[3] = {1,1,1};
-    float mag_min[3] = {-1,-1,-1};
+    float mag_max[3] = {-32767, -32767, -32767};
+    float mag_min[3] = {32767,32767, 32767};
+    float mag_delta[3] = {0.0f};
 
     LOGI("Mag Calibration: Wave device in a figure eight until done! \r\n");
     HAL_Delay(2000);
@@ -238,24 +241,21 @@ void IMU::CalibrateMag()
     }
 
     // Get hard iron correction
-    mx_centre  = (mag_max[0] + mag_min[0])/2;  // get average x mag bias in counts
-    my_centre  = (mag_max[1] + mag_min[1])/2;  // get average y mag bias in counts
-    mz_centre  = (mag_max[2] + mag_min[2])/2;  // get average z mag bias in counts
-
+    mMagOffset[0]  = (mag_max[0] + mag_min[0])/2;  // get average x mag bias in counts
+    mMagOffset[1]   = (mag_max[1] + mag_min[1])/2;  // get average y mag bias in counts
+    mMagOffset[2]   = (mag_max[2] + mag_min[2])/2;  // get average z mag bias in counts
 
     // Get soft iron correction estimate
-    /*
-    mag_scale[0]  = (mag_max[0] - mag_min[0])/2;  // get average x axis max chord length in counts
-    mag_scale[1]  = (mag_max[1] - mag_min[1])/2;  // get average y axis max chord length in counts
-    mag_scale[2]  = (mag_max[2] - mag_min[2])/2;  // get average z axis max chord length in counts
+    mag_delta[0]  = (mag_max[0] - mag_min[0])/2;  // get average x axis max chord length in counts
+    mag_delta[1]  = (mag_max[1] - mag_min[1])/2;  // get average y axis max chord length in counts
+    mag_delta[2]  = (mag_max[2] - mag_min[2])/2;  // get average z axis max chord length in counts
 
-    float avg_rad = mag_scale[0] + mag_scale[1] + mag_scale[2];
-    avg_rad /= 3.0;
+    float avg_rad = (mag_delta[0] + mag_delta[1] + mag_delta[2]) / 3.0f;
 
-    dest2[0] = avg_rad/((float)mag_scale[0]);
-    dest2[1] = avg_rad/((float)mag_scale[1]);
-    dest2[2] = avg_rad/((float)mag_scale[2]);
-    */
+    mMagScale[0] = avg_rad / mag_delta[0];
+    mMagScale[1] = avg_rad / mag_delta[1];
+    mMagScale[2] = avg_rad / mag_delta[2];
+
     mMagCalibrateFlag = true;
 }
 

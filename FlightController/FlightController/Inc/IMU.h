@@ -15,9 +15,8 @@ private:
     float gravity[3];
     float magConst[3];
     float gyroBias[3];
-    float mx_centre;
-    float my_centre;
-    float mz_centre;
+    float mMagOffset[3];
+    float mMagScale[3];
 
     // flags
     bool mReadyToStart;
@@ -31,15 +30,15 @@ private:
     //FCSensorDataType rawGyroData;
     //FCSensorDataType rawAccData;
     //FCSensorDataType rawMagData;
-    
+
     // private constructor, singleton paradigm
-    IMU();  
+    IMU();
 public:
     static IMU& GetInstance();
-    
+
     // interrupt
     void OnGyroAccDataReady();
-        
+
      //cb
     DataReadyCb mDataReadyCb;
     void SetGyroAccDataReadyFlg();

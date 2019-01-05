@@ -1,21 +1,23 @@
-#include <IMU.h>
-#include <logging.h>
-#include <QKF.h>
-
 #include "stm32f4xx_hal.h"
+
+#include "TestIMU.h"
+
+#include "IMU.h"
+#include "logging.h"
+#include "QKF.h"
 
 /*
  * Defines
  */
 
 #define LOG_TAG ("TEST_IMU")
-
+#define LOG(...)
 /*
  * Statics
  */
 
 //static IMU sIMU; // for testing only. App should not hold IMU object
-static bool sIMUDataReady = false;
+static volatile bool sIMUDataReady = false;
 
 /*flags*/
 
@@ -23,9 +25,9 @@ static bool sIMUDataReady = false;
 /*mag calibration data*/
 
 
-float Axyz[3];
-float Gxyz[3];
-float Mxyz[3];
+//float Axyz[3];
+//float Gxyz[3];
+//float Mxyz[3];
 
 
 
@@ -56,15 +58,6 @@ void TestIMU_Main()
     }
     LOGI("IMU init success\r\n");
 
-#if 0
-    LOGI("%s, calibrating mag", __func__);
-    imu.CalibrateMag();
-    LOGI("Mag Calibration done! \r\n");
-    HAL_Delay(4000);
-    LOGI("Put the device to rest!! \r\n");
-    HAL_Delay(4000);
-#endif
-
     // Register dataReady Cb
     imu.SetDataReadyCb(IMUDataReadyCb);
 
@@ -74,7 +67,16 @@ void TestIMU_Main()
         return;
     }
     LOGI("IMU start success\r\n");
-#if 0
+
+    LOGI("calibrating mag\r\n", __func__);
+    imu.CalibrateMag();
+    LOGI("Mag Calibration done! \r\n");
+    LOGI("Put the device to rest!! \r\n");
+    HAL_Delay(4000);
+
+    imu.CalibrateSensorBias();
+    LOGI("IMU calibrate success\r\n");
+
     QKF* pQKF = new QKF();
     float gravityVector[3];
     float magConst[3];
@@ -82,14 +84,15 @@ void TestIMU_Main()
     imu.GetMagConstVector(magConst);
     pQKF->SetGravityVector(gravityVector);
     pQKF->SetMagConstVector(magConst);
-#endif
-
-    imu.CalibrateSensorBias();
-    LOGI("IMU calibrate success\r\n");
 
     FCSensorDataType magData;
     FCSensorDataType accData;
     FCSensorDataType gyroData;
+    FCQuaternionType quat;
+    pQKF->GetState(&quat);
+
+    /*print the resultant quaternion to serial terminal*/
+    LOGI("Q: %f %f %f %f \r\n", quat.q1, quat.q2, quat.q3, quat.q4); // this will send through UART as well
 
     imu.ClearInterrupt();
     while (1)
@@ -102,7 +105,7 @@ void TestIMU_Main()
                 LOGI("magData not ready, retry");
             }
 
-            LOGI("Gyro: %.2f %.2f %.2f, Acc: %.2f %.2f %.2f, Mag: %.2f %.2f %.2f\r\n",
+            LOG("Gyro: %.2f %.2f %.2f, Acc: %.2f %.2f %.2f, Mag: %.2f %.2f %.2f\r\n",
                  gyroData.x, gyroData.y, gyroData.z,
                  accData.x, accData.y, accData.z,
                  magData.x, magData.y, magData.z);
@@ -110,22 +113,21 @@ void TestIMU_Main()
             imu.ClearInterrupt();
 
             /*run KalmanFilter*/
-#if 0
             pQKF->PredictState(&gyroData);
             pQKF->UpdateState(&accData, &magData);
-            FCQuaternionType quat;
             pQKF->GetState(&quat);
 
             /*print the resultant quaternion to serial terminal*/
-            LOGI("Q: %f %f %f %f \r\n", quat.q1, quat.q2, quat.q3, quat.q4); // this will send through UART as well
-#endif
+            // PRINT("tick = %u\r\n", HAL_GetTick());
+            PRINT("Q: %f %f %f %f %u\r\n", quat.q1, quat.q2, quat.q3, quat.q4, HAL_GetTick()); // this will send through UART as well
         } else {
             // LOGI("Data not ready, sleep\r\n");
             HAL_Delay(1);
         }
 
+
    }
 
-//   delete pQKF;
+   delete pQKF;
 }
 

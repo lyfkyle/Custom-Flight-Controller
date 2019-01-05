@@ -33,33 +33,33 @@
         <DisasmHistory/>
         
         
-      <ShowCodeCoverage>1</ShowCodeCoverage><ShowInstrProfiling>1</ShowInstrProfiling></Disassembly>
+      <PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows><Window><Factory>WATCH_1</Factory></Window></Windows></PreferedWindows><ShowCodeCoverage>1</ShowCodeCoverage><ShowInstrProfiling>1</ShowInstrProfiling></Disassembly>
       <WATCH_1>
         <expressions>
-          <item>mx_centre</item>
-          <item>my_centre</item>
-          <item>mz_centre</item>
-          <item/>
-        </expressions>
+          
+          
+          
+          
+        <item>temp_value</item><item>magnitude</item><item>dt</item><item>data_matrix_X_prev</item><item>temp_matrix_16_1</item><item>temp_matrix_16</item><item>data_matrix_K</item><item>data_matrix_S</item><item>data_matrix_H</item><item>temp_matrix_64</item><item>data_H_T</item><item>temp_matrix_32</item><item>data_matrix_P</item><item>data_matrix_P_prev</item><item>data_matrix_Q</item><item>data_matrix_A</item><item/></expressions>
         <col-names>
-          <item>Expression</item>
-          <item>Location</item>
-          <item>Type</item>
-          <item>Value</item>
-        </col-names>
+          
+          
+          
+          
+        <item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names>
         <col-widths>
-          <item>100</item>
-          <item>150</item>
-          <item>100</item>
-          <item>100</item>
-        </col-widths>
-      </WATCH_1>
-    </Static>
+          
+          
+          
+          
+        <item>166</item><item>150</item><item>100</item><item>100</item></col-widths>
+      <PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows><Window><Factory>QuickWatch</Factory></Window></Windows></PreferedWindows></WATCH_1>
+    <QuickWatch><PreferedWindows><Position>2</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows><Window><Factory>WATCH_1</Factory></Window></Windows></PreferedWindows><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>100</item><item>150</item><item>100</item><item>100</item></col-widths><QWatchHistory><item>magConst</item><item>dt</item></QWatchHistory></QuickWatch></Static>
     <Windows>
       
       
       
-    <Wnd3>
+    <Wnd0>
         <Tabs>
           <Tab>
             <Identity>TabID-5719-11928</Identity>
@@ -75,7 +75,7 @@
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd3><Wnd4>
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
         <Tabs>
           <Tab>
             <Identity>TabID-16468-11931</Identity>
@@ -83,39 +83,24 @@
             <Factory>Workspace</Factory>
             <Session>
               
-            <NodeDict><ExpandedNode>FlightController</ExpandedNode><ExpandedNode>FlightController/Application</ExpandedNode><ExpandedNode>FlightController/Application/User</ExpandedNode><ExpandedNode>FlightController/Application/User/Driver</ExpandedNode><ExpandedNode>FlightController/Application/User/Driver/SBUS</ExpandedNode><ExpandedNode>FlightController/Application/User/Platform</ExpandedNode><ExpandedNode>FlightController/Application/User/Platform/HAL</ExpandedNode><ExpandedNode>FlightController/Application/User/Platform/HAL/Logging</ExpandedNode><ExpandedNode>FlightController/Application/User/Product</ExpandedNode><ExpandedNode>FlightController/Application/User/Product/Component</ExpandedNode><ExpandedNode>FlightController/Application/User/Product/Component/DeviceCtrl</ExpandedNode></NodeDict></Session>
+            <NodeDict><ExpandedNode>FlightController</ExpandedNode><ExpandedNode>FlightController/Application</ExpandedNode><ExpandedNode>FlightController/Application/User</ExpandedNode><ExpandedNode>FlightController/Application/User/Driver</ExpandedNode><ExpandedNode>FlightController/Application/User/Driver/SBUS</ExpandedNode><ExpandedNode>FlightController/Application/User/Platform</ExpandedNode><ExpandedNode>FlightController/Application/User/Platform/HAL</ExpandedNode><ExpandedNode>FlightController/Application/User/Platform/HAL/Logging</ExpandedNode><ExpandedNode>FlightController/Application/User/Platform/Lib</ExpandedNode><ExpandedNode>FlightController/Application/User/Platform/Lib/QKF</ExpandedNode><ExpandedNode>FlightController/Application/User/Product</ExpandedNode><ExpandedNode>FlightController/Application/User/Product/Component</ExpandedNode><ExpandedNode>FlightController/Application/User/Product/Component/DeviceCtrl</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd4><Wnd5>
-        <Tabs>
-          <Tab>
-            <Identity>TabID-27216-11935</Identity>
-            <TabName>Disassembly</TabName>
-            <Factory>Disassembly</Factory>
-            <Session/>
-          </Tab>
-          <Tab>
-            <Identity>TabID-5702-2904</Identity>
-            <TabName>Watch 1</TabName>
-            <Factory>WATCH_1</Factory>
-          </Tab>
-        </Tabs>
-        
-      <SelectedTab>0</SelectedTab></Wnd5></Windows>
+      <SelectedTab>0</SelectedTab></Wnd1><Wnd2><Tabs><Tab><Identity>TabID-25396-1003</Identity><TabName>Watch 1</TabName><Factory>WATCH_1</Factory></Tab><Tab><Identity>TabID-32277-3125</Identity><TabName>Disassembly</TabName><Factory>Disassembly</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd2></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\Product\App\TestApp\TestIMU.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>50</YPos2><SelStart2>736</SelStart2><SelEnd2>736</SelEnd2></Tab><ActiveTab>0</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\Product\Component\DeviceCtrl\DeviceCtrl.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>213</YPos2><SelStart2>169</SelStart2><SelEnd2>169</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\Platform\HAL\IMU\IMU.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>43</YPos2><SelStart2>413</SelStart2><SelEnd2>424</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Inc\IMU.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>31</YPos2><SelStart2>914</SelStart2><SelEnd2>919</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Inc\UAV_Defines.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>24</YPos2><SelStart2>479</SelStart2><SelEnd2>479</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>84</YPos2><SelStart2>3596</SelStart2><SelEnd2>3596</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane/><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-05AE5060><key>iaridepm.enu1</key></Toolbar-05AE5060></Sizes></Row0><Row1><Sizes><Toolbar-275726C0><key>debuggergui.enu1</key></Toolbar-275726C0></Sizes></Row1><Row2><Sizes><Toolbar-27572F58><key>armstlink2.enu1</key></Toolbar-27572F58></Sizes></Row2></Top><Left><Row0><Sizes><Wnd4><Rect><Top>-2</Top><Left>-2</Left><Bottom>288</Bottom><Right>361</Right><x>-2</x><y>-2</y><xscreen>166</xscreen><yscreen>163</yscreen><sizeHorzCX>129688</sizeHorzCX><sizeHorzCY>255887</sizeHorzCY><sizeVertCX>283594</sizeVertCX><sizeVertCY>455259</sizeVertCY></Rect></Wnd4></Sizes></Row0></Left><Right><Row0><Sizes><Wnd5><Rect><Top>-2</Top><Left>-2</Left><Bottom>288</Bottom><Right>325</Right><x>-2</x><y>-2</y><xscreen>166</xscreen><yscreen>163</yscreen><sizeHorzCX>129688</sizeHorzCX><sizeHorzCY>255887</sizeHorzCY><sizeVertCX>255469</sizeVertCX><sizeVertCY>455259</sizeVertCY></Rect></Wnd5></Sizes></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>256</Bottom><Right>1282</Right><x>-2</x><y>-2</y><xscreen>1284</xscreen><yscreen>258</yscreen><sizeHorzCX>1003125</sizeHorzCX><sizeHorzCY>405024</sizeHorzCY><sizeVertCX>129688</sizeVertCX><sizeVertCY>255887</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-00C8B5B0><key>iaridepm.enu1</key></Toolbar-00C8B5B0></Sizes></Row0><Row1><Sizes><Toolbar-171D61A0><key>debuggergui.enu1</key></Toolbar-171D61A0></Sizes></Row1><Row2><Sizes><Toolbar-29261A78><key>armstlink2.enu1</key></Toolbar-29261A78></Sizes></Row2></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>329</Bottom><Right>361</Right><x>-2</x><y>-2</y><xscreen>166</xscreen><yscreen>163</yscreen><sizeHorzCX>129688</sizeHorzCX><sizeHorzCY>255887</sizeHorzCY><sizeVertCX>283594</sizeVertCX><sizeVertCY>519623</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>329</Bottom><Right>300</Right><x>-2</x><y>-2</y><xscreen>200</xscreen><yscreen>200</yscreen><sizeHorzCX>156250</sizeHorzCX><sizeHorzCY>313972</sizeHorzCY><sizeVertCX>235938</sizeVertCX><sizeVertCY>519623</sizeVertCY></Rect></Wnd2></Sizes></Row0></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>215</Bottom><Right>1282</Right><x>-2</x><y>-2</y><xscreen>1284</xscreen><yscreen>217</yscreen><sizeHorzCX>1003125</sizeHorzCX><sizeHorzCY>340659</sizeHorzCY><sizeVertCX>129688</sizeVertCX><sizeVertCY>255887</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Project>
 

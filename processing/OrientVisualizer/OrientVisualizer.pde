@@ -68,7 +68,7 @@ void setup() {
     //println(Serial.list());
 
     // get the first available port (use EITHER this OR the specific port code below)
-    String portName = "COM3";
+    String portName = "COM11";
     
     // get a specific serial port (use EITHER this OR the first-available code above)
     //String portName = "COM4";

@@ -48,21 +48,22 @@ static void IMUDataReadyCb()
 void TestIMU_Main()
 {
     LOGI("%s\r\n", __func__);
-    
+
     IMU& imu = IMU::GetInstance();
     if (!imu.Init()) {
         LOGE("IMU init failed\r\n");
         return;
     }
-    return;
+    LOGI("IMU init success\r\n");
+
+#if 0
     LOGI("%s, calibrating mag", __func__);
     imu.CalibrateMag();
     LOGI("Mag Calibration done! \r\n");
     HAL_Delay(4000);
     LOGI("Put the device to rest!! \r\n");
     HAL_Delay(4000);
-
-    return;
+#endif
 
     // Register dataReady Cb
     imu.SetDataReadyCb(IMUDataReadyCb);
@@ -72,7 +73,8 @@ void TestIMU_Main()
         LOGE("Failed to start IMU\r\n");
         return;
     }
-
+    LOGI("IMU start success\r\n");
+#if 0
     QKF* pQKF = new QKF();
     float gravityVector[3];
     float magConst[3];
@@ -80,13 +82,16 @@ void TestIMU_Main()
     imu.GetMagConstVector(magConst);
     pQKF->SetGravityVector(gravityVector);
     pQKF->SetMagConstVector(magConst);
+#endif
 
-    uint8_t counter = 0;
+    imu.CalibrateSensorBias();
+    LOGI("IMU calibrate success\r\n");
 
     FCSensorDataType magData;
     FCSensorDataType accData;
     FCSensorDataType gyroData;
 
+    imu.ClearInterrupt();
     while (1)
     {
         if (sIMUDataReady) {
@@ -97,7 +102,15 @@ void TestIMU_Main()
                 LOGI("magData not ready, retry");
             }
 
+            LOGI("Gyro: %.2f %.2f %.2f, Acc: %.2f %.2f %.2f, Mag: %.2f %.2f %.2f\r\n",
+                 gyroData.x, gyroData.y, gyroData.z,
+                 accData.x, accData.y, accData.z,
+                 magData.x, magData.y, magData.z);
+            sIMUDataReady = false;
+            imu.ClearInterrupt();
+
             /*run KalmanFilter*/
+#if 0
             pQKF->PredictState(&gyroData);
             pQKF->UpdateState(&accData, &magData);
             FCQuaternionType quat;
@@ -105,12 +118,14 @@ void TestIMU_Main()
 
             /*print the resultant quaternion to serial terminal*/
             LOGI("Q: %f %f %f %f \r\n", quat.q1, quat.q2, quat.q3, quat.q4); // this will send through UART as well
+#endif
         } else {
-            LOGI("Data not ready, sleep");
+            // LOGI("Data not ready, sleep\r\n");
             HAL_Delay(1);
         }
+
    }
 
-   delete pQKF;
+//   delete pQKF;
 }
 

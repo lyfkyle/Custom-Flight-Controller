@@ -37,10 +37,12 @@ private:
 public:
     static IMU& GetInstance();
     
+    // interrupt
+    void OnGyroAccDataReady();
+        
      //cb
     DataReadyCb mDataReadyCb;
     void SetGyroAccDataReadyFlg();
-    void OnGyroAccDataReady();
     bool Init();
     bool Start();
     bool SetDataReadyCb(DataReadyCb cb);
@@ -53,6 +55,7 @@ public:
     void GetAccelData(FCSensorDataType* pAccData);
     void GetRawGyroData(FCSensorDataType* pGyroData);
     void GetGyroData(FCSensorDataType* pGyroData);
+    void ClearInterrupt();
 };
 
 

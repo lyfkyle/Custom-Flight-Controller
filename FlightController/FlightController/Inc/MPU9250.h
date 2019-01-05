@@ -31,8 +31,6 @@ class MPU9250 {
 
         // INT_PIN_CFG register
 
-        // INT_ENABLE register
-
         // INT_STATUS register
 
         // ACCEL_*OUT_* registers

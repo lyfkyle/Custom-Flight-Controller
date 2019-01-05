@@ -109,9 +109,9 @@ static bool UART_Init()
 bool SBUS_Init()
 {
     if (UART_Init()) {
-        LOGI("SBUS UART init success\n");
+        LOG("SBUS UART init success\r\n");
     } else {
-        LOGE("SBUS UART init failed\n");
+        LOGE("SBUS UART init failed\r\n");
         return false;
     }
     

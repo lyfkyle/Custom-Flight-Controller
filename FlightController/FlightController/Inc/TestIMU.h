@@ -2,5 +2,6 @@
 #define _TEST_IMU_H_
 
 void TestIMU_Main();
+void TestMPU9250DMP_Main();
 
 #endif

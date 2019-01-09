@@ -998,6 +998,42 @@
           </file>
         </group>
         <group>
+          <name>MPU9250</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Driver\MPU9250\MPU9250.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\MPU9250.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\MPU9250_def.h</name>
+          </file>
+        </group>
+        <group>
+          <name>MPU9250_DMP</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Driver\MPU9250_DMP\util\inv_mpu.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\inv_mpu.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Driver\MPU9250_DMP\util\inv_mpu_dmp_motion_driver.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\inv_mpu_dmp_motion_driver.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\MPU9250_RegisterMap.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Driver\MPU9250_DMP\SparkFunMPU9250-DMP.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\SparkFunMPU9250-DMP.h</name>
+          </file>
+        </group>
+        <group>
           <name>PWM</name>
           <file>
             <name>$PROJ_DIR$\..\Src\Driver\PWM\pwm.c</name>
@@ -1034,18 +1070,6 @@
           </group>
           <group>
             <name>IMU</name>
-            <group>
-              <name>MPU9250</name>
-              <file>
-                <name>$PROJ_DIR$\..\Src\Platform\HAL\IMU\MPU9250\MPU9250.cpp</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\Inc\MPU9250.h</name>
-              </file>
-              <file>
-                <name>$PROJ_DIR$\..\Inc\MPU9250_def.h</name>
-              </file>
-            </group>
             <file>
               <name>$PROJ_DIR$\..\Src\Platform\HAL\IMU\IMU.cpp</name>
             </file>
@@ -1056,7 +1080,7 @@
           <group>
             <name>Logging</name>
             <file>
-              <name>$PROJ_DIR$\..\Src\Platform\Lib\Logging\logging.c</name>
+              <name>$PROJ_DIR$\..\Src\Platform\Lib\Logging\logging.cpp</name>
             </file>
             <file>
               <name>$PROJ_DIR$\..\Inc\logging.h</name>
@@ -1185,6 +1209,12 @@
         </group>
         <group>
           <name>StateEstimator</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Product\StateEstimator\state_estimator.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\state_estimator.h</name>
+          </file>
         </group>
       </group>
       <file>

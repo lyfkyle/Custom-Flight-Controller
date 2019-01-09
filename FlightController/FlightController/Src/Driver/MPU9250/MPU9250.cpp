@@ -126,7 +126,7 @@ void MPU9250::Init()
  */
 uint8_t MPU9250::getGyroDLPFMode() {
     uint16_t dataSizeToRead = 1;
-    I2C_Read(devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     return buffer[0];
 }
 /** Set digital low-pass filter configuration.
@@ -139,7 +139,7 @@ uint8_t MPU9250::getGyroDLPFMode() {
  */
 void MPU9250::setGyroDLPFMode(uint8_t mode) {
     uint16_t dataSize = 1;
-    I2C_Read(devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t*)buffer, &dataSize);
+    I2C_Read(devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, (uint8_t*)buffer, dataSize);
     uint8_t temp = (buffer[0] & 0xF8);
     temp = (temp | mode);
     I2C_Write(devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
@@ -166,7 +166,7 @@ void MPU9250::setGyroDLPFMode(uint8_t mode) {
  */
 uint8_t MPU9250::getFullScaleGyroRange() {
     uint16_t dataSizeToRead = 1;
-    I2C_Read(devAddr, MPU9250_RA_GYRO_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_GYRO_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     return buffer[0];
 }
 /** Set full-scale gyroscope range.
@@ -179,7 +179,7 @@ uint8_t MPU9250::getFullScaleGyroRange() {
  */
 void MPU9250::setFullScaleGyroRange(uint8_t range) {
     uint16_t dataSize = 1;
-    I2C_Read(devAddr, MPU9250_RA_GYRO_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
+    I2C_Read(devAddr, MPU9250_RA_GYRO_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, dataSize);
     uint8_t temp = (buffer[0] & 0xE7);
     temp = (temp | (range<<3));
     //set fchoice_b to 00 as well
@@ -209,7 +209,7 @@ void MPU9250::setFullScaleGyroRange(uint8_t range) {
  */
 uint8_t MPU9250::getFullScaleAccelRange() {
     uint16_t dataSizeToRead = 1;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     return buffer[0];
 }
 /** Set full-scale accelerometer range.
@@ -218,7 +218,7 @@ uint8_t MPU9250::getFullScaleAccelRange() {
  */
 void MPU9250::setFullScaleAccelRange(uint8_t range) {
     uint16_t dataSize = 1;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, dataSize);
     uint8_t temp = (buffer[0] & 0xE7);
     temp = (temp | (range<<3));
     I2C_Write(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
@@ -227,13 +227,13 @@ void MPU9250::setFullScaleAccelRange(uint8_t range) {
 //ACCEL_CONFIG2 register
 uint8_t MPU9250::getAccDLPFMode() {
     uint16_t dataSizeToRead = 1;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG2, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG2, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer, dataSizeToRead);
     return buffer[0];
 }
 
 void MPU9250::setAccDLPFMode(uint8_t bandwidth) {
     uint16_t dataSize = 1;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG2, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer, &dataSize);
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG2, I2C_MEMADD_SIZE_8BIT, (uint8_t *)buffer, dataSize);
     uint8_t temp = (buffer[0] & 0xF8);
     temp = (temp | bandwidth);
     //set fchoice_b to 0
@@ -275,7 +275,7 @@ void MPU9250::getMotion9(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
     //I2Cdev::writeByte(MPU9250_RA_MAG_ADDRESS, 0x0A, 0x01); //enable the magnetometer
     HAL_Delay(10);
     uint16_t dataSizeToRead = 6;
-    I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, 6, buffer);
     *mx = (((int16_t)buffer[1]) << 8) | buffer[0];
     *my = (((int16_t)buffer[3]) << 8) | buffer[2];
@@ -295,7 +295,7 @@ void MPU9250::getMotion9(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
  */
 void MPU9250::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz) {
     uint16_t dataSizeToRead = 14;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_XOUT_H, 14, buffer);
     *ax = (((int16_t)buffer[0]) << 8) | buffer[1];
     *ay = (((int16_t)buffer[2]) << 8) | buffer[3];
@@ -342,7 +342,7 @@ void MPU9250::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
  */
 void MPU9250::getAcceleration(int16_t* x, int16_t* y, int16_t* z) {
     uint16_t dataSizeToRead = 6;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_XOUT_H, 6, buffer);
     *x = (((int16_t)buffer[0]) << 8) | buffer[1];
     *y = (((int16_t)buffer[2]) << 8) | buffer[3];
@@ -355,7 +355,7 @@ void MPU9250::getAcceleration(int16_t* x, int16_t* y, int16_t* z) {
  */
 int16_t MPU9250::getAccelerationX() {
     uint16_t dataSizeToRead = 2;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
   //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_XOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -366,7 +366,7 @@ int16_t MPU9250::getAccelerationX() {
  */
 int16_t MPU9250::getAccelerationY() {
     uint16_t dataSizeToRead = 2;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_YOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_YOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_YOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -377,7 +377,7 @@ int16_t MPU9250::getAccelerationY() {
  */
 int16_t MPU9250::getAccelerationZ() {
     uint16_t dataSizeToRead = 2;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_ZOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_ACCEL_ZOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_ZOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -390,7 +390,7 @@ int16_t MPU9250::getAccelerationZ() {
  */
 int16_t MPU9250::getTemperature() {
     uint16_t dataSizeToRead = 2;
-    I2C_Read(devAddr, MPU9250_RA_TEMP_OUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_TEMP_OUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_TEMP_OUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -431,7 +431,7 @@ int16_t MPU9250::getTemperature() {
  */
 void MPU9250::getRotation(int16_t* x, int16_t* y, int16_t* z) {
     uint16_t dataSizeToRead = 6;
-    I2C_Read(devAddr, MPU9250_RA_GYRO_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_GYRO_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_GYRO_XOUT_H, 6, buffer);
     *x = (((int16_t)buffer[0]) << 8) | buffer[1];
     *y = (((int16_t)buffer[2]) << 8) | buffer[3];
@@ -444,7 +444,7 @@ void MPU9250::getRotation(int16_t* x, int16_t* y, int16_t* z) {
  */
 int16_t MPU9250::getRotationX() {
     uint16_t dataSizeToRead = 2;
-    I2C_Read(devAddr, MPU9250_RA_GYRO_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_GYRO_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_GYRO_XOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -455,7 +455,7 @@ int16_t MPU9250::getRotationX() {
  */
 int16_t MPU9250::getRotationY() {
     uint16_t dataSizeToRead = 2;
-    I2C_Read(devAddr, MPU9250_RA_GYRO_YOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_GYRO_YOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_GYRO_YOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -466,7 +466,7 @@ int16_t MPU9250::getRotationY() {
  */
 int16_t MPU9250::getRotationZ() {
     uint16_t dataSizeToRead = 2;
-    I2C_Read(devAddr, MPU9250_RA_GYRO_ZOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(devAddr, MPU9250_RA_GYRO_ZOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(devAddr, MPU9250_RA_GYRO_ZOUT_H, 2, buffer);
     return (((int16_t)buffer[0]) << 8) | buffer[1];
 }
@@ -481,7 +481,7 @@ int16_t MPU9250::getRotationZ() {
  */
 void MPU9250::setSleepEnabled(bool enabled) {
     uint16_t dataSize = 1;
-    I2C_Read(devAddr, MPU9250_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
+    I2C_Read(devAddr, MPU9250_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, buffer, dataSize);
     uint8_t temp = (buffer[0] & 0xBF);
     temp = (temp | (enabled<<6));
     dataSize = 1;
@@ -521,7 +521,7 @@ void MPU9250::setSleepEnabled(bool enabled) {
  */
 void MPU9250::setClockSource(uint8_t source) {
     uint16_t dataSize = 1;
-    I2C_Read(devAddr, MPU9250_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
+    I2C_Read(devAddr, MPU9250_RA_PWR_MGMT_1, I2C_MEMADD_SIZE_8BIT, buffer, dataSize);
     uint8_t temp = ((buffer[0]) & (0xF8));
     temp = (temp | source);
     dataSize = 1;
@@ -540,7 +540,7 @@ void MPU9250::setClockSource(uint8_t source) {
 
 uint8_t MPU9250::getDeviceID(){
     uint16_t dataSize = 1;
-    I2C_Read(devAddr, MPU9250_RA_WHO_AM_I, I2C_MEMADD_SIZE_8BIT, &ID, &dataSize);
+    I2C_Read(devAddr, MPU9250_RA_WHO_AM_I, I2C_MEMADD_SIZE_8BIT, &ID, dataSize);
     return ID;
 }
 
@@ -553,7 +553,7 @@ void MPU9250::setBypassEnableAndInterrupt(){
 
 void MPU9250::enableInterrupt(){
     uint16_t dataSize = 1;
-    I2C_Read(devAddr, MPU9250_RA_INT_ENABLE, I2C_MEMADD_SIZE_8BIT, buffer, &dataSize);
+    I2C_Read(devAddr, MPU9250_RA_INT_ENABLE, I2C_MEMADD_SIZE_8BIT, buffer, dataSize);
     uint8_t temp = ((buffer[0]) & (0xA6)); // 0xA6 = 10100110 -> clear bits 6,4,3,0
     temp = (temp | 0x01); //set last bit to enable data ready interrupt
     dataSize = 1;
@@ -568,13 +568,13 @@ void MPU9250::setMagContMeasMode(){
 
 void MPU9250::getMagData(int16_t* mx,int16_t* my, int16_t* mz){
     uint16_t dataSizeToRead = 6;
-    I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+    I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2C_M.readBytes(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, 6, buffer_m);
 
     /*read ST2 register as required by magnetometer.Otherwise the data is protected and won't be updated.*/
     uint8_t temp;
     dataSizeToRead = 1;
-    I2C_Read(MPU9250_RA_MAG_ADDRESS, 0x09, I2C_MEMADD_SIZE_8BIT, &temp, &dataSizeToRead);
+    I2C_Read(MPU9250_RA_MAG_ADDRESS, 0x09, I2C_MEMADD_SIZE_8BIT, &temp, dataSizeToRead);
     //I2C_M.readByte(MPU9250_RA_MAG_ADDRESS, 0x09, &buffer_);
 
     *mx = ((int16_t)(buffer[1]) << 8) | buffer[0] ;
@@ -585,7 +585,7 @@ void MPU9250::getMagData(int16_t* mx,int16_t* my, int16_t* mz){
 uint8_t MPU9250::getCompassDataReady(){
    uint8_t temp;
    uint16_t dataSizeToRead = 1;
-   I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_ST1, I2C_MEMADD_SIZE_8BIT, &temp, &dataSizeToRead);
+   I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_ST1, I2C_MEMADD_SIZE_8BIT, &temp, dataSizeToRead);
    //I2C_M.readByte(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_ST1, &buffer_);
    temp = (temp & 0x01);//remove the front 7 bits.
    return temp;
@@ -593,5 +593,5 @@ uint8_t MPU9250::getCompassDataReady(){
 
 void MPU9250::readIntStatus(){
    uint16_t dataSizeToRead = 6;
-   I2C_Read(devAddr, MPU9250_RA_DMP_INT_STATUS, I2C_MEMADD_SIZE_8BIT, buffer, &dataSizeToRead);
+   I2C_Read(devAddr, MPU9250_RA_DMP_INT_STATUS, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
 }

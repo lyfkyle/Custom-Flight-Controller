@@ -38,20 +38,23 @@ void I2C_InterruptHandler()
     HAL_I2C_EV_IRQHandler(&hi2c1);
 }
 
-void I2C_Write(uint16_t devAddr, uint16_t memAddr, uint16_t memAddSize, uint8_t *pData, uint16_t size)
+bool I2C_Write(uint16_t devAddr, uint16_t memAddr, uint16_t memAddSize, uint8_t *pData, uint16_t size)
 {
     HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, memAddSize, pData, size, I2C_TIMEOUT);
     if (status != HAL_OK) {
         LOGE("HAL_I2C_Mem_Read failed, status = %d\r\n", status);
+        return false;
     }
+    return true;
 }
 
-void I2C_Read(uint16_t devAddr, uint16_t memAddr, uint16_t memAddSize, uint8_t *pData, uint16_t* pSize)
+bool I2C_Read(uint16_t devAddr, uint16_t memAddr, uint16_t memAddSize, uint8_t *pData, uint16_t size)
 {
-   // TODO check manual for the size
-   HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, memAddSize, pData, *pSize, I2C_TIMEOUT);
+   HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, memAddSize, pData, size, I2C_TIMEOUT);
    if (status != HAL_OK) {
        LOGE("HAL_I2C_Mem_Read failed, status = %d\r\n", status);
+       return false;
    }
+   return true;
 }
 

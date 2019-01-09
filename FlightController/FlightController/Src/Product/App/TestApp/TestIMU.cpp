@@ -5,6 +5,7 @@
 #include "IMU.h"
 #include "logging.h"
 #include "QKF.h"
+#include "SparkFunMPU9250-DMP.h"
 
 /*
  * Defines
@@ -129,5 +130,36 @@ void TestIMU_Main()
    }
 
    delete pQKF;
+}
+
+void TestMPU9250DMP_Main()
+{
+    MPU9250_DMP imu;
+    if (imu.begin() != INV_SUCCESS) {
+        LOGE("Unable to communicate with MPU-9250");
+    }
+
+    imu.dmpBegin(DMP_FEATURE_6X_LP_QUAT | // Enable 6-axis quat
+                 DMP_FEATURE_GYRO_CAL, // Use gyro calibration
+                 10); // Set DMP FIFO rate to 10 Hz
+
+    while (1) {
+        // Check for new data in the FIFO
+        if (imu.fifoAvailable()) {
+            // Use dmpUpdateFifo to update the ax, gx, mx, etc. values
+            if ( imu.dmpUpdateFifo() == INV_SUCCESS) {
+                // computeEulerAngles can be used -- after updating the
+                // quaternion values -- to estimate roll, pitch, and yaw
+                imu.computeEulerAngles();
+                FCQuaternionType quat;
+                quat.q1 = imu.calcQuat(imu.qw);
+                quat.q2 = imu.calcQuat(imu.qx);
+                quat.q3 = imu.calcQuat(imu.qy);
+                quat.q4 = imu.calcQuat(imu.qz);
+                PRINT("Q: %f %f %f %f %u\r\n", quat.q1, quat.q2, quat.q3, quat.q4, HAL_GetTick()); // this will send through UART as well
+            }
+        }
+        HAL_Delay(100);
+    }
 }
 

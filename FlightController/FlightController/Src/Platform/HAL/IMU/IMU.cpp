@@ -31,8 +31,7 @@
 #define MPU9250_Interrupt_Pin        GPIO_PIN_12
 #define MPU9250_Interrupt_GPIO_Port  GPIOF
 
-IMU::IMU() :
-    mIMU()
+IMU::IMU()
 {
     /*Configure GPIO pin : MPU9250_Interrupt_Pin */
 #if USE_INTERRUPT
@@ -320,6 +319,7 @@ void IMU::CalibrateSensorBias()
             /*data not ready*/
             // LOG("Data not Ready \r\n");
         }
+        HAL_Delay(1);
     }
     LOGI("gyroBias: %.2f, %.2f, %.2f, MagConst: %.2f, %.2f, %.2f\r\n",
          gyroBias[0], gyroBias[1], gyroBias[2],

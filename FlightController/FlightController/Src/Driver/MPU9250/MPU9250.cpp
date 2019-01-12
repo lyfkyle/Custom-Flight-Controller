@@ -34,25 +34,54 @@ THE SOFTWARE.
 ===============================================
 */
 
-//TODO change I2C read/write api
+// TODO I2C read/write return bool
 
-#include <i2c.h>
 #include "stm32f4xx_hal.h"
 
 #include "MPU9250.h"
 #include "MPU9250_def.h"
+#include "i2c.h"
+#include "logging.h"
+
+#define LOG_TAG ("MPU9250")
+
+/*
+ * Defines
+ */
+
+#define DEFAULT_GYRO_RANGE 2000 // dps
+#define DEFAULT_ACC_RANGE 2000 //mg
+#define DEFAULT_MAG_RANGE 4912 // uT
+#define DEFAULT_GYRO_SENSITIVITY 0.061f // dps/LSB
+#define DEFAULT_ACC_SENSITIVITY 0.061f // mg/LSB
+#define DEFAULT_MAG_SENSITIVITY 0.15f // uT/LSB
+#define DEFAULT_GYRO_FREQUENCY 1000 // hz
+#define DEFAULT_ACC_FREQUENCY 1000 // hz
+#define DEFAULT_MAG_FREQUENCY 200 // hz
 
 /** Default constructor, uses default I2C address.
  * @see MPU9250_DEFAULT_ADDRESS
  */
 
-MPU9250::MPU9250()
+MPU9250::MPU9250() :
+    devAddr(MPU9250_DEFAULT_ADDRESS),
+    ID(0),
+    mGyroFreq(DEFAULT_GYRO_FREQUENCY),
+    mAccFreq(DEFAULT_ACC_FREQUENCY),
+    mMagFreq(DEFAULT_MAG_FREQUENCY),
+    mGyroRange(DEFAULT_GYRO_RANGE),
+    mAccRange(DEFAULT_ACC_RANGE),
+    mMagRange(DEFAULT_MAG_RANGE),
+    mMagSensitivity(DEFAULT_MAG_SENSITIVITY),
+    mAccSensitivity(DEFAULT_ACC_SENSITIVITY),
+    mGyroSensitivity(DEFAULT_GYRO_SENSITIVITY)
 {
-    devAddr = 0xD0;
-    for (int i=0;i<15;i++){
-      buffer[i] = 0x00;
+    for (int i=0 ; i < 14; ++i) {
+      buffer[i] = 0;
     }
-    ID = 0;
+    for (int i = 0; i < 3; ++i) {
+        mMagSensAdjData[i] = 1.0f; // default value is 128.
+    }
 }
 
 /** Specific address constructor.
@@ -79,19 +108,21 @@ void MPU9250::Init()
     setClockSource(MPU9250_CLOCK_PLL_XGYRO);
     //set gyro output data rate to 1000hz
     setGyroDLPFMode(1);
-    //set gyro range to 500dps.
-    setFullScaleGyroRange(MPU9250_GYRO_FS_500);
+    //set gyro range to 2000dps.
+    setFullScaleGyroRange(MPU9250_GYRO_FS_2000);
     //set accel output data rate to 1000hz
     setAccDLPFMode(1);
     //set accel range to 2g
     setFullScaleAccelRange(MPU9250_ACCEL_FS_2);
     //setSleepEnabled(false); // thanks to Jack Elston for pointing this one out!
     //set i2c bypass enable pin to true to access magnetometer and configure interrupt
-    setBypassEnableAndInterrupt();
-    //enable interrupt
-    //enableInterrupt(); wait until IMU to call this
+    setBypassEnable(MPU9250_BYPASS_ENABLE);
+    // get mag sensitivity adjust data
+    GetMagSensitivityAdjData(mMagSensAdjData);
+    // set mag to 16 bit
+    setMagMeasOutputBit(MPU9250_MAG_16BIT_OUTPUT);
     //set mag to continuous measurement mode
-    setMagContMeasMode();
+    setMagContMeasMode(MPU9250_MAG_CONTINUOUS_MODE_200HZ);
 }
 
 // CONFIG register
@@ -129,6 +160,7 @@ uint8_t MPU9250::getGyroDLPFMode() {
     I2C_Read(devAddr, MPU9250_RA_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     return buffer[0];
 }
+
 /** Set digital low-pass filter configuration.
  * @param mode New DLFP configuration setting
  * @see getDLPFBandwidth()
@@ -186,6 +218,21 @@ void MPU9250::setFullScaleGyroRange(uint8_t range) {
     temp = (temp & 0xFC);
     dataSize = 1;
     I2C_Write(devAddr, MPU9250_RA_GYRO_CONFIG,I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
+
+    switch(range) {
+    case MPU9250_GYRO_FS_250:
+        mGyroRange = 250;
+        break;
+    case MPU9250_GYRO_FS_500:
+        mGyroRange = 500;
+        break;
+    case MPU9250_GYRO_FS_1000:
+        mGyroRange = 1000;
+        break;
+    case MPU9250_GYRO_FS_2000:
+        mGyroRange = 2000;
+        break;
+    }
 }
 
 // ACCEL_CONFIG register
@@ -212,6 +259,7 @@ uint8_t MPU9250::getFullScaleAccelRange() {
     I2C_Read(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     return buffer[0];
 }
+
 /** Set full-scale accelerometer range.
  * @param range New full-scale accelerometer range setting
  * @see getFullScaleAccelRange()
@@ -222,6 +270,21 @@ void MPU9250::setFullScaleAccelRange(uint8_t range) {
     uint8_t temp = (buffer[0] & 0xE7);
     temp = (temp | (range<<3));
     I2C_Write(devAddr, MPU9250_RA_ACCEL_CONFIG, I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
+
+    switch(range) {
+    case MPU9250_ACCEL_FS_2:
+        mGyroRange = 2;
+        break;
+    case MPU9250_ACCEL_FS_4:
+        mGyroRange = 4;
+        break;
+    case MPU9250_ACCEL_FS_8:
+        mGyroRange = 8;
+        break;
+    case MPU9250_ACCEL_FS_16:
+        mGyroRange = 16;
+        break;
+    }
 }
 
 //ACCEL_CONFIG2 register
@@ -275,7 +338,7 @@ void MPU9250::getMotion9(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
     //I2Cdev::writeByte(MPU9250_RA_MAG_ADDRESS, 0x0A, 0x01); //enable the magnetometer
     HAL_Delay(10);
     uint16_t dataSizeToRead = 6;
-    I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
+    I2C_Read(MPU9250_RA_MAG_ADDRESS, AK8963_HXL, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2Cdev::readBytes(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, 6, buffer);
     *mx = (((int16_t)buffer[1]) << 8) | buffer[0];
     *my = (((int16_t)buffer[3]) << 8) | buffer[2];
@@ -342,12 +405,15 @@ void MPU9250::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
  */
 void MPU9250::getAcceleration(int16_t* x, int16_t* y, int16_t* z) {
     uint16_t dataSizeToRead = 6;
-    I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
+    if (!I2C_Read(devAddr, MPU9250_RA_ACCEL_XOUT_H, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead)) {
+        return;
+    }
     //I2Cdev::readBytes(devAddr, MPU9250_RA_ACCEL_XOUT_H, 6, buffer);
     *x = (((int16_t)buffer[0]) << 8) | buffer[1];
     *y = (((int16_t)buffer[2]) << 8) | buffer[3];
     *z = (((int16_t)buffer[4]) << 8) | buffer[5];
 }
+
 /** Get X-axis accelerometer reading.
  * @return X-axis acceleration measurement in 16-bit 2's complement format
  * @see getMotion6()
@@ -544,11 +610,30 @@ uint8_t MPU9250::getDeviceID(){
     return ID;
 }
 
-void MPU9250::setBypassEnableAndInterrupt(){
-    uint8_t temp = 0x22;
-    I2C_Write(devAddr, MPU9250_RA_INT_PIN_CFG, I2C_MEMADD_SIZE_8BIT, &temp, 1);
+bool MPU9250::setBypassEnable(uint8_t enable){
+    uint16_t dataSize = 1;
+    uint8_t temp;
+    if (!I2C_Read(devAddr, MPU9250_RA_INT_PIN_CFG, I2C_MEMADD_SIZE_8BIT, &temp, dataSize)) return false;
+    temp = (temp | enable);
+    dataSize = 1;
+    if (!I2C_Write(devAddr, MPU9250_RA_INT_PIN_CFG, I2C_MEMADD_SIZE_8BIT, &temp, dataSize)) return false;
     HAL_Delay(10);
-    //I2Cdev::writeByte(0x68, MPU9250_RA_INT_PIN_CFG, 0x02);
+    return true;
+}
+
+bool MPU9250::configInterrupt(MPU9250IntConfigType* pConfig)
+{
+    if (!pConfig) return false;
+    uint16_t dataSize = 1;
+    uint8_t temp;
+    if (!I2C_Read(devAddr, MPU9250_RA_INT_PIN_CFG, I2C_MEMADD_SIZE_8BIT, &temp, dataSize)) return false;
+    temp |= pConfig->activeLvl;
+    temp |= pConfig->intMode;
+    temp |= pConfig->latch;
+    temp |= pConfig->clearMethod;
+    dataSize = 1;
+    if (!I2C_Write(devAddr, MPU9250_RA_INT_PIN_CFG, I2C_MEMADD_SIZE_8BIT, &temp, dataSize)) return false;
+    return true;
 }
 
 void MPU9250::enableInterrupt(){
@@ -560,15 +645,28 @@ void MPU9250::enableInterrupt(){
     I2C_Write(devAddr, MPU9250_RA_INT_ENABLE,I2C_MEMADD_SIZE_8BIT, &temp, dataSize);
 }
 
-void MPU9250::setMagContMeasMode(){
-    uint8_t temp = 0x06;
-    I2C_Write(MPU9250_RA_MAG_ADDRESS, 0x0A, I2C_MEMADD_SIZE_8BIT, &temp, 1);
-    //I2C_M.writeByte(MPU9250_RA_MAG_ADDRESS, 0x0A, 0x06);
+bool MPU9250::setMagMeasOutputBit(uint8_t outputBit)
+{
+    uint16_t dataSize = 1;
+    if (!I2C_Read(MPU9250_RA_MAG_ADDRESS, AK8963_CNTL, I2C_MEMADD_SIZE_8BIT, buffer, dataSize)) return false;
+    uint8_t temp = ((buffer[0]) & (0x1F)); // clear bit 7,6,5,
+    temp = (temp | outputBit);
+    if (!I2C_Write(MPU9250_RA_MAG_ADDRESS, AK8963_CNTL, I2C_MEMADD_SIZE_8BIT, &temp, dataSize)) return false;
+    return true;
+}
+
+bool MPU9250::setMagContMeasMode(uint8_t mode){
+    uint16_t dataSize = 1;
+    if (!I2C_Read(MPU9250_RA_MAG_ADDRESS, AK8963_CNTL, I2C_MEMADD_SIZE_8BIT, buffer, dataSize)) return false;
+    uint8_t temp = ((buffer[0]) & (0x1F)); // clear bit 7,6,5,
+    temp = (temp | mode);
+    if (!I2C_Write(MPU9250_RA_MAG_ADDRESS, AK8963_CNTL, I2C_MEMADD_SIZE_8BIT, &temp, dataSize)) return false;
+    return true;
 }
 
 void MPU9250::getMagData(int16_t* mx,int16_t* my, int16_t* mz){
     uint16_t dataSizeToRead = 6;
-    I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
+    I2C_Read(MPU9250_RA_MAG_ADDRESS, AK8963_HXL, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
     //I2C_M.readBytes(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_XOUT_L, 6, buffer_m);
 
     /*read ST2 register as required by magnetometer.Otherwise the data is protected and won't be updated.*/
@@ -577,21 +675,44 @@ void MPU9250::getMagData(int16_t* mx,int16_t* my, int16_t* mz){
     I2C_Read(MPU9250_RA_MAG_ADDRESS, 0x09, I2C_MEMADD_SIZE_8BIT, &temp, dataSizeToRead);
     //I2C_M.readByte(MPU9250_RA_MAG_ADDRESS, 0x09, &buffer_);
 
-    *mx = ((int16_t)(buffer[1]) << 8) | buffer[0] ;
-    *my = ((int16_t)(buffer[3]) << 8) | buffer[2] ;
-    *mz = ((int16_t)(buffer[5]) << 8) | buffer[4] ;
+    *mx = ((int16_t)(buffer[1]) << 8) | buffer[0];
+    *my = ((int16_t)(buffer[3]) << 8) | buffer[2];
+    *mz = ((int16_t)(buffer[5]) << 8) | buffer[4];
 }
 
 uint8_t MPU9250::getCompassDataReady(){
-   uint8_t temp;
+   uint8_t temp = 0;
    uint16_t dataSizeToRead = 1;
-   I2C_Read(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_ST1, I2C_MEMADD_SIZE_8BIT, &temp, dataSizeToRead);
+   I2C_Read(MPU9250_RA_MAG_ADDRESS, AK8963_ST1, I2C_MEMADD_SIZE_8BIT, &temp, dataSizeToRead);
    //I2C_M.readByte(MPU9250_RA_MAG_ADDRESS, MPU9250_RA_MAG_ST1, &buffer_);
    temp = (temp & 0x01);//remove the front 7 bits.
    return temp;
 }
 
+bool MPU9250::GetMagSensitivityAdjData(float* pAdjData)
+{
+    if (!pAdjData) return false;
+    uint16_t dataSizeToRead = 3;
+    uint8_t rawAdjData[3];
+    if (!I2C_Read(MPU9250_RA_MAG_ADDRESS, AK8963_ASAX, I2C_MEMADD_SIZE_8BIT, rawAdjData, dataSizeToRead)) return false;
+    LOGI("MagSensAdjData: %d %d %d\r\n", rawAdjData[0], rawAdjData[1], rawAdjData[2]);
+    for (int i = 0; i < 3; ++i) {
+        pAdjData[i] = (rawAdjData[i] - 128) * 0.5f / 128 + 1;
+    }
+    return true;
+}
+
+
 void MPU9250::readIntStatus(){
-   uint16_t dataSizeToRead = 6;
+   uint16_t dataSizeToRead = 1;
    I2C_Read(devAddr, MPU9250_RA_DMP_INT_STATUS, I2C_MEMADD_SIZE_8BIT, buffer, dataSizeToRead);
+}
+
+bool MPU9250::GetDataReady(uint8_t* pDataReady)
+{
+    if (!pDataReady) return false;
+   uint16_t dataSizeToRead = 1;
+   I2C_Read(devAddr, MPU9250_RA_DMP_INT_STATUS, I2C_MEMADD_SIZE_8BIT, pDataReady, dataSizeToRead);
+   *pDataReady &= 0x01; // clear all but last bit
+    return true;
 }

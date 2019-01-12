@@ -38,8 +38,6 @@
 
 #define LOG_TAG ("INV_MPU_DMP")
 
-#define i2c_write(a, b, c, d) I2C_Write(a, b, 1, d, c)
-#define i2c_read(a, b, c, d)  I2C_Read(a, b, 1, d, c)
 #define delay_ms  HAL_Delay
 #define get_ms    GetMs
 #define log_i     LOGI

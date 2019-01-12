@@ -6,16 +6,17 @@
 #include "logging.h"
 #include "QKF.h"
 #include "SparkFunMPU9250-DMP.h"
+#include "MadgwickAHRS.h"
 
 /*
- * Defines
- */
+* Defines
+*/
 
 #define LOG_TAG ("TEST_IMU")
 #define LOG(...)
 /*
- * Statics
- */
+* Statics
+*/
 
 //static IMU sIMU; // for testing only. App should not hold IMU object
 static volatile bool sIMUDataReady = false;
@@ -33,15 +34,15 @@ static volatile bool sIMUDataReady = false;
 
 
 /*
- * Prototypes
- */
+* Prototypes
+*/
 
 static void IMUDataReadyCb();
 // static void TestIMU_Init();
 
 /*
- * Code
- */
+* Code
+*/
 
 static void IMUDataReadyCb()
 {
@@ -107,9 +108,9 @@ void TestIMU_Main()
             }
 
             LOG("Gyro: %.2f %.2f %.2f, Acc: %.2f %.2f %.2f, Mag: %.2f %.2f %.2f\r\n",
-                 gyroData.x, gyroData.y, gyroData.z,
-                 accData.x, accData.y, accData.z,
-                 magData.x, magData.y, magData.z);
+                gyroData.x, gyroData.y, gyroData.z,
+                accData.x, accData.y, accData.z,
+                magData.x, magData.y, magData.z);
             sIMUDataReady = false;
             imu.ClearInterrupt();
 
@@ -125,11 +126,9 @@ void TestIMU_Main()
             // LOGI("Data not ready, sleep\r\n");
             HAL_Delay(1);
         }
+    }
 
-
-   }
-
-   delete pQKF;
+    delete pQKF;
 }
 
 void TestMPU9250DMP_Main()
@@ -137,11 +136,12 @@ void TestMPU9250DMP_Main()
     MPU9250_DMP imu;
     if (imu.begin() != INV_SUCCESS) {
         LOGE("Unable to communicate with MPU-9250");
+        return;
     }
 
     imu.dmpBegin(DMP_FEATURE_6X_LP_QUAT | // Enable 6-axis quat
                  DMP_FEATURE_GYRO_CAL, // Use gyro calibration
-                 10); // Set DMP FIFO rate to 10 Hz
+                 MAX_DMP_SAMPLE_RATE); // Set DMP FIFO rate to 200 Hz
 
     while (1) {
         // Check for new data in the FIFO
@@ -159,7 +159,86 @@ void TestMPU9250DMP_Main()
                 PRINT("Q: %f %f %f %f %u\r\n", quat.q1, quat.q2, quat.q3, quat.q4, HAL_GetTick()); // this will send through UART as well
             }
         }
-        HAL_Delay(100);
+    }
+}
+
+void TestMadgwick_Main()
+{
+    LOGI("%s\r\n", __func__);
+
+    IMU& imu = IMU::GetInstance();
+    if (!imu.Init()) {
+        LOGE("IMU init failed\r\n");
+        return;
+    }
+    LOGI("IMU init success\r\n");
+
+    // start IMU
+    if (!imu.Start()) {
+        LOGE("Failed to start IMU\r\n");
+        return;
+    }
+    LOGI("IMU start success\r\n");
+
+    LOGI("calibrating mag\r\n", __func__);
+    imu.CalibrateMag();
+    LOGI("Mag Calibration done! \r\n");
+    LOGI("Put the device to rest!! \r\n");
+    HAL_Delay(4000);
+
+    imu.CalibrateSensorBias();
+    LOGI("IMU calibrate success\r\n");
+
+    FCSensorDataType magData;
+    FCSensorDataType accData;
+    FCSensorDataType gyroData;
+    FCQuaternionType quat;
+    Madgwick filter;
+    filter.begin(50);
+
+    // from magConst and gravity, calculate initial orientation quaternion.
+    float magConst[3];
+    imu.GetMagConstVector(magConst);
+    float theta = atan2(magConst[1], magConst[0]) * (-0.5f); // calculate angle
+    quat.q1 = arm_cos_f32(theta);
+    quat.q4 = arm_sin_f32(theta);
+    quat.q2 = 0.0f;
+    quat.q3 = 0.0f;
+    //TODO gravity
+    filter.SetInitialOrientation(quat);
+
+    while (1) {
+        uint8_t imuDataReady = 1;
+        // imu.GetDataReady(&imuDataReady);
+        if (imuDataReady) {
+            // Get Data
+            imu.GetAccelData(&accData);
+            imu.GetGyroData(&gyroData);
+            while (!imu.GetCompassData(&magData)) {
+                LOGI("magData not ready, set to 0\r\n");
+                magData.x = 0.0f;
+                magData.y = 0.0f;
+                magData.z = 0.0f;
+            }
+
+            LOGI("Gyro: %.2f %.2f %.2f, Acc: %.2f %.2f %.2f, Mag: %.2f %.2f %.2f\r\n",
+                gyroData.x, gyroData.y, gyroData.z,
+                accData.x, accData.y, accData.z,
+                magData.x, magData.y, magData.z);
+
+            /*run Madgwick Filter*/
+            filter.update(gyroData.x, gyroData.y, gyroData.z, accData.x, accData.y, accData.z, magData.x * 10, magData.y * 10, magData.z * 10);
+//            filter.updateIMU(gyroData.x, gyroData.y, gyroData.z, accData.x, accData.y, accData.z);
+
+            filter.GetQuat(&quat);
+            /*print the resultant quaternion to serial terminal*/
+            // PRINT("tick = %u\r\n", HAL_GetTick());
+            PRINT("Q: %f %f %f %f %u\r\n", quat.q1, quat.q2, quat.q3, quat.q4, HAL_GetTick()); // this will send through UART as well
+            // PRINT("Orientation: %f %f %f\r\n", heading, pitch, roll);
+        } else {
+            PRINT("Data not ready, sleep\r\n");
+        }
+        HAL_Delay(5);
     }
 }
 

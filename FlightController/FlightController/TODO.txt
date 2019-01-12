@@ -1,0 +1,4 @@
+P1:
+1. Move sensitivity into MPU9250 driver
+P2:
+1. Unify different filter under one base class

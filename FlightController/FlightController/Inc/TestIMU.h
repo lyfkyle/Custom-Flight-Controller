@@ -3,5 +3,6 @@
 
 void TestIMU_Main();
 void TestMPU9250DMP_Main();
+void TestMadgwick_Main();
 
 #endif

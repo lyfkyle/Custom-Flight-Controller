@@ -43,8 +43,8 @@
 #define LOG_TAG ("INV_MPU")
 
 #define MPU9250
-#define i2c_write(a, b, c, d) I2C_Write(a, b, 1, d, c)
-#define i2c_read(a, b, c, d)  I2C_Read(a, b, 1, d, c)
+#define i2c_write(a, b, c, d) I2C_Write(a << 1, b, I2C_MEMADD_SIZE_8BIT, d, c) ? 0 : -1
+#define i2c_read(a, b, c, d)  I2C_Read(a << 1, b, I2C_MEMADD_SIZE_8BIT, d, c) ? 0 : -1
 #define delay_ms  HAL_Delay
 #define get_ms    GetMs
 #define log_i     LOGI
@@ -710,7 +710,7 @@ int mpu_init(struct int_param_s *int_param)
         return -1;
     if (mpu_set_accel_fsr(2))
         return -1;
-    if (mpu_set_lpf(42))
+    if (mpu_set_lpf(188))
         return -1;
     if (mpu_set_sample_rate(50))
         return -1;

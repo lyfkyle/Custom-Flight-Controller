@@ -24,6 +24,8 @@
 * Constants
 */
 
+#define USE_INTERRUPT (0)
+
 // GPIO interrupt definition
 #define MPU9250_ID                   0x73
 #define MPU9250_Interrupt_Pin        GPIO_PIN_12
@@ -33,6 +35,7 @@ IMU::IMU() :
     mIMU()
 {
     /*Configure GPIO pin : MPU9250_Interrupt_Pin */
+#if USE_INTERRUPT
     GPIO_InitTypeDef GPIO_InitStruct;
     GPIO_InitStruct.Pin = MPU9250_Interrupt_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
@@ -42,8 +45,9 @@ IMU::IMU() :
     /* EXTI interrupt init*/
     HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+#endif
 
-    mGyroAccDataRdyFlag = false;
+    mGyroAccDataRdyFlag = true;
     mSensorBiasCalibrateFlag = false;
     mMagCalibrateFlag = false;
     mReadyToStart = false;
@@ -67,6 +71,7 @@ IMU& IMU::GetInstance()
 /*
 * Interrupt Handler
 */
+
 inline void IMU::SetGyroAccDataReadyFlg()
 {
     mGyroAccDataRdyFlag = true;
@@ -74,12 +79,14 @@ inline void IMU::SetGyroAccDataReadyFlg()
 
 void IMU::OnGyroAccDataReady()
 {
+#if USE_INTERRUPT
     // LOG("%s\r\n", __func__);
     SetGyroAccDataReadyFlg();
 
     if (mDataReadyCb != NULL) {
         mDataReadyCb();
     }
+#endif
 }
 
 bool IMU::Init()
@@ -102,7 +109,9 @@ bool IMU::Start()
 {
     LOG("%s\r\n", __func__);
     if (mReadyToStart) {
+#if USE_INTERRUPT
         mIMU.enableInterrupt();
+#endif
     } else {
         LOGE("failed to start IMU \r\n");
         return false;
@@ -140,15 +149,15 @@ void IMU::GetGyroData(FCSensorDataType* pGyroData)
     int16_t gx, gy, gz;
     mIMU.getRotation(&gx, &gy, &gz);
     float Gxyz[3];
-    Gxyz[0] = (float) gx * 500 / 32768;//131 LSB(??/s)
-    Gxyz[1] = (float) gy * 500 / 32768;
-    Gxyz[2] = (float) gz * 500 / 32768;
+    Gxyz[0] = (float) gx * mIMU.mGyroSensitivity;
+    Gxyz[1] = (float) gy * mIMU.mGyroSensitivity;
+    Gxyz[2] = (float) gz * mIMU.mGyroSensitivity;
     Gxyz[0] = Gxyz[0] - gyroBias[0];
     Gxyz[1] = Gxyz[1] - gyroBias[1];
     Gxyz[2] = Gxyz[2] - gyroBias[2];
     //High Pass Filter -> remove all values that are less than 0.05dps.
-    for (int i=0; i < 3; ++i){
-        if (-0.05 < Gxyz[i] &&  Gxyz[i] < 0.05){
+    for (int i = 0; i < 3; ++i){
+        if (-1 < Gxyz[i] && Gxyz[i] < 1){
             Gxyz[i]=0.0f;
         }
     }
@@ -162,18 +171,18 @@ void IMU::GetRawGyroData(FCSensorDataType* pGyroData)
 {
     int16_t gx, gy, gz;
     mIMU.getRotation(&gx, &gy, &gz);
-    pGyroData->x = (float) gx * 500 / 32768;//131 LSB(??/s)
-    pGyroData->y = (float) gy * 500 / 32768;
-    pGyroData->z = (float) gz * 500 / 32768;
+    pGyroData->x = (float) gx * mIMU.mGyroSensitivity;
+    pGyroData->y = (float) gy * mIMU.mGyroSensitivity;
+    pGyroData->z = (float) gz * mIMU.mGyroSensitivity;
 }
 
 void IMU::GetAccelData(FCSensorDataType* pAccData)
 {
     int16_t ax, ay, az;
     mIMU.getAcceleration(&ax,&ay,&az);
-    pAccData->x = (float) ax / 16384;//16384  LSB/g
-    pAccData->y = (float) ay / 16384;
-    pAccData->z = (float) az / 16384;
+    pAccData->x = (float) ax * mIMU.mAccSensitivity * 0.001f;
+    pAccData->y = (float) ay * mIMU.mAccSensitivity * 0.001f;
+    pAccData->z = (float) az * mIMU.mAccSensitivity * 0.001f;
 }
 
 bool IMU::GetCompassData(FCSensorDataType* pMagData)
@@ -184,9 +193,9 @@ bool IMU::GetCompassData(FCSensorDataType* pMagData)
         float Mxyz[3];
         mIMU.getMagData(&mx,&my,&mz);
         //14 bit output.
-        Mxyz[0] = (float) mx * 4912 / 8192;
-        Mxyz[1] = (float) my * 4912 / 8192;
-        Mxyz[2] = (float) mz * 4912 / 8192;
+        Mxyz[0] = (float) mx * mIMU.mMagSensitivity * mIMU.mMagSensAdjData[0];
+        Mxyz[1] = (float) my * mIMU.mMagSensitivity * mIMU.mMagSensAdjData[1];
+        Mxyz[2] = (float) mz * mIMU.mMagSensitivity * mIMU.mMagSensAdjData[2];
         Mxyz[0] = (Mxyz[0] - mMagOffset[0]) * mMagScale[0];
         Mxyz[1] = (Mxyz[1] - mMagOffset[1]) * mMagScale[1];
         Mxyz[2] = (Mxyz[2] - mMagOffset[2]) * mMagScale[2];
@@ -208,10 +217,9 @@ bool IMU::GetRawCompassData(FCSensorDataType* pMagData)
     if (dataReady == 1) {
         int16_t mx, my, mz;
         mIMU.getMagData(&mx,&my,&mz);
-        // 14 bit output. // TODO frame transformation here??
-        pMagData->x = (float) mx * 4912 / 8192;
-        pMagData->y = (float) my * 4912 / 8192;
-        pMagData->z = (float) mz * 4912 / 8192;
+        pMagData->x = (float) mx * mIMU.mMagSensitivity * mIMU.mMagSensAdjData[0];
+        pMagData->y = (float) my * mIMU.mMagSensitivity * mIMU.mMagSensAdjData[1];
+        pMagData->z = (float) mz * mIMU.mMagSensitivity * mIMU.mMagSensAdjData[2];
         return true;
     }else{
         LOGI("Mag data not ready, skip\r\n");
@@ -222,22 +230,28 @@ bool IMU::GetRawCompassData(FCSensorDataType* pMagData)
 void IMU::CalibrateMag()
 {
     uint16_t ii = 0, sample_count = 0;
-    float mag_max[3] = {-32767, -32767, -32767};
-    float mag_min[3] = {32767,32767, 32767};
+    float mag_max[3];
+    float mag_min[3];
     float mag_delta[3] = {0.0f};
+    for (int i = 0; i < 3; ++i) {
+        mag_max[i] = mIMU.mMagRange * (-1);
+        mag_min[i] = mIMU.mMagRange;
+    }
 
     LOGI("Mag Calibration: Wave device in a figure eight until done! \r\n");
     HAL_Delay(2000);
 
-    sample_count = 100;
-    float Mxyz[3];
+    sample_count = 1000;
+    FCSensorDataType magData;
     for(ii = 0; ii < sample_count; ii++) {
-        GetRawCompassData((FCSensorDataType*)&Mxyz);  // Read the mag data
-        for (int jj = 0; jj < 3; jj++) {
-            if(Mxyz[jj] > mag_max[jj]) mag_max[jj] = Mxyz[jj];
-            if(Mxyz[jj] < mag_min[jj]) mag_min[jj] = Mxyz[jj];
-        }
-        HAL_Delay(200);
+        GetRawCompassData(&magData);  // Read the mag data
+        if(magData.x > mag_max[0]) mag_max[0] = magData.x;
+        if(magData.x < mag_min[0]) mag_min[0] = magData.x;
+        if(magData.y > mag_max[1]) mag_max[1] = magData.y;
+        if(magData.y < mag_min[1]) mag_min[1] = magData.y;
+        if(magData.z > mag_max[2]) mag_max[2] = magData.z;
+        if(magData.z < mag_min[2]) mag_min[2] = magData.z;
+        HAL_Delay(5); // read at 200 Hz
     }
 
     // Get hard iron correction
@@ -267,7 +281,9 @@ void IMU::CalibrateSensorBias()
     FCSensorDataType accData;
     FCSensorDataType magData;
 
+#if USE_INTERRUPT
     ClearInterrupt();
+#endif
     while (counter < 100) {
         if (mGyroAccDataRdyFlag) {
             GetRawGyroData(&gyroData);
@@ -294,8 +310,12 @@ void IMU::CalibrateSensorBias()
                 }
                 mSensorBiasCalibrateFlag = true;
             }
+#if USE_INTERRUPT
             mGyroAccDataRdyFlag = false;
             ClearInterrupt();
+#else
+            HAL_Delay(5); // read at 200Hz
+#endif
         } else {
             /*data not ready*/
             // LOG("Data not Ready \r\n");
@@ -310,5 +330,10 @@ void IMU::CalibrateSensorBias()
 void IMU::ClearInterrupt()
 {
     mIMU.readIntStatus();
+}
+
+bool IMU::GetDataReady(uint8_t* pDataReady)
+{
+    return mIMU.GetDataReady(pDataReady);
 }
 

@@ -55,6 +55,7 @@ public:
     void GetRawGyroData(FCSensorDataType* pGyroData);
     void GetGyroData(FCSensorDataType* pGyroData);
     void ClearInterrupt();
+    bool GetDataReady(uint8_t* pDataReady);
 };
 
 

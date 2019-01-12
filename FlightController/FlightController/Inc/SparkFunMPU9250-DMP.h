@@ -83,7 +83,7 @@ public:
 	// All sensors enabled
 	// Gyro FSR: +/- 2000 dps
 	// Accel FSR: +/- 2g
-	// LPF: 42 Hz
+	// LPF: 188 Hz
 	// FIFO: 50 Hz, disabled
 	// Output: INV_SUCCESS (0) on success, otherwise error
 	inv_error_t begin(void);

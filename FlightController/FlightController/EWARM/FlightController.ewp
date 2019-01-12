@@ -1096,7 +1096,13 @@
         <group>
           <name>Lib</name>
           <group>
-            <name>EKF</name>
+            <name>MadgwickAHRS</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Lib\MadgwickAHRS\MadgwickAHRS.cpp</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\MadgwickAHRS.h</name>
+            </file>
           </group>
           <group>
             <name>PID</name>

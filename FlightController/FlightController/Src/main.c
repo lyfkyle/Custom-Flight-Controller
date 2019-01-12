@@ -94,7 +94,8 @@ int main(void)
         return -1;
     }
     //TestIMU_Main();
-    TestMPU9250DMP_Main();
+    //TestMPU9250DMP_Main();
+    TestMadgwick_Main();
     return 0;
 }
 

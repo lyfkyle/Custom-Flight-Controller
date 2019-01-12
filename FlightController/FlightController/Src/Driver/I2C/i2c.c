@@ -42,7 +42,7 @@ bool I2C_Write(uint16_t devAddr, uint16_t memAddr, uint16_t memAddSize, uint8_t 
 {
     HAL_StatusTypeDef status = HAL_I2C_Mem_Write(&hi2c1, devAddr, memAddr, memAddSize, pData, size, I2C_TIMEOUT);
     if (status != HAL_OK) {
-        LOGE("HAL_I2C_Mem_Read failed, status = %d\r\n", status);
+        LOGE("HAL_I2C_Mem_Write failed, status = %d\r\n", status);
         return false;
     }
     return true;
@@ -52,7 +52,7 @@ bool I2C_Read(uint16_t devAddr, uint16_t memAddr, uint16_t memAddSize, uint8_t *
 {
    HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, devAddr, memAddr, memAddSize, pData, size, I2C_TIMEOUT);
    if (status != HAL_OK) {
-       LOGE("HAL_I2C_Mem_Read failed, status = %d\r\n", status);
+       LOGE("HAL_I2C_Mem_Read failed, status = %d, memAddr = %d\r\n", status, memAddr);
        return false;
    }
    return true;

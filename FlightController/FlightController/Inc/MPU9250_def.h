@@ -37,17 +37,7 @@ THE SOFTWARE.
 #ifndef _MPU9250_DEF_H_
 #define _MPU9250_DEF_H_
 
-//Magnetometer Registers
-#define MPU9250_RA_MAG_ADDRESS    0x18 //0x0C shift left by 1 bit
-#define MPU9250_RA_MAG_XOUT_L   0x03
-#define MPU9250_RA_MAG_XOUT_H   0x04
-#define MPU9250_RA_MAG_YOUT_L   0x05
-#define MPU9250_RA_MAG_YOUT_H   0x06
-#define MPU9250_RA_MAG_ZOUT_L   0x07
-#define MPU9250_RA_MAG_ZOUT_H   0x08
-#define MPU9250_RA_MAG_ST1      0x02
-
-#define MPU9250_DEFAULT_ADDRESS     0xDO // address pin low (GND), default for InvenSense evaluation board, 0x68 shift left by 1 bit
+#define MPU9250_DEFAULT_ADDRESS     0xD0 // address pin low (GND), default for InvenSense evaluation board, 0x68 shift left by 1 bit
 
 #define MPU9250_RA_XG_OFFS_TC       0x00 //[7] PWR_MODE, [6:1] XG_OFFS_TC, [0] OTP_BNK_VLD
 #define MPU9250_RA_YG_OFFS_TC       0x01 //[7] PWR_MODE, [6:1] YG_OFFS_TC, [0] OTP_BNK_VLD
@@ -285,17 +275,20 @@ THE SOFTWARE.
 #define MPU9250_INTCFG_I2C_BYPASS_EN_BIT    1
 #define MPU9250_INTCFG_CLKOUT_EN_BIT        0
 
+#define MPU9250_BYPASS_ENABLE (0x02)
+#define MPU9250_BYPASS_DISABLE (0x00)
+
 #define MPU9250_INTMODE_ACTIVEHIGH  0x00
-#define MPU9250_INTMODE_ACTIVELOW   0x01
+#define MPU9250_INTMODE_ACTIVELOW   0x80
 
 #define MPU9250_INTDRV_PUSHPULL     0x00
-#define MPU9250_INTDRV_OPENDRAIN    0x01
+#define MPU9250_INTDRV_OPENDRAIN    0x40
 
 #define MPU9250_INTLATCH_50USPULSE  0x00
-#define MPU9250_INTLATCH_WAITCLEAR  0x01
+#define MPU9250_INTLATCH_WAITCLEAR  0x20
 
 #define MPU9250_INTCLEAR_STATUSREAD 0x00
-#define MPU9250_INTCLEAR_ANYREAD    0x01
+#define MPU9250_INTCLEAR_ANYREAD    0x10
 
 #define MPU9250_INTERRUPT_FF_BIT            7
 #define MPU9250_INTERRUPT_MOT_BIT           6
@@ -395,6 +388,34 @@ THE SOFTWARE.
 #define MPU9250_DMP_MEMORY_BANKS        8
 #define MPU9250_DMP_MEMORY_BANK_SIZE    256
 #define MPU9250_DMP_MEMORY_CHUNK_SIZE   16
+
+// mag
+#define MPU9250_RA_MAG_ADDRESS    0x18 //0x0C shift left by 1 bit
+
+#define AK8963_WIA  0x0
+#define AK8963_INFO  0x1
+#define AK8963_ST1 0x2
+#define AK8963_HXL 0x3
+#define	AK8963_HXH 0x4
+#define	AK8963_HYL 0x5
+#define	AK8963_HYH 0x6
+#define	AK8963_HZL 0x7
+#define	AK8963_HZH 0x8
+#define	AK8963_ST2 0x9
+#define	AK8963_CNTL 0xA
+#define	AK8963_RSV 0xB
+#define	AK8963_ASTC 0xC
+#define	AK8963_TS1 0xD
+#define	AK8963_TS2 0xE
+#define	AK8963_I2CDIS 0xF
+#define	AK8963_ASAX 0x10
+#define	AK8963_ASAY 0x11
+#define	AK8963_ASAZ 0x12
+
+
+#define MPU9250_MAG_14BIT_OUTPUT 0x00
+#define MPU9250_MAG_16BIT_OUTPUT 0x10
+#define MPU9250_MAG_CONTINUOUS_MODE_200HZ 0x06
 
 #endif
 // note: DMP code memory blocks defined at end of header file

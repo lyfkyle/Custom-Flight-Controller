@@ -17,7 +17,7 @@ AttRateController::AttRateController() :
    mKi = 0;
 }
 
-int AttRateController::GetDesiredMotorPWM(float attRateSetpoint, float curAttRate)
+float AttRateController::GetDesiredMotorThrust(float attRateSetpoint, float curAttRate)
 {
    mAttRateSetpoint = attRateSetpoint;
    mCurAttRate = curAttRate;
@@ -28,8 +28,7 @@ int AttRateController::GetDesiredMotorPWM(float attRateSetpoint, float curAttRat
    // additional handling?
    // feedforward?
 
-   int output = (int) mOutput;
-   return output;
+   return mOutput;
 }
 
 bool AttRateController::SetPID(float kp, float kd, float ki)

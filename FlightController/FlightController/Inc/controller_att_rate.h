@@ -13,7 +13,7 @@ class AttRateController
 {
 public:
    AttRateController();
-   int GetDesiredMotorPWM(float attSetpoint, float curAtt);
+   float GetDesiredMotorThrust(float attSetpoint, float curAtt);
    bool SetPID(float kp, float kd, float ki);
    bool SetKp(float kp);
    bool SetKd(float kd);

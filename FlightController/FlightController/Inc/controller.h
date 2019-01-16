@@ -5,6 +5,7 @@
 #include "controller_att_rate.h"
 #include "controller_util.h"
 #include "controller_vel.h"
+#include "motor_ctrl.h"
 
 class Controller
 {
@@ -21,6 +22,7 @@ private:
    AttRateController mAttRateController_pitch;
    AttRateController mAttRateController_roll;
    AttRateController mAttRateController_yaw;
+   MotorCtrl& mMotorCtrl;
 };
 
 #endif

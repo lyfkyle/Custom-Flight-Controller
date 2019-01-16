@@ -39,16 +39,16 @@ extern "C" void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 static bool MX_TIM1_Init(void)
 {
     /* USER CODE BEGIN TIM1_Init 0 */
-    
+
     /* USER CODE END TIM1_Init 0 */
-    
+
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
     TIM_MasterConfigTypeDef sMasterConfig = {0};
     TIM_OC_InitTypeDef sConfigOC = {0};
     TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
-    
+
     /* USER CODE BEGIN TIM1_Init 1 */
-    
+
     /* USER CODE END TIM1_Init 1 */
     htim1.Instance = TIM1;
     htim1.Init.Prescaler = 45;
@@ -110,7 +110,7 @@ static bool MX_TIM1_Init(void)
         return false;
     }
     /* USER CODE BEGIN TIM1_Init 2 */
-    
+
     /* USER CODE END TIM1_Init 2 */
     HAL_TIM_MspPostInit(&htim1);
     return true;
@@ -123,7 +123,13 @@ bool PWM_Init()
         LOGE("PWM Init failed!!\n");
         return false;
     }
-    
+
+    // set all dutycycle to 0 upon init
+    htim1.Instance->CCR1 = 0;
+    htim1.Instance->CCR1 = 0;
+    htim1.Instance->CCR1 = 0;
+    htim1.Instance->CCR1 = 0;
+
     return true;
 }
 

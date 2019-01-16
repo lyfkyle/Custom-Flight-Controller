@@ -1198,30 +1198,6 @@
           </file>
         </group>
         <group>
-          <name>MPU9250_DMP</name>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\MPU9250_DMP\util\inv_mpu.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\inv_mpu.h</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\MPU9250_DMP\util\inv_mpu_dmp_motion_driver.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\inv_mpu_dmp_motion_driver.h</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\MPU9250_RegisterMap.h</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\MPU9250_DMP\SparkFunMPU9250-DMP.cpp</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\SparkFunMPU9250-DMP.h</name>
-          </file>
-        </group>
-        <group>
           <name>PWM</name>
           <file>
             <name>$PROJ_DIR$\..\Src\Driver\PWM\pwm.c</name>
@@ -1397,9 +1373,12 @@
           <file>
             <name>$PROJ_DIR$\..\Inc\controller_vel.h</name>
           </file>
-        </group>
-        <group>
-          <name>MotorCtrl</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Product\Controller\motor_ctrl.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\motor_ctrl.h</name>
+          </file>
         </group>
         <group>
           <name>StateEstimator</name>

@@ -27,12 +27,12 @@ static bool SystemClock_Config(void)
 {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-    
-    /**Configure the main internal regulator output voltage 
+
+    /**Configure the main internal regulator output voltage
     */
     __HAL_RCC_PWR_CLK_ENABLE();
     __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-    /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks
     */
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -47,13 +47,13 @@ static bool SystemClock_Config(void)
     {
         return false;
     }
-    /**Activate the Over-Drive mode 
+    /**Activate the Over-Drive mode
     */
     if (HAL_PWREx_EnableOverDrive() != HAL_OK)
     {
         return false;
     }
-    /**Initializes the CPU, AHB and APB busses clocks 
+    /**Initializes the CPU, AHB and APB busses clocks
     */
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
         |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -61,12 +61,12 @@ static bool SystemClock_Config(void)
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-    
+
     if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
     {
         return false;
     }
-    
+
     return true;
 }
 
@@ -94,7 +94,7 @@ PG13   ------> ETH_TXD0
 static bool DeviceGPIOInit()
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    
+
     /* GPIO Ports Clock Enable */
     __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOH_CLK_ENABLE();
@@ -104,19 +104,19 @@ static bool DeviceGPIOInit()
     __HAL_RCC_GPIOE_CLK_ENABLE();
     __HAL_RCC_GPIOD_CLK_ENABLE();
     __HAL_RCC_GPIOG_CLK_ENABLE();
-    
+
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
-    
+
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
-    
+
     /*Configure GPIO pin : User_Blue_Button_Pin */
     GPIO_InitStruct.Pin = User_Blue_Button_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(User_Blue_Button_GPIO_Port, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pins : RMII_MDC_Pin RMII_RXD0_Pin RMII_RXD1_Pin */
     GPIO_InitStruct.Pin = RMII_MDC_Pin|RMII_RXD0_Pin|RMII_RXD1_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -124,7 +124,7 @@ static bool DeviceGPIOInit()
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pins : RMII_REF_CLK_Pin RMII_MDIO_Pin RMII_CRS_DV_Pin */
     GPIO_InitStruct.Pin = RMII_REF_CLK_Pin|RMII_MDIO_Pin|RMII_CRS_DV_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -132,20 +132,20 @@ static bool DeviceGPIOInit()
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pins : PB0 LD3_Pin LD2_Pin */
     GPIO_InitStruct.Pin = GPIO_PIN_0|LD3_Pin|LD2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pin : MPU9250_Interrupt_Pin */
     GPIO_InitStruct.Pin = MPU9250_Interrupt_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(MPU9250_Interrupt_GPIO_Port, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pin : RMII_TXD1_Pin */
     GPIO_InitStruct.Pin = RMII_TXD1_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -153,20 +153,20 @@ static bool DeviceGPIOInit()
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
     HAL_GPIO_Init(RMII_TXD1_GPIO_Port, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pin : USB_PowerSwitchOn_Pin */
     GPIO_InitStruct.Pin = USB_PowerSwitchOn_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(USB_PowerSwitchOn_GPIO_Port, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pin : USB_OverCurrent_Pin */
     GPIO_InitStruct.Pin = USB_OverCurrent_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pins : USB_SOF_Pin USB_ID_Pin USB_DM_Pin USB_DP_Pin */
     GPIO_InitStruct.Pin = USB_SOF_Pin|USB_ID_Pin|USB_DM_Pin|USB_DP_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -174,13 +174,13 @@ static bool DeviceGPIOInit()
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pin : USB_VBUS_Pin */
     GPIO_InitStruct.Pin = USB_VBUS_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(USB_VBUS_GPIO_Port, &GPIO_InitStruct);
-    
+
     /*Configure GPIO pins : RMII_TX_EN_Pin RMII_TXD0_Pin */
     GPIO_InitStruct.Pin = RMII_TX_EN_Pin|RMII_TXD0_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -188,14 +188,14 @@ static bool DeviceGPIOInit()
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-        
+
     return true;
 }
 
 bool DeviceInit()
 {
     HAL_Init();
-    
+
     if (!SystemClock_Config()) {
         LOGE("SystemClock_Config failed\r\n");
         return false;
@@ -204,13 +204,13 @@ bool DeviceInit()
         LOGE("DeviceGPIOInit failed\r\n");
         return false;
     }
-    
+
     if (!DriversInit()) {
         LOGE("DriversInit failed\r\n");
         return false;
     }
     // UserHalInit(); TODO
-    
+
     return true;
 }
 
@@ -242,6 +242,7 @@ bool DriversInit()
         LOGE("PWM Init failed\r\n");
         return false;
     } else {
+        PWM_Start();
         LOGI("PWM Init success\r\n");
     }
     return true;

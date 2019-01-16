@@ -10,7 +10,7 @@ typedef void (*DataReadyCb)(void);
 class IMU
 {
 private:
-    // MPU9250 mIMU;
+    MPU9250 mIMU;
 
     float gravity[3];
     float magConst[3];

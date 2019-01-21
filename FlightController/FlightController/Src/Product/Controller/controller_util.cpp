@@ -49,24 +49,18 @@ bool Controller_Init()
    return true;
 }
 
-bool Controller_GetAttSetpointFromAccSetpoint(FCAttType* pAtt, double xAccSetpoint, double yAccSetpoint, double zAccSetpoint, double yawSetpoint)
+bool Controller_GetAttSetpointFromAccSetpoint(FCAttType& att, FCAccDataType& accSetpoint, float yawSetpoint)
 {
-   // input validity check
-   if (pAtt == NULL) {
-      LOGE("input arg NULL\r\n");
-      return false;
-   }
-
    // add gravity to z
-   zAccSetpoint += UAV_G;
+   accSetpoint.z += UAV_G;
 
    // construct u2 = sVector_DesiredAtt
-   float32_t sqredSum = xAccSetpoint * xAccSetpoint + yAccSetpoint * yAccSetpoint + zAccSetpoint * zAccSetpoint;
+   float32_t sqredSum = accSetpoint.x * accSetpoint.x + accSetpoint.y * accSetpoint.y + accSetpoint.z * accSetpoint.z;
    float32_t norm = 0;
    arm_sqrt_f32(sqredSum, &norm);
-   sVectorData_DesiredAtt[0] = xAccSetpoint / norm;
-   sVectorData_DesiredAtt[1] = yAccSetpoint / norm;
-   sVectorData_DesiredAtt[2] = zAccSetpoint / norm;
+   sVectorData_DesiredAtt[0] = accSetpoint.x / norm;
+   sVectorData_DesiredAtt[1] = accSetpoint.y / norm;
+   sVectorData_DesiredAtt[2] = accSetpoint.z / norm;
 
    // construct rotYaw inverse.
    float32_t cosYaw = arm_cos_f32(yawSetpoint);
@@ -86,9 +80,14 @@ bool Controller_GetAttSetpointFromAccSetpoint(FCAttType* pAtt, double xAccSetpoi
 
    // pitch = atan(z_b_temp(1) / z_b_temp(3));
    // roll = asin(z_b_temp(2)* (-1));
-   pAtt->pitch = atan(sVectorData_Temp[0] / sVectorData_Temp[2]);
-   pAtt->roll = asin(sVectorData_Temp[1] * (-1));
-   pAtt->yaw = yawSetpoint;
+   att.pitch = atan(sVectorData_Temp[0] / sVectorData_Temp[2]);
+   att.roll = asin(sVectorData_Temp[1] * (-1));
+   att.yaw = yawSetpoint;
 
    return true;
+}
+
+float GetHeightThrustFromAccSetpointZ(float accSetpoint_z)
+{
+    return accSetpoint_z * 1; // TODO
 }

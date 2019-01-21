@@ -2,18 +2,7 @@
 #define _STATE_ESTIMATOR_H_
 
 #include "UAV_Defines.h"
-
 #include "MadgwickAHRS.h"
-
-typedef struct {
-    FCAttType att;
-} FCStateType;
-
-typedef struct {
-    FCSensorDataType gyroData;
-    FCSensorDataType accData;
-    FCSensorDataType magData;
-} FCMeasType;
 
 class StateEstimator {
 private:
@@ -24,7 +13,7 @@ public:
     FCStateType mState;
 
     static StateEstimator& GetInstance();
-    bool EstimateState(FCMeasType& meas);
+    bool EstimateState(FCSensorMeasType& meas);
 };
 
 #endif

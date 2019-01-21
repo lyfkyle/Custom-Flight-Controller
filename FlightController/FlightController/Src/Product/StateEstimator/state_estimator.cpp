@@ -22,7 +22,7 @@ StateEstimator& StateEstimator::GetInstance()
     return stateEstimator;
 }
 
-bool StateEstimator::EstimateState(FCMeasType& meas)
+bool StateEstimator::EstimateState(FCSensorMeasType& meas)
 {
     mFilter.updateIMU(meas.gyroData.x, meas.gyroData.y, meas.gyroData.z,
                       meas.accData.x, meas.accData.y, meas.accData.z);

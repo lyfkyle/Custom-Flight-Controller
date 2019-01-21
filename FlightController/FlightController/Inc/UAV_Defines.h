@@ -22,6 +22,8 @@ typedef struct {
    float roll;
 } FCAttType;
 
+typedef FCAttType FCAttRateType;
+
 typedef struct {
    int motor1PWM;
    int motor2PWM;
@@ -35,11 +37,30 @@ typedef struct {
    float z;
 } FCSensorDataType;
 
+typedef FCSensorDataType FCAccDataType;
+typedef FCSensorDataType FCVelDataType;
+
 typedef struct {
    float q1;
    float q2;
    float q3;
    float q4;
 } FCQuaternionType;
+
+typedef struct {
+    FCSensorDataType gyroData;
+    FCSensorDataType accData;
+    // FCSensorDataType magData;
+} FCSensorMeasType;
+
+typedef struct {
+    FCAttType att;
+    FCAttRateType attRate;
+} FCStateType;
+
+typedef struct {
+    FCAccDataType desiredAcc;
+    float desiredYaw;
+} FCCmdType;
 
 #endif

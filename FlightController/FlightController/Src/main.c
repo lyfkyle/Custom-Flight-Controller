@@ -95,7 +95,7 @@ int main(void)
     }
     //TestIMU_Main();
     //TestMPU9250DMP_Main();
-    TestMadgwick_Main();
+    TestPWM();
     return 0;
 }
 

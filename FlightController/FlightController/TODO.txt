@@ -1,4 +1,5 @@
 P1:
 1. Move sensitivity into MPU9250 driver
+2. CmdListener Channel Mapping
 P2:
 1. Unify different filter under one base class

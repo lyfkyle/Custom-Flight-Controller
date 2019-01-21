@@ -1122,6 +1122,15 @@
         <name>Product</name>
         <group>
           <name>App</name>
+          <group>
+            <name>MainApp</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Product\App\MainApp\main_app.cpp</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\main_app.h</name>
+            </file>
+          </group>
           <file>
             <name>$PROJ_DIR$\..\Src\Product\App\TestApp\TestIMU.cpp</name>
           </file>
@@ -1131,6 +1140,12 @@
         </group>
         <group>
           <name>CmdListener</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Product\CmdListener\cmd_listener.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\cmd_listener.h</name>
+          </file>
         </group>
         <group>
           <name>Component</name>
@@ -1190,6 +1205,15 @@
           </file>
           <file>
             <name>$PROJ_DIR$\..\Inc\motor_ctrl.h</name>
+          </file>
+        </group>
+        <group>
+          <name>SensorReader</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Product\SensorReader\sensor_reader.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\sensor_reader.h</name>
           </file>
         </group>
         <group>

@@ -7,6 +7,8 @@
 #include "QKF.h"
 #include "SparkFunMPU9250-DMP.h"
 #include "MadgwickAHRS.h"
+#include "cmd_listener.h"
+#include "pwm.h"
 
 /*
 * Defines
@@ -242,3 +244,23 @@ void TestMadgwick_Main()
     }
 }
 
+void TestCmdListener()
+{
+    CmdListener& cmdListener = CmdListener::GetInstance();
+    FCCmdType cmd;
+    while (1) {
+        cmdListener.GetCmd(cmd);
+        PRINT("desiredAcc.x = %f, desiredAcc.y = %f, desiredAcc.z = %f, desiredYaw = %f\r\n",
+              cmd.desiredAcc.x, cmd.desiredAcc.y, cmd.desiredAcc.z, cmd.desiredYaw);
+        HAL_Delay(20);
+    }
+}
+
+void TestPWM()
+{
+    PWM_SetDutyCycle(PWM_CHANNEL_1, 20);
+    PWM_SetDutyCycle(PWM_CHANNEL_2, 40);
+    PWM_SetDutyCycle(PWM_CHANNEL_3, 60);
+    PWM_SetDutyCycle(PWM_CHANNEL_4, 80);
+    while (1) {}
+}

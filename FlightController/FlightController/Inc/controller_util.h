@@ -5,6 +5,7 @@
 
 bool Controller_Init();
 
-bool Controller_GetAttSetpointFromAccSetpoint(FCAttType* pAtt, double xAccSetpoint, double yAccSetpoint, double zAccSetpoint, double yawSetpoint);
+bool Controller_GetAttSetpointFromAccSetpoint(FCAttType& pAtt, FCAccDataType& pAccSetpoint, float yawSetpoint);
+float GetHeightThrustFromAccSetpointZ(float accSetpoint_z);
 
 #endif

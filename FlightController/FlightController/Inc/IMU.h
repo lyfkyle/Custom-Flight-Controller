@@ -23,6 +23,7 @@ private:
     bool mSensorBiasCalibrateFlag;
     bool mGyroAccDataRdyFlag;
     bool mMagCalibrateFlag;
+    bool mMagEnabled;
 
     //FCSensorDataType gyroData;
     //FCSensorDataType accData;
@@ -43,6 +44,7 @@ public:
     DataReadyCb mDataReadyCb;
     void SetGyroAccDataReadyFlg();
     bool Init();
+    bool EnableMag(bool enable);
     bool Start();
     bool SetDataReadyCb(DataReadyCb cb);
     void CalibrateSensorBias();

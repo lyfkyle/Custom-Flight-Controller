@@ -51,6 +51,7 @@ IMU::IMU()
     mMagCalibrateFlag = false;
     mReadyToStart = false;
     mDataReadyCb = NULL;
+    mMagEnabled = false;
 
     for (int i = 0; i < 3; ++i) {
         magConst[i] = 0.0f;
@@ -117,6 +118,11 @@ bool IMU::Start()
     }
 
     return true;
+}
+
+bool IMU::EnableMag(bool enable)
+{
+    mMagEnabled = enable;
 }
 
 bool IMU::SetDataReadyCb(DataReadyCb cb)
@@ -186,6 +192,11 @@ void IMU::GetAccelData(FCSensorDataType* pAccData)
 
 bool IMU::GetCompassData(FCSensorDataType* pMagData)
 {
+    if (!mMagEnabled) {
+        LOGE("Mag is not enabled\r\n");
+        return false;
+    }
+
     uint8_t dataReady = mIMU.getCompassDataReady();
     if (dataReady == 1){
         int16_t mx, my, mz;
@@ -212,6 +223,11 @@ bool IMU::GetCompassData(FCSensorDataType* pMagData)
 
 bool IMU::GetRawCompassData(FCSensorDataType* pMagData)
 {
+    if (!mMagEnabled) {
+        LOGE("Mag is not enabled\r\n");
+        return false;
+    }
+
     uint8_t dataReady = mIMU.getCompassDataReady();
     if (dataReady == 1) {
         int16_t mx, my, mz;
@@ -228,6 +244,11 @@ bool IMU::GetRawCompassData(FCSensorDataType* pMagData)
 
 void IMU::CalibrateMag()
 {
+    if (!mMagEnabled) {
+        LOGE("Mag is not enabled\r\n");
+        return;
+    }
+
     uint16_t ii = 0, sample_count = 0;
     float mag_max[3];
     float mag_min[3];
@@ -287,7 +308,13 @@ void IMU::CalibrateSensorBias()
         if (mGyroAccDataRdyFlag) {
             GetRawGyroData(&gyroData);
             GetAccelData(&accData);
-            GetCompassData(&magData);
+            if (mMagEnabled) {
+                GetCompassData(&magData);
+            } else {
+                magData.x = 0.0f;
+                magData.y = 0.0f;
+                magData.z = 0.0f;
+            }
             if (counter < 100) {
                 magConst[0] += magData.x;
                 magConst[1] += magData.y;

@@ -8,6 +8,7 @@
 #include "uart.h"
 #include "sbus.h"
 #include "pwm.h"
+#include "led.h"
 
 #define LOG_TAG ("DeviceCtrl")
 
@@ -106,9 +107,6 @@ static bool DeviceGPIOInit()
     __HAL_RCC_GPIOG_CLK_ENABLE();
 
     /*Configure GPIO pin Output Level */
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
-
-    /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
 
     /*Configure GPIO pin : User_Blue_Button_Pin */
@@ -132,13 +130,6 @@ static bool DeviceGPIOInit()
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-    /*Configure GPIO pins : PB0 LD3_Pin LD2_Pin */
-    GPIO_InitStruct.Pin = GPIO_PIN_0|LD3_Pin|LD2_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     /*Configure GPIO pin : MPU9250_Interrupt_Pin */
     GPIO_InitStruct.Pin = MPU9250_Interrupt_Pin;
@@ -245,6 +236,14 @@ bool DriversInit()
         PWM_Start();
         LOGI("PWM Init success\r\n");
     }
+    // Init LED driver
+    if (!LED_Init()) {
+        LOGE("LED Init failed\r\n");
+        return false;
+    } else {
+        LOGI("PWM Init success\r\n");
+    }
+
     return true;
 }
 

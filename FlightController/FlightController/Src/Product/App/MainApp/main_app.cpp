@@ -28,7 +28,7 @@ static Controller& sController = Controller::GetInstance();
 static SensorReader& sSensorReader = SensorReader::GetInstance();
 static CmdListener& sCmdListener = CmdListener::GetInstance();
 
-static FCMeasType sMeas;
+static FCSensorMeasType sMeas;
 
 void MainApp()
 {

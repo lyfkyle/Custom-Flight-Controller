@@ -1186,6 +1186,15 @@
           </file>
         </group>
         <group>
+          <name>LED</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Driver\LED\led.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\led.h</name>
+          </file>
+        </group>
+        <group>
           <name>MPU9250</name>
           <file>
             <name>$PROJ_DIR$\..\Src\Driver\MPU9250\MPU9250.cpp</name>

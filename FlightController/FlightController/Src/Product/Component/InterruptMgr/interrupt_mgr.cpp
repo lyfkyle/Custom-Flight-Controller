@@ -15,7 +15,7 @@
 */
 //void InterruptInit()
 //{
-//    
+//
 //}
 
 //void Interrupt_RegisterISR(int moduleId, void* pParam, Interrupt_Handler handler)
@@ -89,7 +89,7 @@ void EXTI15_10_IRQHandler(void)
     if (HAL_GPIO_ReadPin(GPIOF,GPIO_PIN_12)){
         IMU::GetInstance().OnGyroAccDataReady();
     }
-    
+
     HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
 }
 
@@ -100,6 +100,6 @@ void USART6_IRQHandler(void)
 {
     /* USER CODE BEGIN USART6_IRQn 1 */
     SBUS_InterruptHandler();
-        /* USER CODE END USART6_IRQn 1 */
+    /* USER CODE END USART6_IRQn 1 */
 }
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

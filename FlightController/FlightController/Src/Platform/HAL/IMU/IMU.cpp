@@ -123,6 +123,7 @@ bool IMU::Start()
 bool IMU::EnableMag(bool enable)
 {
     mMagEnabled = enable;
+    return true;
 }
 
 bool IMU::SetDataReadyCb(DataReadyCb cb)

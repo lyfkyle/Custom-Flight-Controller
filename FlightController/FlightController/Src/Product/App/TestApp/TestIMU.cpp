@@ -3,12 +3,14 @@
 #include "TestIMU.h"
 
 #include "IMU.h"
+#include "led.h"
 #include "logging.h"
 #include "QKF.h"
 #include "SparkFunMPU9250-DMP.h"
 #include "MadgwickAHRS.h"
 #include "cmd_listener.h"
 #include "pwm.h"
+#include "sbus.h"
 
 /*
 * Defines
@@ -246,13 +248,24 @@ void TestMadgwick_Main()
 
 void TestCmdListener()
 {
+    LED_SetOn(LED_RED, true);
+    HAL_Delay(1000);
+    LED_SetOn(LED_RED, false);
+    LED_SetOn(LED_GREEN, true);
+    HAL_Delay(1000);
+    LED_SetOn(LED_GREEN, false);
+    LED_SetOn(LED_BLUE, true);
+    HAL_Delay(1000);
+    LED_SetOn(LED_BLUE, false);
+    HAL_Delay(1000);
+    SBUS_Start();
     CmdListener& cmdListener = CmdListener::GetInstance();
     FCCmdType cmd;
     while (1) {
         cmdListener.GetCmd(cmd);
         PRINT("desiredAcc.x = %f, desiredAcc.y = %f, desiredAcc.z = %f, desiredYaw = %f\r\n",
               cmd.desiredAcc.x, cmd.desiredAcc.y, cmd.desiredAcc.z, cmd.desiredYaw);
-        HAL_Delay(20);
+        HAL_Delay(1000);
     }
 }
 

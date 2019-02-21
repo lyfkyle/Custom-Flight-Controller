@@ -19,20 +19,22 @@ CmdListener& CmdListener::GetInstance()
     return cmdListener;
 }
 
-bool CmdListener::GetCmd(FCCmdType& cmd)
+CmdListenerStatus CmdListener::GetCmd(FCCmdType& cmd)
 {
     SBUSDataType sbusData;
     memset(&sbusData, 0, sizeof(SBUSDataType));
     if (!SBUS_Read(&sbusData)) {
         LOGE("Failed to read SBUS data\r\n");
-        return false;
+        return CMD_LISTENER_FAIL;
     }
 
-    // TODO channel mapping
-    mCmd.desiredAcc.x = sbusData.channels[0];
-    mCmd.desiredAcc.y = sbusData.channels[1];
-    mCmd.desiredAcc.z = sbusData.channels[2];
-    mCmd.desiredYaw = sbusData.channels[3];
+    cmd.desiredAcc.z = sbusData.channels[0];
+    cmd.desiredAcc.y = sbusData.channels[1];
+    cmd.desiredAcc.x = sbusData.channels[2];
+    cmd.desiredYaw = sbusData.channels[3];
 
-    return true;
+    if (sbusData.failsafe) return CMD_LISTENER_FAILSAFE;
+    if (sbusData.lostFrame) return CMD_LISTENER_LOST_FRAME;
+
+    return CMD_LISTENER_SUCCESS;
 }

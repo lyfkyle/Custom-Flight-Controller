@@ -180,6 +180,8 @@ static bool DeviceGPIOInit()
     GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
+
+
     return true;
 }
 

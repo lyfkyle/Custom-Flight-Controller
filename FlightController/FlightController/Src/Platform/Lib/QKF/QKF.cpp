@@ -24,6 +24,7 @@
 /*
 * Code
 */
+#if QKF_DEBUG
 static void DebugMatrix(const float32_t* pData, const int dataSize)
 {
     PRINT("Matrix Value :");
@@ -32,7 +33,7 @@ static void DebugMatrix(const float32_t* pData, const int dataSize)
     }
     PRINT("\r\n");
 }
-
+#endif
 /*
 * Given a squre matrix, init it to become an identity matrix
 */

@@ -1175,6 +1175,9 @@
             <file>
               <name>$PROJ_DIR$\..\Inc\interrupt_mgr.h</name>
             </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\stm32f4xx_it.h</name>
+            </file>
           </group>
         </group>
         <group>

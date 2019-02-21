@@ -42,7 +42,7 @@ void OnCoreTimerTick()
     }
     if (sTimerCnt == LISTEN_CMD_CNT) {
         FCCmdType cmd;
-        sCmdListener.GetCmd(cmd);
+        CmdListenerStatus status = sCmdListener.GetCmd(cmd);
         sController.SetAccSetpoint(cmd.desiredAcc);
         sController.SetYawSetpoint(cmd.desiredYaw);
     }

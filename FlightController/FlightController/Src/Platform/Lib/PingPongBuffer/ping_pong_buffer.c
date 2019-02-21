@@ -7,6 +7,13 @@
 
 #define LOG_TAG ("PPBuffer")
 
+#define PP_DEBUG (0)
+#if PP_DEBUG
+#define LOG(...) LOGI(__VA_ARGS__)
+#else
+#define LOG(...)
+#endif
+
 #define BUF1 1
 #define BUF2 2
 
@@ -21,11 +28,13 @@ PPBufferType* PingPongBuffer_Init(uint32_t size)
         if (pPPBuffer->pBuf1 && pPPBuffer->pBuf2) {
             memset(pPPBuffer->pBuf1, 0, size);
             memset(pPPBuffer->pBuf2, 0, size);
+            LOG("PP Buffer Init success\r\n");
             return pPPBuffer;
         } else {
             PingPongBuffer_DeInit(pPPBuffer);
         }
     }
+    LOGE("PP Buffer Init failed\r\n");
     return NULL;
 }
 
@@ -44,7 +53,7 @@ bool PingPongBuffer_Write(PPBufferType* pPPBuffer, const uint8_t* pData, const u
         LOGE("%s, input invalid\r\n", __func__);
         return false;
     }
-    
+
     uint8_t* pBuf = pPPBuffer->pBuf1;
     if (pPPBuffer->writeBufNum == BUF2) {
         pBuf = pPPBuffer->pBuf2;
@@ -53,7 +62,7 @@ bool PingPongBuffer_Write(PPBufferType* pPPBuffer, const uint8_t* pData, const u
         pPPBuffer->writeBufNum = BUF2;
     }
     memcpy(pBuf, pData, dataSize);
-    
+
     return true;
 }
 
@@ -63,7 +72,7 @@ bool PingPongBuffer_Read(PPBufferType* pPPBuffer, uint8_t* pData, uint32_t* pDat
         LOGE("%s, input invalid\r\n", __func__);
         return false;
     }
-    
+
     uint8_t* pBuf = pPPBuffer->pBuf1;
     if (pPPBuffer->writeBufNum == BUF1) {
         pBuf = pPPBuffer->pBuf2;
@@ -71,7 +80,7 @@ bool PingPongBuffer_Read(PPBufferType* pPPBuffer, uint8_t* pData, uint32_t* pDat
     memcpy(pData, pBuf, pPPBuffer->size);
     memset(pBuf, 0, pPPBuffer->size); // clear content after read.
     *pDataSize = pPPBuffer->size;
-    
+
     return true;
 }
 

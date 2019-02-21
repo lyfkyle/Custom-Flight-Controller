@@ -95,7 +95,8 @@ int main(void)
     }
     //TestIMU_Main();
     //TestMPU9250DMP_Main();
-    TestPWM();
+    // TestPWM();
+    TestCmdListener();
     return 0;
 }
 

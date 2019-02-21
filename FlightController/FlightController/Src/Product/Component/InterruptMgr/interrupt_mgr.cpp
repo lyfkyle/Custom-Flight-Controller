@@ -81,16 +81,17 @@ void I2C1_EV_IRQHandler(void)
 }
 
 /**
-* @brief This function handles EXTI line[15:10] interrupts.
-*/
-void EXTI15_10_IRQHandler(void)
+  * @brief This function handles DMA2 stream1 global interrupt.
+  */
+void DMA2_Stream1_IRQHandler(void)
 {
-    /*set data ready flag if pin is high*/
-    if (HAL_GPIO_ReadPin(GPIOF,GPIO_PIN_12)){
-        IMU::GetInstance().OnGyroAccDataReady();
-    }
+  /* USER CODE BEGIN DMA2_Stream1_IRQn 0 */
 
-    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
+  /* USER CODE END DMA2_Stream1_IRQn 0 */
+    SBUS_DMAInterruptHandler();
+  /* USER CODE BEGIN DMA2_Stream1_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream1_IRQn 1 */
 }
 
 /**

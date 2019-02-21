@@ -23,11 +23,11 @@ bool UART_Init()
         LOGE("HAL_UART_Init failed\r\n");
         return false;
     }
-    
+
     return true;
 }
 
 void UART_Send(const char* pData, const int dataSize)
 {
-   HAL_UART_Transmit(&huart3, (uint8_t *)pData, dataSize, 0xFFFF);
+   HAL_UART_Transmit(&huart3, (uint8_t *)pData, dataSize, 50);
 }

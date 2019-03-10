@@ -24,13 +24,16 @@
 * Constants
 */
 
-#define USE_INTERRUPT (0)
-
 // GPIO interrupt definition
 #define MPU9250_ID                   0x73
+#if USE_INTERRUPT
 #define MPU9250_Interrupt_Pin        GPIO_PIN_12
 #define MPU9250_Interrupt_GPIO_Port  GPIOF
+#endif
 
+/*
+ * Code
+ */
 IMU::IMU()
 {
     /*Configure GPIO pin : MPU9250_Interrupt_Pin */
@@ -50,8 +53,10 @@ IMU::IMU()
     mSensorBiasCalibrateFlag = false;
     mMagCalibrateFlag = false;
     mReadyToStart = false;
-    mDataReadyCb = NULL;
     mMagEnabled = false;
+#if USE_INTERRUPT
+    mDataReadyCb = NULL;
+#endif
 
     for (int i = 0; i < 3; ++i) {
         magConst[i] = 0.0f;
@@ -68,10 +73,11 @@ IMU& IMU::GetInstance()
     return imu;
 }
 
-/*
-* Interrupt Handler
-*/
+/*------------------------------------------------*
+ * Interrupt Handler
+ *------------------------------------------------*/
 
+#if USE_INTERRUPT
 inline void IMU::SetGyroAccDataReadyFlg()
 {
     mGyroAccDataRdyFlag = true;
@@ -79,16 +85,20 @@ inline void IMU::SetGyroAccDataReadyFlg()
 
 void IMU::OnGyroAccDataReady()
 {
-#if USE_INTERRUPT
+
     // LOG("%s\r\n", __func__);
     SetGyroAccDataReadyFlg();
 
     if (mDataReadyCb != NULL) {
         mDataReadyCb();
     }
-#endif
-}
 
+}
+#endif
+
+/*------------------------------------------------*
+ * Public API
+ *------------------------------------------------*/
 bool IMU::Init()
 {
     LOG("%s\r\n", __func__);
@@ -126,6 +136,7 @@ bool IMU::EnableMag(bool enable)
     return true;
 }
 
+#if USE_INTERRUPT
 bool IMU::SetDataReadyCb(DataReadyCb cb)
 {
     if (cb == NULL) {
@@ -135,6 +146,7 @@ bool IMU::SetDataReadyCb(DataReadyCb cb)
     mDataReadyCb = cb;
     return true;
 }
+#endif
 
 void IMU::GetGravityVector(float* pGravity)
 {
@@ -355,10 +367,12 @@ void IMU::CalibrateSensorBias()
 
 }
 
+#if USE_INTERRUPT
 void IMU::ClearInterrupt()
 {
     mIMU.readIntStatus();
 }
+#endif
 
 bool IMU::GetDataReady(uint8_t* pDataReady)
 {

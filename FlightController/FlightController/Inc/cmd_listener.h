@@ -2,13 +2,7 @@
 #define _CMD_LISTENER_H_
 
 #include "UAV_Defines.h"
-
-typedef enum {
-    CMD_LISTENER_SUCCESS,
-    CMD_LISTENER_FAIL,
-    CMD_LISTENER_FAILSAFE,
-    CMD_LISTENER_LOST_FRAME
-} CmdListenerStatus;
+#include "receiver.h"
 
 class CmdListener {
 private:
@@ -17,8 +11,8 @@ private:
     FCCmdType mCmd;
 public:
     static CmdListener& GetInstance();
-
-    CmdListenerStatus GetCmd(FCCmdType& cmd);
+    bool Init();
+    ReceiverStatus GetCmd(FCCmdType& cmd);
 };
 
 #endif

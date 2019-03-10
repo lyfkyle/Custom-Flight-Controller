@@ -7,6 +7,9 @@
 //    NUM_OF_INTERRUPT_MODULE,
 //} InterruptModuleType;
 
-// void InterruptMgr_Init();
+//void InterruptMgr_Init();
+typedef void (*InterruptHandler)(void);
+
+void InterruptMgr_RegisterSystickHandler(InterruptHandler handler);
 
 #endif

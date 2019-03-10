@@ -1264,6 +1264,12 @@
           </group>
           <group>
             <name>Receiver</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\HAL\Receiver\receiver.cpp</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\receiver.h</name>
+            </file>
           </group>
         </group>
         <group>

@@ -13,6 +13,7 @@ class Controller
 public:
     static Controller& GetInstance();
 
+    bool Init();
     bool Run();
     bool SetAccSetpoint(FCAccDataType& accSetpoint);
     bool SetYawSetpoint(float yawAngle);

@@ -13,6 +13,7 @@ public:
     FCStateType mState;
 
     static StateEstimator& GetInstance();
+    bool Init();
     bool EstimateState(FCSensorMeasType& meas);
 };
 

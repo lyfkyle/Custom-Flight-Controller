@@ -54,9 +54,9 @@ static UART_HandleTypeDef huart6;
 static DMA_HandleTypeDef hdma_usart6_rx;
 
 static volatile bool sStarted = false;
-static SBUSDetectStateType sDetectState = SBUS_IDLE;
+// static SBUSDetectStateType sDetectState = SBUS_IDLE;
 static uint8_t sRecBuffer[SBUS_MSG_LENGTH];
-static uint8_t sRecBytesCnt = 0;
+// static uint8_t sRecBytesCnt = 0;
 static PPBufferType* spPPBuffer;
 static uint8_t sRetryCnt = 0;
 
@@ -66,7 +66,9 @@ static float sChannelOutMax = 100.0f;
 /*
  * Prototypes
  */
+#if 0
 static bool SBUS_DetectMsg(uint8_t data);
+#endif
 
 /*
  * Code

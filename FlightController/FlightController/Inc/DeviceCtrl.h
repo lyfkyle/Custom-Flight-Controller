@@ -49,7 +49,5 @@
 #define RMII_TXD0_GPIO_Port GPIOG
 
 bool DeviceInit();
-bool DriversInit();
-bool UserHalInit();
 
 #endif

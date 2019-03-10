@@ -41,13 +41,13 @@ static volatile bool sIMUDataReady = false;
 * Prototypes
 */
 
-static void IMUDataReadyCb();
+// static void IMUDataReadyCb();
 // static void TestIMU_Init();
 
 /*
 * Code
 */
-
+#if 0
 static void IMUDataReadyCb()
 {
     sIMUDataReady = true;
@@ -134,6 +134,7 @@ void TestIMU_Main()
 
     delete pQKF;
 }
+#endif
 
 void TestMPU9250DMP_Main()
 {
@@ -248,16 +249,16 @@ void TestMadgwick_Main()
 
 void TestCmdListener()
 {
-    LED_SetOn(LED_RED, true);
-    HAL_Delay(1000);
-    LED_SetOn(LED_RED, false);
-    LED_SetOn(LED_GREEN, true);
-    HAL_Delay(1000);
-    LED_SetOn(LED_GREEN, false);
-    LED_SetOn(LED_BLUE, true);
-    HAL_Delay(1000);
-    LED_SetOn(LED_BLUE, false);
-    HAL_Delay(1000);
+//    LED_SetOn(LED_RED, true);
+//    HAL_Delay(1000);
+//    LED_SetOn(LED_RED, false);
+//    LED_SetOn(LED_GREEN, true);
+//    HAL_Delay(1000);
+//    LED_SetOn(LED_GREEN, false);
+//    LED_SetOn(LED_BLUE, true);
+//    HAL_Delay(1000);
+//    LED_SetOn(LED_BLUE, false);
+//    HAL_Delay(1000);
     SBUS_Start();
     CmdListener& cmdListener = CmdListener::GetInstance();
     FCCmdType cmd;

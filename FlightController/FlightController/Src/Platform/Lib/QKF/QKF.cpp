@@ -4,7 +4,7 @@
 
 #define LOG_TAG ("QKF")
 
-#define QKF_DEBUG (1)
+#define QKF_DEBUG (0)
 #if QKF_DEBUG
 #define LOG(...) LOGI(__VA_ARGS__)
 #else
@@ -24,6 +24,7 @@
 /*
 * Code
 */
+
 #if QKF_DEBUG
 static void DebugMatrix(const float32_t* pData, const int dataSize)
 {

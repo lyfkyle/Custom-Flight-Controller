@@ -3,6 +3,6 @@
 
 void MainApp();
 
-void OnCoreTimerTick();
+// void OnCoreTimerTick();
 
 #endif

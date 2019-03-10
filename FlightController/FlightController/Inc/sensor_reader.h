@@ -10,7 +10,7 @@ private:
     FCSensorDataType mSensorData;
 public:
     static SensorReader& GetInstance();
-
+    bool Init();
     bool GetSensorMeas(FCSensorMeasType& cmd);
 };
 

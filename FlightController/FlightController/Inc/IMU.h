@@ -5,6 +5,12 @@
 
 #include "MPU9250.h"
 
+/*
+ * Defines
+ */
+
+#define USE_INTERRUPT (0)
+
 typedef void (*DataReadyCb)(void);
 
 class IMU
@@ -37,27 +43,30 @@ private:
 public:
     static IMU& GetInstance();
 
-    // interrupt
-    void OnGyroAccDataReady();
-
-     //cb
-    DataReadyCb mDataReadyCb;
-    void SetGyroAccDataReadyFlg();
     bool Init();
     bool EnableMag(bool enable);
     bool Start();
-    bool SetDataReadyCb(DataReadyCb cb);
     void CalibrateSensorBias();
     void CalibrateMag();
     void GetGravityVector(float* pGravity);
     void GetMagConstVector(float* pMagConst);
-    bool GetRawCompassData(FCSensorDataType* pMagData);
     bool GetCompassData(FCSensorDataType* pMagData);
     void GetAccelData(FCSensorDataType* pAccData);
-    void GetRawGyroData(FCSensorDataType* pGyroData);
     void GetGyroData(FCSensorDataType* pGyroData);
-    void ClearInterrupt();
     bool GetDataReady(uint8_t* pDataReady);
+
+    bool GetRawCompassData(FCSensorDataType* pMagData);
+    void GetRawGyroData(FCSensorDataType* pGyroData);
+
+#if USE_INTERRUPT
+    // interrupt
+    void OnGyroAccDataReady();
+    //cb
+    DataReadyCb mDataReadyCb;
+    bool SetDataReadyCb(DataReadyCb cb);
+    void ClearInterrupt();
+    void SetGyroAccDataReadyFlg();
+#endif
 };
 
 

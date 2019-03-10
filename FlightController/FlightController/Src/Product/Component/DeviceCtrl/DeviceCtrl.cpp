@@ -10,6 +10,11 @@
 #include "pwm.h"
 #include "led.h"
 
+#include "state_estimator.h"
+#include "cmd_listener.h"
+#include "controller.h"
+#include "sensor_reader.h"
+
 #define LOG_TAG ("DeviceCtrl")
 
 /*
@@ -185,29 +190,7 @@ static bool DeviceGPIOInit()
     return true;
 }
 
-bool DeviceInit()
-{
-    HAL_Init();
-
-    if (!SystemClock_Config()) {
-        LOGE("SystemClock_Config failed\r\n");
-        return false;
-    }
-    if (!DeviceGPIOInit()) {
-        LOGE("DeviceGPIOInit failed\r\n");
-        return false;
-    }
-
-    if (!DriversInit()) {
-        LOGE("DriversInit failed\r\n");
-        return false;
-    }
-    // UserHalInit(); TODO
-
-    return true;
-}
-
-bool DriversInit()
+static bool DriversInit()
 {
     // Init uart driver
     if (!UART_Init()) {
@@ -224,12 +207,12 @@ bool DriversInit()
         LOGI("I2C Init success\r\n");
     }
     // Init SBUS driver
-    if (!SBUS_Init()) {
-        LOGE("SBUS Init failed\r\n");
-        return false;
-    } else {
-        LOGI("SBUS Init success\r\n");
-    }
+//    if (!SBUS_Init()) {
+//        LOGE("SBUS Init failed\r\n");
+//        return false;
+//    } else {
+//        LOGI("SBUS Init success\r\n");
+//    }
     // Init PWM driver
     if (!PWM_Init()) {
         LOGE("PWM Init failed\r\n");
@@ -249,12 +232,50 @@ bool DriversInit()
     return true;
 }
 
-bool UserHalInit()
+static bool ProductInit()
 {
-    //    spIMU = new IMU();
-    //    if (!spIMU) {
-    //        LOGE("IMU init failed\r\n");
-    //        return false;
-    //    }
+    if (!StateEstimator::GetInstance().Init()) {
+        LOGE("StateEstimator Init failed\r\n");
+        return false;
+    }
+    if (!SensorReader::GetInstance().Init()) {
+        LOGE("SensorReader Init failed\r\n");
+        return false;
+    }
+    if (!Controller::GetInstance().Init()) {
+        LOGE("Controller Init failed\r\n");
+        return false;
+    }
+    if (!CmdListener::GetInstance().Init()) {
+        LOGE("CmdListener Init failed\r\n");
+        return false;
+    }
+
     return true;
 }
+
+bool DeviceInit()
+{
+    HAL_Init();
+
+    if (!SystemClock_Config()) {
+        LOGE("SystemClock_Config failed\r\n");
+        return false;
+    }
+    if (!DeviceGPIOInit()) {
+        LOGE("DeviceGPIOInit failed\r\n");
+        return false;
+    }
+    if (!DriversInit()) {
+        LOGE("DriversInit failed\r\n");
+        return false;
+    }
+    if (!ProductInit()) {
+        LOGE("ProductInit failed\r\n");
+        return false;
+    }
+
+    return true;
+}
+
+

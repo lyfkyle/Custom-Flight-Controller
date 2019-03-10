@@ -21,6 +21,11 @@ Controller& Controller::GetInstance()
     return controller;
 }
 
+bool Controller::Init()
+{
+    return true;
+}
+
 bool Controller::Run()
 {
     // vel setpoints

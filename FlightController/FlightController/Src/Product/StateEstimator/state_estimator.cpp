@@ -34,6 +34,9 @@ bool StateEstimator::EstimateState(FCSensorMeasType& meas)
     mState.att.roll = mFilter.getRollRadians();
     mState.att.pitch = mFilter.getPitchRadians();
     mState.att.yaw = mFilter.getYawRadians();
+    mState.attRate.roll = meas.gyroData.x;
+    mState.attRate.pitch = meas.gyroData.y;
+    mState.attRate.yaw = meas.gyroData.z;
 
     return true;
 }

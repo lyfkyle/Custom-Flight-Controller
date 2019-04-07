@@ -1,5 +1,8 @@
-
 #include "controller.h"
+
+#include "logging.h"
+
+#define LOG_TAG ("Controller")
 
 Controller::Controller() :
     mVelController_X(),
@@ -50,6 +53,7 @@ bool Controller::Run()
     float yawThrust = mAttRateController_yaw.GetDesiredMotorThrust(mAttRateSetpoint.yaw, mCurAttRate.yaw);
     float heightThrust = GetHeightThrustFromAccSetpointZ(mAccSetpoint.z);
 
+    LOGI("Thrust: pitch: %f roll: %f yaw: %f height: %f\r\n", pitchThrust, rollThrust, yawThrust, heightThrust);
     mMotorCtrl.OutputMotor(pitchThrust, rollThrust, yawThrust, heightThrust);
 
     return true;

@@ -13,7 +13,7 @@
 #define LOG_TAG ("SBUS")
 #define SBUS_DEBUG (0)
 
-#ifdef SBUS_DEBUG
+#if SBUS_DEBUG
 #define LOG(...) LOGI(__VA_ARGS__)
 #else
 #define LOG(...)
@@ -82,7 +82,6 @@ static bool SBUS_DetectMsg(uint8_t data)
     if (sDetectState == SBUS_IDLE) {
         if (data == SBUS_HEADER) {
             sDetectState = SBUS_HEADER_DETECTED;
-            LED_SetOn(LED_RED, true);
         }
     }
     else if (sDetectState == SBUS_HEADER_DETECTED) {
@@ -188,7 +187,6 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    LED_SetOn(LED_GREEN, true);
 #if SBUS_PRINT_RECEIVED_MSG
     for (int i = 0; i < 25; ++i) {
         PRINT("0x%x ", sRecBuffer[i]);
@@ -197,7 +195,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 #endif
     if (sRecBuffer[0] != SBUS_HEADER) {
         // the first byte is not header. Try again.
-        PRINT("SBUS try again %d\r\n", sRecBuffer[0]);
+        LOGE("SBUS try again %d\r\n", sRecBuffer[0]);
         HAL_UART_DMAStop(&huart6);
         __HAL_UART_ENABLE_IT(&huart6, UART_IT_IDLE);
         return;
@@ -242,8 +240,6 @@ bool SBUS_Start()
         LOGE("SBUS failed to start\r\n");
         return false;
     }
-    LED_SetOn(LED_GREEN, false);
-    LED_SetOn(LED_BLUE, true);
     return true;
 }
 
@@ -284,7 +280,7 @@ bool SBUS_Read(SBUSDataType* pSBUSData)
     channels_int[15] = (uint16_t) ((receivedMsg[21]>>5| receivedMsg[22]<<3)                       & 0x07FF);
     // parse
     for (int i = 0; i < 16; ++i) {
-        if (i < 4) LOGI("SBUSData: channel %d : %d\r\n", i, channels_int[i]);
+        if (i < 4) LOG("SBUSData: channel %d : %d\r\n", i, channels_int[i]);
         pSBUSData->channels[i] = ((float) (channels_int[i] - SBUS_CHANNEL_MIN)) / (SBUS_CHANNEL_MAX - SBUS_CHANNEL_MIN) * (sChannelOutMax - sChannelOutMin) + sChannelOutMin;
     }
 

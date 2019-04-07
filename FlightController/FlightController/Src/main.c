@@ -45,6 +45,7 @@
 /* USER CODE BEGIN Includes */
 #include "TestIMU.h"
 #include "DeviceCtrl.h"
+#include "main_app.h"
 #include "logging.h"
 /* USER CODE END Includes */
 
@@ -96,7 +97,9 @@ int main(void)
     //TestIMU_Main();
     //TestMPU9250DMP_Main();
     // TestPWM();
-    TestCmdListener();
+    // TestCmdListener();
+
+    MainApp();
     return 0;
 }
 

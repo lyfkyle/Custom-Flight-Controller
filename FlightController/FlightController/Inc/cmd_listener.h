@@ -12,6 +12,7 @@ private:
 public:
     static CmdListener& GetInstance();
     bool Init();
+    bool Start();
     ReceiverStatus GetCmd(FCCmdType& cmd);
 };
 

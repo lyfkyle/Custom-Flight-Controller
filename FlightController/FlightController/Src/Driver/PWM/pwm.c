@@ -151,6 +151,7 @@ void PWM_Stop()
 
 void PWM_SetDutyCycle(PWMChannelType channel, uint8_t dutyCycle)
 {
+    LOGI("PWM channel %d, dutycycle %d", channel, dutyCycle);
     switch (channel) {
     case PWM_CHANNEL_1:
         htim1.Instance->CCR1 = dutyCycle;

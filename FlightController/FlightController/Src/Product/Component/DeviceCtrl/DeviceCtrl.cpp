@@ -254,6 +254,15 @@ static bool ProductInit()
     return true;
 }
 
+static bool ProductStart()
+{
+    if (!CmdListener::GetInstance().Start()) {
+        LOGE("CmdListener Start failed\r\n");
+        return false;
+    }
+    return true;
+}
+
 bool DeviceInit()
 {
     HAL_Init();
@@ -272,6 +281,10 @@ bool DeviceInit()
     }
     if (!ProductInit()) {
         LOGE("ProductInit failed\r\n");
+        return false;
+    }
+    if (!ProductStart()) {
+        LOGE("ProductStart failed\r\n");
         return false;
     }
 

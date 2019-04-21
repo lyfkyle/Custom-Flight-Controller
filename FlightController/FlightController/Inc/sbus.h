@@ -3,8 +3,12 @@
 
 #include "stm32f4xx_hal.h"
 
+// empirical
+#define SBUS_CHANNEL_MIN 172
+#define SBUS_CHANNEL_MAX 1811
+
 typedef struct {
-    float channels[16];
+    int channels[16]; // val between SBUS_CHANNEL_MIN and SBUS_CHANNEL_MAX
     bool failsafe;
     bool lostFrame;
 } SBUSDataType;
@@ -15,7 +19,6 @@ extern "C" {
 
 bool SBUS_Init();
 bool SBUS_Start();
-bool SBUS_SetChannelRange(float min, float max);
 void SBUS_InterruptHandler();
 void SBUS_DMAInterruptHandler();
 bool SBUS_Read(SBUSDataType* pSBUSData);

@@ -1,5 +1,8 @@
 P1:
 1. Move sensitivity into MPU9250 driver
 2. CmdListener Channel Mapping
+3. the attitude setpoint calculated from acc setpoint is too large.
 P2:
 1. Unify different filter under one base class
+2. Velocity controller
+3. Controller currently only support same frequency for attRate and att

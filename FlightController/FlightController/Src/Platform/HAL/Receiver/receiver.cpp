@@ -3,6 +3,8 @@
 
 #include "sbus.h"
 #include "logging.h"
+#include "util.h"
+#include "UAV_Defines.h"
 
 #include "Receiver.h"
 
@@ -44,10 +46,10 @@ ReceiverStatus Receiver::GetCmd(FCCmdType& cmd)
         return RECEIVER_FAIL;
     }
 
-    cmd.desiredAcc.z = sbusData.channels[0];
-    cmd.desiredAcc.y = sbusData.channels[1];
-    cmd.desiredAcc.x = sbusData.channels[2];
-    cmd.desiredYaw = sbusData.channels[3];
+    cmd.desiredVel.z = Util_Constrain((float)sbusData.channels[0], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_ACC_MIN, CMD_ACC_MAX);
+    cmd.desiredVel.y = Util_Constrain((float)sbusData.channels[1], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_ACC_MIN, CMD_ACC_MAX);
+    cmd.desiredVel.x = Util_Constrain((float)sbusData.channels[2], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_ACC_MIN, CMD_ACC_MAX);
+    cmd.desiredYawRate = Util_Constrain((float)sbusData.channels[3], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_ACC_MIN, CMD_ACC_MAX);
 
     if (sbusData.failsafe) return RECEIVER_FAILSAFE;
     if (sbusData.lostFrame) return RECEIVER_LOST_FRAME;

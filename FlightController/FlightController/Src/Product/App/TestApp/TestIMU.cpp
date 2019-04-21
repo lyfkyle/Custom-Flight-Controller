@@ -264,8 +264,8 @@ void TestCmdListener()
     FCCmdType cmd;
     while (1) {
         cmdListener.GetCmd(cmd);
-        PRINT("desiredAcc.x = %f, desiredAcc.y = %f, desiredAcc.z = %f, desiredYaw = %f\r\n",
-              cmd.desiredAcc.x, cmd.desiredAcc.y, cmd.desiredAcc.z, cmd.desiredYaw);
+        PRINT("desiredVel.x = %f, desiredVel.y = %f, desiredVel.z = %f, desiredYawRate = %f\r\n",
+              cmd.desiredVel.x, cmd.desiredVel.y, cmd.desiredVel.z, cmd.desiredYawRate);
         HAL_Delay(1000);
     }
 }

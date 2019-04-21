@@ -8,18 +8,28 @@
 #include "motor_ctrl.h"
 #include "UAV_Defines.h"
 
+/*
+ * Defines
+ */
+
+#define DEFAULT_VEL_PERIOD_MS (200)
+#define DEFAULT_ATT_PERIOD_MS (100)
+#define DEFAULT_ATT_RATE_PERIOD_MS (100)
+#define DEFAULT_HEIGHT_RATE_PERIOD_MS (100)
+
 class Controller
 {
 public:
     static Controller& GetInstance();
 
+    bool SetPeriodMs(int periodMs);
     bool Init();
     bool Run();
     bool SetAccSetpoint(FCAccDataType& accSetpoint);
-    bool SetYawSetpoint(float yawAngle);
+    bool SetVelSetpoint(FCVelDataType& velSetpoint);
+    bool SetYawRateSetpoint(float yawRate);
     bool SetCurAtt(FCAttType& att);
     bool SetCurAttRate(FCAttType& att);
-
 private:
     Controller(); // private constructor, singleton
     VelController mVelController_X;
@@ -40,6 +50,7 @@ private:
     FCAttType mCurAtt;
     FCAttRateType mAttRateSetpoint;
     FCAttRateType mCurAttRate;
+    int mPeriodMs;
 };
 
 #endif

@@ -12,12 +12,13 @@
 class AttRateController
 {
 public:
-   AttRateController();
+   AttRateController(int sampleTimeMs);
    float GetDesiredMotorThrust(float attSetpoint, float curAtt);
    bool SetPID(float kp, float kd, float ki);
    bool SetKp(float kp);
    bool SetKd(float kd);
    bool SetKi(float ki);
+   bool SetPeriodMs(int periodMs);
 private:
    PID mAttRatePID;
    float mAttRateSetpoint;
@@ -26,6 +27,7 @@ private:
    float mKp;
    float mKd;
    float mKi;
+   int mPeriodMs;
 };
 
 

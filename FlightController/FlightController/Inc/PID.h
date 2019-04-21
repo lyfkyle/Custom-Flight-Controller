@@ -9,17 +9,17 @@ class PID
 public:
 
    //Constants used in some of the functions below
-#define AUTOMATIC	1
-#define MANUAL	0
+#define PID_MODE_AUTOMATIC	1
+#define PID_MODE_MANUAL	0
 #define PID_CTRL_DIR_DIRECT  0
 #define PID_CTRL_DIR_REVERSE  1
-#define P_ON_M 0
-#define P_ON_E 1
+#define PID_P_ON_M 0
+#define PID_P_ON_E 1
 
    //commonly used functions **************************************************************************
-   // PID(float*, float*, float*,        // * constructor.  links the PID to the Input, Output, and
-   //    float, float, float, int, int);//   Setpoint.  Initial tuning parameters are also set here.
-   //    (overload for specifying proportional mode)
+   PID(float*, float*, float*,        // * constructor.  links the PID to the Input, Output, and
+       float, float, float, int, int);//   Setpoint.  Initial tuning parameters are also set here.
+                                      //    (overload for specifying proportional mode)
 
    PID(float*, float*, float*,        // * constructor.  links the PID to the Input, Output, and
        float, float, float, int);     //   Setpoint.  Initial tuning parameters are also set here

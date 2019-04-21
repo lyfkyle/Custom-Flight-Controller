@@ -13,12 +13,13 @@
 class AttController
 {
 public:
-   AttController();
+   AttController(int periodMs);
    float GetDesiredAttRateSetpoint(float attSetpoint, float curAtt);
-   bool SetPID(float kp, float kd, float ki);
+   bool SetPID(float kp, float ki, float kd);
    bool SetKp(float kp);
    bool SetKd(float kd);
    bool SetKi(float ki);
+   bool SetPeriodMs(int periodMs);
 private:
    PID mAttPID;
    float mAttSetpoint;
@@ -27,8 +28,7 @@ private:
    float mKp;
    float mKd;
    float mKi;
+   int mPeriodMs;
 };
-
-
 
 #endif // _CONTROLLER_ATT_H_

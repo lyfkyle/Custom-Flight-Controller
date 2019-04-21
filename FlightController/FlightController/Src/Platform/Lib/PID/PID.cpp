@@ -11,7 +11,6 @@
  *    The parameters specified here are those for for which we can't set up
  *    reliable defaults, so we need to have the user set them.
  ***************************************************************************/
-/*
 PID::PID(float* Input, float* Output, float* Setpoint,
         float Kp, float Ki, float Kd, int POn, int ControllerDirection)
 {
@@ -21,7 +20,7 @@ PID::PID(float* Input, float* Output, float* Setpoint,
     inAuto = false;
 
     PID::SetOutputLimits(0, 255);				//default output limit corresponds to
-                                             //the arduino pwm limits
+                                                //the arduino pwm limits
 
     SampleTime = 100;							   //default Controller Sample Time is 0.1 seconds
 
@@ -31,7 +30,6 @@ PID::PID(float* Input, float* Output, float* Setpoint,
     // TODO STM32 timing things here
     // lastTime = millis()-SampleTime;
 }
-*/
 
 /*Constructor (...)*********************************************************
  *    To allow backwards compatability for v1.1, or for people that just want
@@ -115,7 +113,7 @@ void PID::SetTunings(float Kp, float Ki, float Kd, int POn)
    if (Kp<0 || Ki<0 || Kd<0) return;
 
    pOn = POn;
-   pOnE = POn == P_ON_E;
+   pOnE = POn == PID_P_ON_E;
 
    dispKp = Kp; dispKi = Ki; dispKd = Kd;
 
@@ -187,7 +185,7 @@ void PID::SetOutputLimits(float Min, float Max)
  ******************************************************************************/
 void PID::SetMode(int Mode)
 {
-    bool newAuto = (Mode == AUTOMATIC);
+    bool newAuto = (Mode == PID_MODE_AUTOMATIC);
     if(newAuto && !inAuto)
     {  /*we just went from manual to auto*/
         PID::Initialize();
@@ -232,5 +230,5 @@ void PID::SetControllerDirection(int Direction)
 float PID::GetKp(){ return  dispKp; }
 float PID::GetKi(){ return  dispKi;}
 float PID::GetKd(){ return  dispKd;}
-int PID::GetMode(){ return  inAuto ? AUTOMATIC : MANUAL;}
+int PID::GetMode(){ return  inAuto ? PID_MODE_AUTOMATIC : PID_MODE_MANUAL;}
 int PID::GetDirection(){ return controllerDirection;}

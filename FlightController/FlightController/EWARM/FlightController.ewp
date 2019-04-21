@@ -987,67 +987,67 @@
         </file>
       </group>
       <group>
-        <name>Driver</name>
-        <group>
-          <name>I2C</name>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\I2C\i2c.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\i2c.h</name>
-          </file>
-        </group>
-        <group>
-          <name>LED</name>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\LED\led.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\led.h</name>
-          </file>
-        </group>
-        <group>
-          <name>MPU9250</name>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\MPU9250\MPU9250.cpp</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\MPU9250.h</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\MPU9250_def.h</name>
-          </file>
-        </group>
-        <group>
-          <name>PWM</name>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\PWM\pwm.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\pwm.h</name>
-          </file>
-        </group>
-        <group>
-          <name>SBUS</name>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\SBUS\sbus.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\sbus.h</name>
-          </file>
-        </group>
-        <group>
-          <name>UART</name>
-          <file>
-            <name>$PROJ_DIR$\..\Src\Driver\UART\uart.c</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\uart.h</name>
-          </file>
-        </group>
-      </group>
-      <group>
         <name>Platform</name>
+        <group>
+          <name>Driver</name>
+          <group>
+            <name>I2C</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Driver\I2C\i2c.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\i2c.h</name>
+            </file>
+          </group>
+          <group>
+            <name>LED</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Driver\LED\led.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\led.h</name>
+            </file>
+          </group>
+          <group>
+            <name>MPU9250</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Driver\MPU9250\MPU9250.cpp</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\MPU9250.h</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\MPU9250_def.h</name>
+            </file>
+          </group>
+          <group>
+            <name>PWM</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Driver\PWM\pwm.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\pwm.h</name>
+            </file>
+          </group>
+          <group>
+            <name>SBUS</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Driver\SBUS\sbus.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\sbus.h</name>
+            </file>
+          </group>
+          <group>
+            <name>UART</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Driver\UART\uart.c</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\uart.h</name>
+            </file>
+          </group>
+        </group>
         <group>
           <name>HAL</name>
           <group>
@@ -1131,6 +1131,15 @@
               <name>$PROJ_DIR$\..\Inc\ringbuf.h</name>
             </file>
           </group>
+          <group>
+            <name>Util</name>
+            <file>
+              <name>$PROJ_DIR$\..\Src\Platform\Lib\Util\util.cpp</name>
+            </file>
+            <file>
+              <name>$PROJ_DIR$\..\Inc\util.h</name>
+            </file>
+          </group>
         </group>
       </group>
       <group>
@@ -1161,30 +1170,6 @@
           <file>
             <name>$PROJ_DIR$\..\Inc\cmd_listener.h</name>
           </file>
-        </group>
-        <group>
-          <name>Component</name>
-          <group>
-            <name>DeviceCtrl</name>
-            <file>
-              <name>$PROJ_DIR$\..\Src\Product\Component\DeviceCtrl\DeviceCtrl.cpp</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\Inc\DeviceCtrl.h</name>
-            </file>
-          </group>
-          <group>
-            <name>InterruptMgr</name>
-            <file>
-              <name>$PROJ_DIR$\..\Src\Product\Component\InterruptMgr\interrupt_mgr.cpp</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\Inc\interrupt_mgr.h</name>
-            </file>
-            <file>
-              <name>$PROJ_DIR$\..\Inc\stm32f4xx_it.h</name>
-            </file>
-          </group>
         </group>
         <group>
           <name>Controller</name>
@@ -1223,6 +1208,27 @@
           </file>
           <file>
             <name>$PROJ_DIR$\..\Inc\motor_ctrl.h</name>
+          </file>
+        </group>
+        <group>
+          <name>DeviceCtrl</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Product\DeviceCtrl\DeviceCtrl.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\DeviceCtrl.h</name>
+          </file>
+        </group>
+        <group>
+          <name>InterruptMgr</name>
+          <file>
+            <name>$PROJ_DIR$\..\Src\Product\InterruptMgr\interrupt_mgr.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\interrupt_mgr.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\stm32f4xx_it.h</name>
           </file>
         </group>
         <group>

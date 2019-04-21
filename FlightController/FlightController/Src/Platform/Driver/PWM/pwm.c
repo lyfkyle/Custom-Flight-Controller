@@ -8,6 +8,13 @@
 */
 
 #define LOG_TAG ("PWM")
+#define PWM_DEBUG (0)
+
+#if PWM_DEBUG
+#define LOG(...) LOGI(__VA_ARGS__)
+#else
+#define LOG(...)
+#endif
 
 #define PWM_FREQUENCY_DEFAULT (40000) // 40khz
 #define TIM_RAW_FREQUENCY (180000000) //180Mhz
@@ -151,7 +158,7 @@ void PWM_Stop()
 
 void PWM_SetDutyCycle(PWMChannelType channel, uint8_t dutyCycle)
 {
-    LOGI("PWM channel %d, dutycycle %d", channel, dutyCycle);
+    LOG("PWM channel %d, dutycycle %d\r\n", channel, dutyCycle);
     switch (channel) {
     case PWM_CHANNEL_1:
         htim1.Instance->CCR1 = dutyCycle;

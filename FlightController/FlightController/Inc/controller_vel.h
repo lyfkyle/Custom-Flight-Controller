@@ -13,7 +13,7 @@
 class VelController
 {
 public:
-   VelController();
+   VelController(int periodMs);
    float GetDesiredAcc(float velSetpoint, float curVel);
    bool SetPID(float kp, float kd, float ki);
    bool SetKp(float kp);
@@ -27,6 +27,7 @@ private:
    float mKp;
    float mKd;
    float mKi;
+   int mPeriodMs;
 };
 
 

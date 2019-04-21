@@ -1,20 +1,26 @@
+#include "UAV_Defines.h"
 
 #include "controller_vel.h"
 
 /*
  * Code
  */
-    VelController::VelController() :
-   mVelPID(&mCurVel, &mAccOutput, &mVelSetpoint, mKp, mKd, mKi, PID_CTRL_DIR_DIRECT)
+VelController::VelController(int periodMs) :
+    mKp(PID_VEL_KP),
+    mKd(PID_VEL_KD),
+    mKi(PID_VEL_KI),
+    mPeriodMs(periodMs),
+    mVelPID(&mCurVel, &mAccOutput, &mVelSetpoint, mKp, mKi, mKd, PID_P_ON_E, PID_CTRL_DIR_DIRECT)
 {
-   mVelSetpoint = 0;
-   mCurVel = 0;
-   mAccOutput = 0;
+    mVelSetpoint = 0;
+    mCurVel = 0;
+    mAccOutput = 0;
+    mVelPID.SetTunings(mKp, mKi, mKd);
+    mVelPID.SetSampleTime(mPeriodMs);
+    mVelPID.SetOutputLimits(-125, 125);
+    mVelPID.SetMode(1);
 
-   // TODO read from preference manager/flash?
-   mKp = 0;
-   mKd = 0;
-   mKi = 0;
+    // TODO read from preference manager/flash?
 }
 
 float VelController::GetDesiredAcc(float velSetpoint, float curVel)

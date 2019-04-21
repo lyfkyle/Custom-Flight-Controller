@@ -3,9 +3,9 @@
 
 #include <UAV_Defines.h>
 
-bool Controller_Init();
+bool ControllerUtil_Init();
 
 bool Controller_GetAttSetpointFromAccSetpoint(FCAttType& pAtt, FCAccDataType& pAccSetpoint, float yawSetpoint);
-float GetHeightThrustFromAccSetpointZ(float accSetpoint_z);
+float GetHeightThrustFromVelSetpointZ(float velSetpoint_z);
 
 #endif

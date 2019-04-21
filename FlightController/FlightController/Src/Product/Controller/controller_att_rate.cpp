@@ -1,59 +1,82 @@
+#include "logging.h"
+#include "UAV_Defines.h"
 
 #include "controller_att_rate.h"
 
 /*
+ * Defines
+ */
+
+#define LOG_TAG ("CntrllerAttRate")
+
+/*
  * Code
  */
-AttRateController::AttRateController() :
-   mAttRatePID(&mCurAttRate, &mOutput, &mAttRateSetpoint, mKp, mKd, mKi, PID_CTRL_DIR_DIRECT)
+AttRateController::AttRateController(int periodMs) :
+    mKp(PID_ATT_RATE_KP),
+    mKd(PID_ATT_RATE_KD),
+    mKi(PID_ATT_RATE_KI),
+    mPeriodMs(periodMs),
+    mAttRatePID(&mCurAttRate, &mOutput, &mAttRateSetpoint, mKp, mKi, mKd, PID_P_ON_E, PID_CTRL_DIR_DIRECT)
 {
-   mAttRateSetpoint = 0;
-   mCurAttRate = 0;
-   mOutput = 0;
-
-   // TODO read from preference manager/flash?
-   mKp = 0;
-   mKd = 0;
-   mKi = 0;
+    mAttRateSetpoint = 0;
+    mCurAttRate = 0;
+    mOutput = 0;
+    mAttRatePID.SetTunings(mKp, mKi, mKd);
+    mAttRatePID.SetSampleTime(mPeriodMs);
+    mAttRatePID.SetOutputLimits(-125, 125);
+    mAttRatePID.SetMode(1);
+    // TODO read from preference manager/flash?
 }
 
 float AttRateController::GetDesiredMotorThrust(float attRateSetpoint, float curAttRate)
 {
-   mAttRateSetpoint = attRateSetpoint;
-   mCurAttRate = curAttRate;
+    mAttRateSetpoint = attRateSetpoint;
+    mCurAttRate = curAttRate;
 
-   // run PID, the output is automatically stored into mAccOutput
-   mAttRatePID.Compute();
+    // run PID, the output is automatically stored into mAccOutput
+    mAttRatePID.Compute();
+    LOGV("setpoint: %f, cur val: %f, output: %f\r\n", attRateSetpoint, curAttRate, mOutput);
 
-   // additional handling?
-   // feedforward?
+    // additional handling?
+    // feedforward?
 
-   return mOutput;
+    return mOutput;
 }
 
 bool AttRateController::SetPID(float kp, float kd, float ki)
 {
-   mKp = kp;
-   mKd = kd;
-   mKi = ki;
-
-   return true;
+    mKp = kp;
+    mKd = kd;
+    mKi = ki;
+    mAttRatePID.SetTunings(mKp, mKi, mKd);
+    return true;
 }
 
 bool AttRateController::SetKp(float kp)
 {
-   mKp = kp;
-   return true;
+    mKp = kp;
+    mAttRatePID.SetTunings(mKp, mKi, mKd);
+    return true;
 }
 
 bool AttRateController::SetKd(float kd)
 {
-   mKd = kd;
-   return true;
+    mKd = kd;
+    mAttRatePID.SetTunings(mKp, mKi, mKd);
+    return true;
 }
 
 bool AttRateController::SetKi(float ki)
 {
-   mKi = ki;
-   return true;
+    mKi = ki;
+    mAttRatePID.SetTunings(mKp, mKi, mKd);
+    return true;
+}
+
+bool AttRateController::SetPeriodMs(int periodMs)
+{
+    mPeriodMs = periodMs;
+    mAttRatePID.SetSampleTime(mPeriodMs);
+    return true;
 }

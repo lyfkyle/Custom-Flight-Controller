@@ -1,59 +1,87 @@
+#include "logging.h"
+#include "UAV_Defines.h"
 
 #include "controller_att.h"
 
 /*
+ * Defines
+ */
+
+#define LOG_TAG ("CntrllerAtt")
+
+/*
  * Code
  */
-AttController::AttController() :
-   mAttPID(&mCurAtt, &mAttRateOutput, &mAttSetpoint, mKp, mKd, mKi, PID_CTRL_DIR_DIRECT)
+AttController::AttController(int periodMs) :
+    mKp(PID_ATT_KP),
+    mKd(PID_ATT_KD),
+    mKi(PID_ATT_KI),
+    mPeriodMs(periodMs),
+    mAttPID(&mCurAtt, &mAttRateOutput, &mAttSetpoint, mKp, mKi, mKd, PID_P_ON_E, PID_CTRL_DIR_DIRECT)
 {
-   mAttSetpoint = 0;
-   mCurAtt = 0;
-   mAttRateOutput = 0;
-
-   // TODO read from preference manager/flash?
-   mKp = 0;
-   mKd = 0;
-   mKi = 0;
+    mAttSetpoint = 0;
+    mCurAtt = 0;
+    mAttRateOutput = 0;
+    mAttPID.SetTunings(mKp, mKi, mKd);
+    mAttPID.SetSampleTime(mPeriodMs);
+    mAttPID.SetOutputLimits(-125, 125);
+    mAttPID.SetMode(1);
+    // TODO read from preference manager/flash?
 }
 
 float AttController::GetDesiredAttRateSetpoint(float attSetpoint, float curAtt)
 {
-   mAttSetpoint = attSetpoint;
-   mCurAtt = curAtt;
+    mAttSetpoint = attSetpoint;
+    mCurAtt = curAtt;
 
-   // run PID, the output is automatically stored into mAccOutput
-   mAttPID.Compute();
+    // run PID, the output is automatically stored into mAccOutput
+    // LOG("Kp: %f, Kd: %f, Ki %f\r\n", mAttPID.GetKp(), mAttPID.GetKd(), mAttPID.GetKi());
+    bool res = mAttPID.Compute();
+    if (!res) {
+        LOGE("mAttPID.Compute() failed\r\n");
+    } else {
+        LOGV("setpoint: %f, cur val: %f, mAttRateOutput %f\r\n", attSetpoint, curAtt, mAttRateOutput);
+    }
 
-   // additional handling?
-   // feedforward?
+    // additional handling?
+    // feedforward?
 
-   return mAttRateOutput;
+    return mAttRateOutput;
 }
 
-bool AttController::SetPID(float kp, float kd, float ki)
+bool AttController::SetPID(float kp, float ki, float kd)
 {
-   mKp = kp;
-   mKd = kd;
-   mKi = ki;
-
-   return true;
+    mKp = kp;
+    mKd = kd;
+    mKi = ki;
+    mAttPID.SetTunings(mKp, mKi, mKd);
+    return true;
 }
 
 bool AttController::SetKp(float kp)
 {
-   mKp = kp;
-   return true;
+    mKp = kp;
+    mAttPID.SetTunings(mKp, mKi, mKd);
+    return true;
 }
 
 bool AttController::SetKd(float kd)
 {
-   mKd = kd;
-   return true;
+    mKd = kd;
+    mAttPID.SetTunings(mKp, mKi, mKd);
+    return true;
 }
 
 bool AttController::SetKi(float ki)
 {
-   mKi = ki;
-   return true;
+    mKi = ki;
+    mAttPID.SetTunings(mKp, mKi, mKd);
+    return true;
+}
+
+bool AttController::SetPeriodMs(int periodMs)
+{
+    mPeriodMs = periodMs;
+    mAttPID.SetSampleTime(mPeriodMs);
+    return true;
 }

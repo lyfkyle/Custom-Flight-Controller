@@ -1,3 +1,4 @@
+#include "logging.h"
 #include "motor_ctrl.h"
 
 #include "pwm.h"
@@ -5,6 +6,8 @@
 /*
  * Define
  */
+
+#define LOG_TAG ("MotorCtrl")
 
 #define MOTOR_MIN_DUTYCYCLE (20)
 #define MOTOR_MAX_DUTYCYCLE (100)
@@ -35,15 +38,17 @@ bool MotorCtrl::OutputMotor(float pitchThrust, float rollThrust, float yawThrust
     for (int i = 0; i < 4; ++i) {
         if (motorPWM[i] < MOTOR_MIN_DUTYCYCLE) {
             motorPWM[i] = MOTOR_MIN_DUTYCYCLE;
-        } else if (motorPWM[i] > MOTOR_MIN_DUTYCYCLE) {
-            motorPWM[i] = MOTOR_MIN_DUTYCYCLE;
+        } else if (motorPWM[i] > MOTOR_MAX_DUTYCYCLE) {
+            motorPWM[i] = MOTOR_MAX_DUTYCYCLE;
         }
     }
 
+    LOGI("motorPWM: 1 %d , 2 %d, 3 %d, 4 %d\r\n", motorPWM[0], motorPWM[1], motorPWM[2], motorPWM[3]);
+
     PWM_SetDutyCycle(PWM_CHANNEL_1, motorPWM[0]);
-    PWM_SetDutyCycle(PWM_CHANNEL_2, motorPWM[0]);
-    PWM_SetDutyCycle(PWM_CHANNEL_3, motorPWM[0]);
-    PWM_SetDutyCycle(PWM_CHANNEL_4, motorPWM[0]);
+    PWM_SetDutyCycle(PWM_CHANNEL_2, motorPWM[1]);
+    PWM_SetDutyCycle(PWM_CHANNEL_3, motorPWM[2]);
+    PWM_SetDutyCycle(PWM_CHANNEL_4, motorPWM[3]);
 
     return true;
 }

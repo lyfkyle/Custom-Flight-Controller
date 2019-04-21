@@ -40,7 +40,7 @@ static float32_t sVectorData_Temp[3];
  * Code
  */
 
-bool Controller_Init()
+bool ControllerUtil_Init()
 {
    arm_mat_init_f32(&sMatrix_RotYawInv,3,3,(float32_t*)sMatrixData_RotYawInv);
    arm_mat_init_f32(&sVector_DesiredAtt,3,1,(float32_t*)sVectorData_DesiredAtt);
@@ -51,6 +51,7 @@ bool Controller_Init()
 
 bool Controller_GetAttSetpointFromAccSetpoint(FCAttType& att, FCAccDataType& accSetpoint, float yawSetpoint)
 {
+    LOGI("accSetpoint.x %f, .y %f .z %f\r\n", accSetpoint.x, accSetpoint.y, accSetpoint.z);
    // add gravity to z
    accSetpoint.z += UAV_G;
 
@@ -87,7 +88,12 @@ bool Controller_GetAttSetpointFromAccSetpoint(FCAttType& att, FCAccDataType& acc
    return true;
 }
 
-float GetHeightThrustFromAccSetpointZ(float accSetpoint_z)
+float GetHeightThrustFromVelSetpointZ(float velSetpoint_z)
 {
-    return accSetpoint_z * 1; // TODO
+    // open loop
+    float res = UAV_PWM_HOVER_DUTYCYCLE + velSetpoint_z * VEL_SETPOINT_TO_MOTOR_THRUST_KP;
+    if (res < UAV_PWM_MIN_DUTYCYCLE) res = UAV_PWM_MIN_DUTYCYCLE;
+    if (res > UAV_PWM_MAX_DUTYCYCLE) res = UAV_PWM_MAX_DUTYCYCLE;
+    return res;
+
 }

@@ -33,9 +33,7 @@
 #define SBUS_BAUDRATE 100000
 #define SBUS_MSG_LENGTH 25
 
-// empirical
-#define SBUS_CHANNEL_MIN 172
-#define SBUS_CHANNEL_MAX 1811
+
 
 /*
  * Struct
@@ -60,8 +58,8 @@ static uint8_t sRecBuffer[SBUS_MSG_LENGTH];
 static PPBufferType* spPPBuffer;
 static uint8_t sRetryCnt = 0;
 
-static float sChannelOutMin = 0.0f;
-static float sChannelOutMax = 100.0f;
+//static float sChannelOutMin = -50.0f;
+//static float sChannelOutMax = 50.0f;
 
 /*
  * Prototypes
@@ -243,13 +241,6 @@ bool SBUS_Start()
     return true;
 }
 
-bool SBUS_SetChannelRange(float min, float max)
-{
-    sChannelOutMin = min;
-    sChannelOutMax = max;
-    return true;
-}
-
 bool SBUS_Read(SBUSDataType* pSBUSData)
 {
     if (!pSBUSData) {
@@ -281,7 +272,8 @@ bool SBUS_Read(SBUSDataType* pSBUSData)
     // parse
     for (int i = 0; i < 16; ++i) {
         if (i < 4) LOG("SBUSData: channel %d : %d\r\n", i, channels_int[i]);
-        pSBUSData->channels[i] = ((float) (channels_int[i] - SBUS_CHANNEL_MIN)) / (SBUS_CHANNEL_MAX - SBUS_CHANNEL_MIN) * (sChannelOutMax - sChannelOutMin) + sChannelOutMin;
+        // pSBUSData->channels[i] = ((float) (channels_int[i] - SBUS_CHANNEL_MIN)) / (SBUS_CHANNEL_MAX - SBUS_CHANNEL_MIN) * (sChannelOutMax - sChannelOutMin) + sChannelOutMin;
+        pSBUSData->channels[i] = channels_int[i];
     }
 
     // count lost frames

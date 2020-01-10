@@ -13,9 +13,9 @@
  * Code
  */
 AttRateController::AttRateController(int periodMs) :
-    mKp(PID_ATT_RATE_KP),
-    mKd(PID_ATT_RATE_KD),
-    mKi(PID_ATT_RATE_KI),
+    mKp(0),
+    mKd(0),
+    mKi(0),
     mPeriodMs(periodMs),
     mAttRatePID(&mCurAttRate, &mOutput, &mAttRateSetpoint, mKp, mKi, mKd, PID_P_ON_E, PID_CTRL_DIR_DIRECT)
 {
@@ -32,7 +32,7 @@ AttRateController::AttRateController(int periodMs) :
 float AttRateController::GetDesiredMotorThrust(float attRateSetpoint, float curAttRate)
 {
     mAttRateSetpoint = attRateSetpoint;
-    mCurAttRate = curAttRate * UAV_RADIANS_TO_DEGREE;
+    mCurAttRate = curAttRate;
 
     // run PID, the output is automatically stored into mAccOutput
     mAttRatePID.Compute();

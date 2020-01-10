@@ -16,6 +16,11 @@ Controller::Controller() :
     mAttRateController_yaw(DEFAULT_ATT_RATE_PERIOD_MS),
     mMotorCtrl(MotorCtrl::GetInstance())
 {
+    mAttController_pitch.SetPID(PID_ATT_KP_PITCH, PID_ATT_KI_PITCH, PID_ATT_KD_PITCH);
+    mAttController_roll.SetPID(PID_ATT_KP_ROLL, PID_ATT_KI_PITCH, PID_ATT_KD_PITCH);
+    mAttRateController_pitch.SetPID(PID_ATT_RATE_KP_PITCH, PID_ATT_RATE_KI_PITCH, PID_ATT_RATE_KD_PITCH);
+    mAttRateController_roll.SetPID(PID_ATT_RATE_KP_ROLL, PID_ATT_RATE_KI_ROLL, PID_ATT_RATE_KD_ROLL);
+    mAttRateController_yaw.SetPID(PID_ATT_RATE_KP_YAW, PID_ATT_RATE_KI_YAW, PID_ATT_RATE_KD_YAW);
 }
 
 Controller& Controller::GetInstance()

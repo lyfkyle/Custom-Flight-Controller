@@ -1,8 +1,14 @@
+#include "stm32f1xx_hal.h"
+
+#include "logging.h"
+
 #include "state_estimator.h"
 
 /*
  * Defines
  */
+
+#define LOG_TAG ("StateEstimator")
 
 #define DEFAULT_FILTER_FREQ 50 //hz
 
@@ -29,14 +35,19 @@ bool StateEstimator::Init()
 
 bool StateEstimator::EstimateState(FCSensorMeasType& meas)
 {
-    mFilter.updateIMU(meas.gyroData.x, meas.gyroData.y, meas.gyroData.z,
-                      meas.accData.x, meas.accData.y, meas.accData.z);
-    mState.att.roll = mFilter.getRollRadians();
-    mState.att.pitch = mFilter.getPitchRadians();
+    // All this flipping is because IMU is mounted upside down
+    mFilter.updateIMU(-meas.gyroData.x, -meas.gyroData.y, -meas.gyroData.z,
+                      meas.accData.x, meas.accData.y, -meas.accData.z);
+    mState.att.roll = -mFilter.getPitchRadians();
+    mState.att.pitch = mFilter.getRollRadians();
     mState.att.yaw = mFilter.getYawRadians();
-    mState.attRate.roll = meas.gyroData.x;
-    mState.attRate.pitch = meas.gyroData.y;
-    mState.attRate.yaw = meas.gyroData.z;
-
+    mState.attRate.roll = meas.gyroData.y;
+    mState.attRate.pitch = -meas.gyroData.x;
+    mState.attRate.yaw = -meas.gyroData.z;
+    /*
+    FCQuaternionType quat;
+    mFilter.GetQuat(&quat);
+    PRINT("Q: %f %f %f %f %u\r\n", quat.q1, quat.q2, quat.q3, quat.q4, HAL_GetTick()); // this will send through UART as well
+    */
     return true;
 }

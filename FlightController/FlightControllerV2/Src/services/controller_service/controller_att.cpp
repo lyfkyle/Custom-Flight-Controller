@@ -13,9 +13,9 @@
  * Code
  */
 AttController::AttController(int periodMs) :
-    mKp(PID_ATT_KP),
-    mKd(PID_ATT_KD),
-    mKi(PID_ATT_KI),
+    mKp(0),
+    mKd(0),
+    mKi(0),
     mPeriodMs(periodMs),
     mAttPID(&mCurAtt, &mAttRateOutput, &mAttSetpoint, mKp, mKi, mKd, PID_P_ON_E, PID_CTRL_DIR_DIRECT)
 {
@@ -31,8 +31,8 @@ AttController::AttController(int periodMs) :
 
 float AttController::GetDesiredAttRateSetpoint(float attSetpoint, float curAtt)
 {
-    mAttSetpoint = attSetpoint * UAV_RADIANS_TO_DEGREE;
-    mCurAtt = curAtt * UAV_RADIANS_TO_DEGREE;
+    mAttSetpoint = attSetpoint;
+    mCurAtt = curAtt;
 
     // run PID, the output is automatically stored into mAccOutput
     // LOG("Kp: %f, Kd: %f, Ki %f\r\n", mAttPID.GetKp(), mAttPID.GetKd(), mAttPID.GetKi());

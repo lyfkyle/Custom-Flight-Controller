@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.80.3.12102/W32 for ARM                10/Jan/2020  15:34:18
+# IAR ELF Linker V7.80.3.12102/W32 for ARM                10/Jan/2020  19:02:17
 # Copyright 2007-2016 IAR Systems AB.
 #
 #    Output file  =  
@@ -149,23 +149,23 @@ initialize by copy { rw };
   .text               ro code  0x08005f1c     0x2  stm32f1xx_hal_uart.o [1]
   .text               ro code  0x08005f1e     0x2  stm32f1xx_hal_uart.o [1]
   .text               ro code  0x08005f20    0x1c  FltCmpEq.o [5]
-  .text               ro code  0x08005f3c   0x220  controller.o [1]
-  .text               ro code  0x0800615c    0x4e  FltToDbl.o [5]
-  .text               ro code  0x080061ac   0x15c  controller_att_rate.o [1]
-  .text               ro code  0x08006308    0x6c  led.o [1]
-  .text               ro code  0x08006374    0x5c  logging.o [1]
-  .text               ro code  0x080063d0    0x90  DblToFlt.o [5]
-  .text               ro code  0x08006460   0x24c  device_ctrl.o [1]
-  .text               ro code  0x080066ac    0x9c  state_estimator.o [1]
-  .text               ro code  0x08006748    0xf8  sensor_reader.o [1]
-  .text               ro code  0x08006840    0x94  cmd_listener.o [1]
-  .text               ro code  0x080068d4   0x14c  motor_ctrl.o [1]
-  .text               ro code  0x08006a20     0x2  stm32f1xx_hal_tim.o [1]
-  .text               ro code  0x08006a24   0x16c  ping_pong_buffer.o [1]
-  .text               ro code  0x08006b90    0x78  controller_vel.o [1]
-  .text               ro code  0x08006c08   0x188  controller_att.o [1]
-  .text               ro code  0x08006d90   0x164  controller_util.o [1]
-  .text               ro code  0x08006ef4   0x2c8  PID.o [1]
+  .text               ro code  0x08005f3c   0x278  controller.o [1]
+  .text               ro code  0x080061b4    0x4e  FltToDbl.o [5]
+  .text               ro code  0x08006204   0x148  controller_att_rate.o [1]
+  .text               ro code  0x0800634c    0x6c  led.o [1]
+  .text               ro code  0x080063b8    0x5c  logging.o [1]
+  .text               ro code  0x08006414    0x90  DblToFlt.o [5]
+  .text               ro code  0x080064a4   0x24c  device_ctrl.o [1]
+  .text               ro code  0x080066f0    0xb8  state_estimator.o [1]
+  .text               ro code  0x080067a8    0xec  sensor_reader.o [1]
+  .text               ro code  0x08006894    0x94  cmd_listener.o [1]
+  .text               ro code  0x08006928   0x14c  motor_ctrl.o [1]
+  .text               ro code  0x08006a74     0x2  stm32f1xx_hal_tim.o [1]
+  .text               ro code  0x08006a78   0x16c  ping_pong_buffer.o [1]
+  .text               ro code  0x08006be4    0x78  controller_vel.o [1]
+  .text               ro code  0x08006c5c   0x16c  controller_att.o [1]
+  .text               ro code  0x08006dc8   0x164  controller_util.o [1]
+  .text               ro code  0x08006f2c   0x28e  PID.o [1]
   .text               ro code  0x080071bc    0x2c  vsprintf.o [3]
   .text               ro code  0x080071e8    0x44  snprintf.o [3]
   .text               ro code  0x0800722c    0x14  uart.o [1]
@@ -173,13 +173,13 @@ initialize by copy { rw };
   .text               ro code  0x0800731c    0x74  pwm.o [1]
   .text               ro code  0x08007390   0x5de  MadgwickAHRS.o [1]
   .text               ro code  0x08007970   0x474  IMU.o [1]
-  .text               ro code  0x08007de4    0xd8  FltMul.o [5]
-  .text               ro code  0x08007ebc    0xf8  receiver.o [1]
-  .text               ro code  0x08007fb4    0x84  FltAdd.o [5]
-  .text               ro code  0x08008038    0x44  FltToS32.o [5]
-  .text               ro code  0x0800807c    0xe6  FltSub.o [5]
-  .text               ro code  0x08008164     0x6  ABImemclr.o [6]
-  .text               ro code  0x0800816a     0x8  arm_mat_init_f32.o [4]
+  .text               ro code  0x08007de4    0xf8  receiver.o [1]
+  .text               ro code  0x08007edc    0x84  FltAdd.o [5]
+  .text               ro code  0x08007f60    0x44  FltToS32.o [5]
+  .text               ro code  0x08007fa4    0xe6  FltSub.o [5]
+  .text               ro code  0x0800808c     0x6  ABImemclr.o [6]
+  .text               ro code  0x08008092     0x8  arm_mat_init_f32.o [4]
+  .text               ro code  0x0800809c    0xd8  FltMul.o [5]
   .text               ro code  0x08008174    0x24  FltCmpGe.o [5]
   .text               ro code  0x08008198    0x72  sqrtf.o [5]
   .text               ro code  0x0800820c    0xfc  FltDiv.o [5]
@@ -324,11 +324,11 @@ D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightControllerV2\
     IMU.o                     1 140               136
     MPU9250.o                 1 068
     MadgwickAHRS.o            1 502
-    PID.o                       712
+    PID.o                       654
     cmd_listener.o              148                20
-    controller.o                544               960
-    controller_att.o            392
-    controller_att_rate.o       348
+    controller.o                632               960
+    controller_att.o            364
+    controller_att_rate.o       328
     controller_util.o           356                84
     controller_vel.o            120
     device_ctrl.o               588
@@ -342,9 +342,9 @@ D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightControllerV2\
     pwm.o                       116
     receiver.o                  248                 8
     sbus.o                      680                36
-    sensor_reader.o             248                16
+    sensor_reader.o             236                16
     startup_stm32f103xb.o       416
-    state_estimator.o           156                68
+    state_estimator.o           184                68
     stm32f1xx_hal.o             168        1       12
     stm32f1xx_hal_cortex.o      196
     stm32f1xx_hal_dma.o         826
@@ -360,7 +360,7 @@ D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightControllerV2\
     uart.o                       20
     util.o                       94
     -------------------------------------------------
-    Total:                   20 540       30    1 897
+    Total:                   20 538       30    1 897
 
 command line: [2]
     -------------------------------------------------
@@ -455,7 +455,7 @@ shb_l.a: [7]
     -------------------------------------------------
     Total:                       20        1
 
-    Gaps                         53
+    Gaps                         55
     Linker created                        32    1 536
 -----------------------------------------------------
     Grand Total:             36 867    2 143    4 189
@@ -473,72 +473,76 @@ Entry                      Address   Size  Type      Object
 AHBPrescTable           0x08009610   0x10  Data  Gb  system_stm32f1xx.o [1]
 APBPrescTable           0x08009784    0x8  Data  Gb  system_stm32f1xx.o [1]
 AttController::AttController(int)
-                        0x08006c09   0x6a  Code  Gb  controller_att.o [1]
+                        0x08006c5d   0x6a  Code  Gb  controller_att.o [1]
 AttController::GetDesiredAttRateSetpoint(float, float)
-                        0x08006c73   0x7c  Code  Gb  controller_att.o [1]
+                        0x08006cd1   0x50  Code  Gb  controller_att.o [1]
+AttController::SetPID(float, float, float)
+                        0x08006d21    0xa  Code  Gb  controller_att.o [1]
 AttController::SetPeriodMs(int)
-                        0x08006d01    0xc  Code  Gb  controller_att.o [1]
+                        0x08006d37    0xc  Code  Gb  controller_att.o [1]
 AttRateController::AttRateController(int)
-                        0x080061ad   0x6e  Code  Gb  controller_att_rate.o [1]
+                        0x08006205   0x6a  Code  Gb  controller_att_rate.o [1]
 AttRateController::GetDesiredMotorThrust(float, float)
-                        0x0800621b   0x54  Code  Gb  controller_att_rate.o [1]
+                        0x08006279   0x40  Code  Gb  controller_att_rate.o [1]
 AttRateController::GetKd()
-                        0x080062ad    0x4  Code  Gb  controller_att_rate.o [1]
+                        0x080062f1    0x4  Code  Gb  controller_att_rate.o [1]
 AttRateController::GetKi()
-                        0x080062b1    0x4  Code  Gb  controller_att_rate.o [1]
+                        0x080062f5    0x4  Code  Gb  controller_att_rate.o [1]
 AttRateController::GetKp()
-                        0x080062a9    0x4  Code  Gb  controller_att_rate.o [1]
+                        0x080062ed    0x4  Code  Gb  controller_att_rate.o [1]
 AttRateController::SetKd(float)
-                        0x0800628b    0x6  Code  Gb  controller_att_rate.o [1]
+                        0x080062cf    0x6  Code  Gb  controller_att_rate.o [1]
 AttRateController::SetKp(float)
-                        0x08006281    0xa  Code  Gb  controller_att_rate.o [1]
+                        0x080062c5    0xa  Code  Gb  controller_att_rate.o [1]
+AttRateController::SetPID(float, float, float)
+                        0x080062b9    0xc  Code  Gb  controller_att_rate.o [1]
 AttRateController::SetPeriodMs(int)
-                        0x0800629d    0xc  Code  Gb  controller_att_rate.o [1]
+                        0x080062e1    0xc  Code  Gb  controller_att_rate.o [1]
 BusFault_Handler        0x08009627    0x2  Code  Gb  stm32f1xx_it.o [1]
 CSTACK$$Base            0x200001d8          --   Gb  - Linker created -
 CSTACK$$Limit           0x200005d8          --   Gb  - Linker created -
 CmdListener::GetCmd(FCCmdType &)
-                        0x08006897   0x12  Code  Gb  cmd_listener.o [1]
+                        0x080068eb   0x12  Code  Gb  cmd_listener.o [1]
 CmdListener::GetInstance()
-                        0x08006841    0xe  Code  Gb  cmd_listener.o [1]
+                        0x08006895    0xe  Code  Gb  cmd_listener.o [1]
 CmdListener::GetInstance()::cmdListener
                         0x20001028   0x10  Data  Lc  cmd_listener.o [1]
 CmdListener::GetInstance()::static guard for cmdListener
                         0x20001024    0x1  Data  Lc  cmd_listener.o [1]
-CmdListener::Init()     0x08006855   0x10  Code  Gb  cmd_listener.o [1]
-CmdListener::Start()    0x08006865   0x32  Code  Gb  cmd_listener.o [1]
+CmdListener::Init()     0x080068a9   0x10  Code  Gb  cmd_listener.o [1]
+CmdListener::Start()    0x080068b9   0x32  Code  Gb  cmd_listener.o [1]
 Controller::Controller()
-                        0x08005f3d   0x5a  Code  Gb  controller.o [1]
+                        0x08005f3d   0xba  Code  Gb  controller.o [1]
 Controller::GetInstance()
-                        0x08005fa7   0x16  Code  Gb  controller.o [1]
+                        0x08005fff   0x16  Code  Gb  controller.o [1]
 Controller::GetInstance()::controller
                         0x200007dc  0x3bc  Data  Lc  controller.o [1]
 Controller::GetInstance()::static guard for controller
                         0x200007d8    0x1  Data  Lc  controller.o [1]
-Controller::Init()      0x08005fc5    0x4  Code  Gb  controller.o [1]
-Controller::Run()       0x08006017   0xce  Code  Gb  controller.o [1]
+Controller::Init()      0x0800601d    0x4  Code  Gb  controller.o [1]
+Controller::Run()       0x0800606f   0xce  Code  Gb  controller.o [1]
 Controller::SetCurAtt(FCAttType &)
-                        0x080060fb    0x6  Code  Gb  controller.o [1]
+                        0x08006153    0x6  Code  Gb  controller.o [1]
 Controller::SetCurAttRate(FCAttType &)
-                        0x08006101    0x4  Code  Gb  controller.o [1]
+                        0x08006159    0x4  Code  Gb  controller.o [1]
 Controller::SetPeriodMs(int)
-                        0x08005fc9   0x3e  Code  Gb  controller.o [1]
+                        0x08006021   0x3e  Code  Gb  controller.o [1]
 Controller::SetVelSetpoint(FCSensorDataType &)
-                        0x080060e5    0x4  Code  Gb  controller.o [1]
+                        0x0800613d    0x4  Code  Gb  controller.o [1]
 Controller::SetYawRateSetpoint(float)
-                        0x08006117    0x8  Code  Gb  controller.o [1]
-ControllerUtil_Init()   0x08006d91   0x36  Code  Gb  controller_util.o [1]
+                        0x0800616f    0x8  Code  Gb  controller.o [1]
+ControllerUtil_Init()   0x08006dc9   0x36  Code  Gb  controller_util.o [1]
 Controller_GetAttSetpointFromAccSetpoint(FCAttType &, FCSensorDataType &, float)
-                        0x08006dc7   0xe8  Code  Gb  controller_util.o [1]
+                        0x08006dff   0xe8  Code  Gb  controller_util.o [1]
 DMA1_Channel3_IRQHandler
                         0x0800963f   0x10  Code  Gb  stm32f1xx_it.o [1]
 DMA_SetConfig(__DMA_HandleTypeDef *, unsigned int, unsigned int, unsigned int)
                         0x08004791   0x22  Code  Lc  stm32f1xx_hal_dma.o [1]
 DebugMon_Handler        0x0800962d    0x2  Code  Gb  stm32f1xx_it.o [1]
-DeviceInit()            0x08006461   0xd2  Code  Gb  device_ctrl.o [1]
+DeviceInit()            0x080064a5   0xd2  Code  Gb  device_ctrl.o [1]
 Error_Handler           0x08004a09    0x2  Code  Gb  main.o [1]
 GetHeightThrustFromVelSetpointZ(float)
-                        0x08006eaf   0x26  Code  Gb  controller_util.o [1]
+                        0x08006ee7   0x26  Code  Gb  controller_util.o [1]
 HAL_DMA_Abort           0x0800455d   0x30  Code  Gb  stm32f1xx_hal_dma.o [1]
 HAL_DMA_Abort_IT        0x0800458d   0x9c  Code  Gb  stm32f1xx_hal_dma.o [1]
 HAL_DMA_IRQHandler      0x08004629  0x142  Code  Gb  stm32f1xx_hal_dma.o [1]
@@ -579,7 +583,7 @@ HAL_TIM_MspPostInit     0x08003c99   0x28  Code  Gb  stm32f1xx_hal_msp.o [1]
 HAL_TIM_PWM_ConfigChannel
                         0x080057f9   0xb8  Code  Gb  stm32f1xx_hal_tim.o [1]
 HAL_TIM_PWM_Init        0x08005757   0x1a  Code  Gb  stm32f1xx_hal_tim.o [1]
-HAL_TIM_PWM_MspInit     0x08006a21    0x2  Code  Wk  stm32f1xx_hal_tim.o [1]
+HAL_TIM_PWM_MspInit     0x08006a75    0x2  Code  Wk  stm32f1xx_hal_tim.o [1]
 HAL_TIM_PWM_Start       0x08005779    0x8  Code  Gb  stm32f1xx_hal_tim.o [1]
 HAL_UART_DMAStop        0x08004d29   0x48  Code  Gb  stm32f1xx_hal_uart.o [1]
 HAL_UART_ErrorCallback  0x08005ca1   0x12  Code  Gb  sbus.o [1]
@@ -634,14 +638,14 @@ IMU::GetRawGyroData(FCSensorDataType *)
 IMU::IMU()              0x08007971   0x3a  Code  Gb  IMU.o [1]
 IMU::Init()             0x080079c3   0x2c  Code  Gb  IMU.o [1]
 IMU::Start()            0x080079ef   0x1a  Code  Gb  IMU.o [1]
-LED_Blink               0x08006355   0x20  Code  Gb  led.o [1]
-LED_Init                0x08006309    0xc  Code  Gb  led.o [1]
-LED_SetOn               0x08006315   0x10  Code  Gb  led.o [1]
-LED_Toggle              0x0800632f   0x1c  Code  Gb  led.o [1]
+LED_Blink               0x08006399   0x20  Code  Gb  led.o [1]
+LED_Init                0x0800634d    0xc  Code  Gb  led.o [1]
+LED_SetOn               0x08006359   0x10  Code  Gb  led.o [1]
+LED_Toggle              0x08006373   0x1c  Code  Gb  led.o [1]
 LEVEL_MAP               0x20000000    0x4  Data  Lc  logging.o [1]
 LoadInt                 0x08001cb7   0x6e  Code  Lc  xprintffull.o [3]
 LogPrint(int, char const *, char const *, ...)
-                        0x08006375   0x48  Code  Gb  logging.o [1]
+                        0x080063b9   0x48  Code  Gb  logging.o [1]
 MPU9250::GetMagSensitivityAdjData(float *)
                         0x08008b69   0x68  Code  Gb  MPU9250.o [1]
 MPU9250::Init()         0x08008829   0x4e  Code  Gb  MPU9250.o [1]
@@ -684,58 +688,58 @@ MainApp_OnCoreTimerTick()
                         0x080051a1   0x64  Code  Gb  main_app.o [1]
 MemManage_Handler       0x08009625    0x2  Code  Gb  stm32f1xx_it.o [1]
 MotorCtrl::GetInstance()
-                        0x080068d5    0xe  Code  Gb  motor_ctrl.o [1]
+                        0x08006929    0xe  Code  Gb  motor_ctrl.o [1]
 MotorCtrl::GetInstance()::motorCtrl
                         0x2000104c    0x4  Data  Lc  motor_ctrl.o [1]
 MotorCtrl::GetInstance()::static guard for motorCtrl
                         0x20001048    0x1  Data  Lc  motor_ctrl.o [1]
 MotorCtrl::OutputMotor(float, float, float, float)
-                        0x08006909   0xd8  Code  Gb  motor_ctrl.o [1]
-MotorCtrl::StopMotor()  0x080068e3   0x26  Code  Gb  motor_ctrl.o [1]
+                        0x08006963   0xda  Code  Gb  motor_ctrl.o [1]
+MotorCtrl::StopMotor()  0x0800693d   0x26  Code  Gb  motor_ctrl.o [1]
 NMI_Handler             0x08009621    0x2  Code  Gb  stm32f1xx_it.o [1]
 NVIC_SetPriority(IRQn_Type, unsigned int)
                         0x08004a15   0x1a  Code  Lc  stm32f1xx_hal_cortex.o [1]
-PID::Compute()          0x08006f35   0xd6  Code  Gb  PID.o [1]
-PID::Initialize()       0x08007147   0x2a  Code  Gb  PID.o [1]
+PID::Compute()          0x08006f6d   0xbe  Code  Gb  PID.o [1]
+PID::Initialize()       0x08007163   0x2a  Code  Gb  PID.o [1]
 PID::PID(float *, float *, float *, float, float, float, int, int)
-                        0x08006ef5   0x26  Code  Gb  PID.o [1]
+                        0x08006f2d   0x26  Code  Gb  PID.o [1]
 PID::SetControllerDirection(int)
-                        0x08007171   0x2e  Code  Gb  PID.o [1]
-PID::SetMode(int)       0x08007127   0x20  Code  Gb  PID.o [1]
+                        0x0800718d   0x2e  Code  Gb  PID.o [1]
+PID::SetMode(int)       0x08007143   0x20  Code  Gb  PID.o [1]
 PID::SetOutputLimits(float, float)
-                        0x080070d5   0x48  Code  Gb  PID.o [1]
+                        0x080070f1   0x48  Code  Gb  PID.o [1]
 PID::SetSampleTime(int)
-                        0x0800709b   0x3a  Code  Gb  PID.o [1]
+                        0x080070b7   0x3a  Code  Gb  PID.o [1]
 PID::SetTunings(float, float, float)
-                        0x0800708d    0xe  Code  Gb  PID.o [1]
+                        0x080070a9    0xe  Code  Gb  PID.o [1]
 PID::SetTunings(float, float, float, int)
-                        0x0800700b   0x76  Code  Gb  PID.o [1]
+                        0x0800702b   0x76  Code  Gb  PID.o [1]
 PWM_Init                0x0800731d   0x12  Code  Gb  pwm.o [1]
 PWM_SetDutyCycle        0x08007359   0x34  Code  Gb  pwm.o [1]
 PWM_Start               0x0800732f   0x28  Code  Gb  pwm.o [1]
 PendSV_Handler          0x0800962f    0x2  Code  Gb  stm32f1xx_it.o [1]
 PingPongBuffer_DeInit(PPBufferType *)
-                        0x08006a7f   0x22  Code  Gb  ping_pong_buffer.o [1]
+                        0x08006ad3   0x22  Code  Gb  ping_pong_buffer.o [1]
 PingPongBuffer_Init(unsigned int)
-                        0x08006a25   0x5a  Code  Gb  ping_pong_buffer.o [1]
+                        0x08006a79   0x5a  Code  Gb  ping_pong_buffer.o [1]
 PingPongBuffer_Read(PPBufferType *, std::uint8_t *, unsigned int *)::__func__
-                        0x08006b7c   0x14  Data  Lc  ping_pong_buffer.o [1]
+                        0x08006bd0   0x14  Data  Lc  ping_pong_buffer.o [1]
 PingPongBuffer_Read(PPBufferType *, unsigned char *, unsigned int *)
-                        0x08006ad9   0x44  Code  Gb  ping_pong_buffer.o [1]
+                        0x08006b2d   0x44  Code  Gb  ping_pong_buffer.o [1]
 PingPongBuffer_Write(PPBufferType *, std::uint8_t const *, unsigned int)::__func__
-                        0x08006b50   0x18  Data  Lc  ping_pong_buffer.o [1]
+                        0x08006ba4   0x18  Data  Lc  ping_pong_buffer.o [1]
 PingPongBuffer_Write(PPBufferType *, unsigned char const *, unsigned int)
-                        0x08006aa1   0x38  Code  Gb  ping_pong_buffer.o [1]
+                        0x08006af5   0x38  Code  Gb  ping_pong_buffer.o [1]
 Receiver::GetCmd(FCCmdType &)
-                        0x08007ed3   0x94  Code  Gb  receiver.o [1]
+                        0x08007dfb   0x94  Code  Gb  receiver.o [1]
 Receiver::GetInstance()
-                        0x08007ebd    0xe  Code  Gb  receiver.o [1]
+                        0x08007de5    0xe  Code  Gb  receiver.o [1]
 Receiver::GetInstance()::receiver
                         0x20001054    0x4  Data  Lc  receiver.o [1]
 Receiver::GetInstance()::static guard for receiver
                         0x20001050    0x1  Data  Lc  receiver.o [1]
-Receiver::Init()        0x08007ecb    0x4  Code  Gb  receiver.o [1]
-Receiver::Start()       0x08007ecf    0x4  Code  Gb  receiver.o [1]
+Receiver::Init()        0x08007df3    0x4  Code  Gb  receiver.o [1]
+Receiver::Start()       0x08007df7    0x4  Code  Gb  receiver.o [1]
 Region$$Table$$Base     0x08009718          --   Gb  - Linker created -
 Region$$Table$$Limit    0x08009738          --   Gb  - Linker created -
 SBUS_DMAInterruptHandler
@@ -746,25 +750,25 @@ SBUS_Read               0x08005d4f  0x13c  Code  Gb  sbus.o [1]
 SBUS_Start              0x08005d13   0x3c  Code  Gb  sbus.o [1]
 SVC_Handler             0x0800962b    0x2  Code  Gb  stm32f1xx_it.o [1]
 SensorReader::GetInstance()
-                        0x08006749    0xe  Code  Gb  sensor_reader.o [1]
+                        0x080067a9    0xe  Code  Gb  sensor_reader.o [1]
 SensorReader::GetInstance()::sensorReader
                         0x2000103c    0xc  Data  Lc  sensor_reader.o [1]
 SensorReader::GetInstance()::static guard for sensorReader
                         0x20001038    0x1  Data  Lc  sensor_reader.o [1]
 SensorReader::GetSensorMeas(FCSensorMeasType &)
-                        0x080067a7   0x28  Code  Gb  sensor_reader.o [1]
-SensorReader::Init()    0x08006757   0x50  Code  Gb  sensor_reader.o [1]
+                        0x0800680d   0x1e  Code  Gb  sensor_reader.o [1]
+SensorReader::Init()    0x080067bd   0x50  Code  Gb  sensor_reader.o [1]
 StateEstimator::EstimateState(FCSensorMeasType &)
-                        0x080066e9   0x60  Code  Gb  state_estimator.o [1]
+                        0x0800672d   0x7c  Code  Gb  state_estimator.o [1]
 StateEstimator::GetInstance()
-                        0x080066c5   0x16  Code  Gb  state_estimator.o [1]
+                        0x08006709   0x16  Code  Gb  state_estimator.o [1]
 StateEstimator::GetInstance()::stateEstimator
                         0x20000f68   0x40  Data  Lc  state_estimator.o [1]
 StateEstimator::GetInstance()::static guard for stateEstimator
                         0x20000f64    0x1  Data  Lc  state_estimator.o [1]
-StateEstimator::Init()  0x080066e5    0x4  Code  Gb  state_estimator.o [1]
+StateEstimator::Init()  0x08006729    0x4  Code  Gb  state_estimator.o [1]
 StateEstimator::StateEstimator()
-                        0x080066ad   0x18  Code  Gb  state_estimator.o [1]
+                        0x080066f1   0x18  Code  Gb  state_estimator.o [1]
 SysTick_Handler         0x08009631    0xe  Code  Gb  stm32f1xx_it.o [1]
 SystemClock_Config()    0x080048c5   0x56  Code  Gb  main.o [1]
 SystemCoreClock         0x200000d4    0x4  Data  Gb  system_stm32f1xx.o [1]
@@ -812,7 +816,7 @@ UsageFault_Handler      0x08009629    0x2  Code  Gb  stm32f1xx_it.o [1]
 Util_Constrain(float, float, float, float, float)
                         0x08008bf5   0x5e  Code  Gb  util.o [1]
 VelController::VelController(int)
-                        0x08006b91   0x6e  Code  Gb  controller_vel.o [1]
+                        0x08006be5   0x6e  Code  Gb  controller_vel.o [1]
 _EncodingSb_Mbtowc      0x08003297   0x30  Code  Gb  xencoding_sb.o [3]
 _EncodingSb_Mbtowc::initial
                         0x080032d4    0x8  Data  Lc  xencoding_sb.o [3]
@@ -841,7 +845,7 @@ __aeabi_cdrcmple        0x08002aad         Code  Gb  DblCmpGe.o [5]
 __aeabi_cfcmpeq         0x08005f21         Code  Gb  FltCmpEq.o [5]
 __aeabi_cfcmple         0x080086a5         Code  Gb  FltCmpLe.o [5]
 __aeabi_cfrcmple        0x08008175         Code  Gb  FltCmpGe.o [5]
-__aeabi_d2f             0x080063d1         Code  Gb  DblToFlt.o [5]
+__aeabi_d2f             0x08006415         Code  Gb  DblToFlt.o [5]
 __aeabi_d2iz            0x08002be9         Code  Gb  DblToI32.o [5]
 __aeabi_d2uiz           0x08002c15         Code  Gb  DblToI32.o [5]
 __aeabi_dadd            0x080032e1         Code  Gb  DblAdd.o [5]
@@ -849,16 +853,16 @@ __aeabi_ddiv            0x08002f95         Code  Gb  DblDiv.o [5]
 __aeabi_dmul            0x08002df1         Code  Gb  DblMul.o [5]
 __aeabi_dsub            0x08002c71         Code  Gb  DblSub.o [5]
 __aeabi_errno_addr      0x08008db5    0x6  Code  Gb  errno.o [3]
-__aeabi_f2d             0x0800615d         Code  Gb  FltToDbl.o [5]
-__aeabi_f2iz            0x08008039         Code  Gb  FltToS32.o [5]
-__aeabi_fadd            0x08007fb5         Code  Gb  FltAdd.o [5]
+__aeabi_f2d             0x080061b5         Code  Gb  FltToDbl.o [5]
+__aeabi_f2iz            0x08007f61         Code  Gb  FltToS32.o [5]
+__aeabi_fadd            0x08007edd         Code  Gb  FltAdd.o [5]
 __aeabi_fdiv            0x0800820d         Code  Gb  FltDiv.o [5]
-__aeabi_fmul            0x08007de5         Code  Gb  FltMul.o [5]
-__aeabi_fsub            0x0800807d         Code  Gb  FltSub.o [5]
+__aeabi_fmul            0x0800809d         Code  Gb  FltMul.o [5]
+__aeabi_fsub            0x08007fa5         Code  Gb  FltSub.o [5]
 __aeabi_i2d             0x08002c41         Code  Gb  I32ToDbl.o [5]
 __aeabi_i2f             0x080086c9         Code  Gb  I32ToFlt.o [5]
 __aeabi_ldiv0           0x080032dd         Code  Gb  I64DivZer.o [6]
-__aeabi_memclr          0x08008165         Code  Gb  ABImemclr.o [6]
+__aeabi_memclr          0x0800808d         Code  Gb  ABImemclr.o [6]
 __aeabi_memclr4         0x08004471         Code  Gb  ABImemclr4.o [6]
 __aeabi_ui2d            0x08002c55         Code  Gb  I32ToDbl.o [5]
 __aeabi_ui2f            0x080086dd         Code  Gb  I32ToFlt.o [5]
@@ -891,9 +895,9 @@ __iar_dlmalloc          0x08000e09  0x2aa  Code  Gb  dlmalloc.o [3]
 __iar_dsub              0x08002c85         Code  Gb  DblSub.o [5]
 __iar_dsubStart         0x08002c97         Code  Gb  DblSub.o [5]
 __iar_edom              0x08008cb5         Code  Gb  iarEdom.o [6]
-__iar_fadd              0x08007fc5         Code  Gb  FltAdd.o [5]
-__iar_fsub              0x0800808d         Code  Gb  FltSub.o [5]
-__iar_fsubStart         0x0800809d         Code  Gb  FltSub.o [5]
+__iar_fadd              0x08007eed         Code  Gb  FltAdd.o [5]
+__iar_fsub              0x08007fb5         Code  Gb  FltSub.o [5]
+__iar_fsubStart         0x08007fc5         Code  Gb  FltSub.o [5]
 __iar_packbits_init_single3
                         0x080096b9   0x38  Code  Gb  packbits_init_single.o [6]
 __iar_program_start     0x08009779         Code  Gb  cstartup_M.o [6]
@@ -916,7 +920,7 @@ _main                   0x0800974f         Code  Gb  cmain.o [6]
 a                       0x08008d94   0x20  Data  Lc  xfatan.o [5]
 abort                   0x080015e1    0x6  Code  Gb  abort.o [3]
 arm_cos_f32             0x08008309   0x8c  Code  Gb  arm_cos_f32.o [4]
-arm_mat_init_f32        0x0800816b    0x8  Code  Gb  arm_mat_init_f32.o [4]
+arm_mat_init_f32        0x08008093    0x8  Code  Gb  arm_mat_init_f32.o [4]
 arm_mat_mult_f32        0x08008435  0x154  Code  Gb  arm_mat_mult_f32.o [4]
 arm_sin_f32             0x08008395   0xa0  Code  Gb  arm_sin_f32.o [4]
 asinf                   0x080085f5   0xb0  Code  Gb  asinf.o [5]

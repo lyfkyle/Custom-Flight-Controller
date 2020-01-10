@@ -9,22 +9,22 @@
  * Defines
  */
 
-#define UAV_Debug (1)
+#define UAV_Debug (0)
 
 #define UAV_G (9.81)
 #define UAV_PI (3.1415926)
 #define UAV_RADIANS_TO_DEGREE (57.2957805)
 
-#define PID_ATT_KP_PITCH (0.0f)
+#define PID_ATT_KP_PITCH (100)
 #define PID_ATT_KD_PITCH (0.0f)
 #define PID_ATT_KI_PITCH (0.0f)
-#define PID_ATT_KP_ROLL (0.0f)
+#define PID_ATT_KP_ROLL (100)
 #define PID_ATT_KD_ROLL (0.0f)
 #define PID_ATT_KI_ROLL (0.0f)
-#define PID_ATT_RATE_KP_PITCH (0.0f)
+#define PID_ATT_RATE_KP_PITCH (1.0f)
 #define PID_ATT_RATE_KD_PITCH (0.0f)
 #define PID_ATT_RATE_KI_PITCH (0.0f)
-#define PID_ATT_RATE_KP_ROLL (0.0f)
+#define PID_ATT_RATE_KP_ROLL (1.0f)
 #define PID_ATT_RATE_KD_ROLL (0.0f)
 #define PID_ATT_RATE_KI_ROLL (0.0f)
 #define PID_ATT_RATE_KP_YAW (1.0f)
@@ -33,6 +33,7 @@
 #define PID_VEL_KP (1.0f)
 #define PID_VEL_KD (0.0f)
 #define PID_VEL_KI (0.0f)
+#define VEL_SETPOINT_TO_MOTOR_THRUST_KP (600)
 
 #define UAV_MAX_ACC_X (0.5)
 #define UAV_MAX_ACC_Y (0.5)
@@ -41,10 +42,13 @@
 #define UAV_MAX_VEL_Y (0.5)
 #define UAV_MAX_VEL_Z (0.5)
 
-#define UAV_PWM_HOVER_DUTYCYCLE (40) // To Confirm
-#define UAV_PWM_MIN_DUTYCYCLE (0) // to prevent propeller from stopping // To Confirm
-#define UAV_PWM_MAX_DUTYCYCLE (100) // to prevent propeller from stopping // To Confirm
-#define VEL_SETPOINT_TO_MOTOR_THRUST_KP (60)
+#define UAV_PWM_HOVER_DUTYCYCLE (400) // To Confirm
+//#define UAV_PWM_MIN_DUTYCYCLE (0) // to prevent propeller from stopping // To Confirm
+//#define UAV_PWM_MAX_DUTYCYCLE (100) // to prevent propeller from stopping // To Confirm
+
+// pwm output to motor. we want 1000 steps between 0ms to 1ms pulse width
+#define UAV_MOTOR_MIN_DUTYCYCLE (0)
+#define UAV_MOTOR_MAX_DUTYCYCLE (1000)
 
 // unit m/s
 #define CMD_ACC_MIN (-1.0f)

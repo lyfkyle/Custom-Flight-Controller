@@ -100,6 +100,14 @@ static bool ToExitTunePID(FCCmdType& cmd) {
     return false;
 }
 
+static bool ToCalibrateESC(FCCmdType& cmd) {
+    if (cmd.desiredVel.x == CMD_VEL_MAX && cmd.desiredVel.y == CMD_VEL_MAX
+        && cmd.desiredYawRate == CMD_YAW_RATE_MAX && cmd.desiredVel.z == CMD_VEL_MAX) {
+            return true;
+        }
+    return false;
+}
+
 void MainApp_OnCoreTimerTick(void)
 {
     if (!sStarted) return;
@@ -208,8 +216,9 @@ void MainApp()
             if (status != RECEIVER_FAIL) {
                 LOGI("Cmd: acc.x %f acc.y %f acc.z %f, yawRate %f\r\n", cmd.desiredVel.x, cmd.desiredVel.y, cmd.desiredVel.z, cmd.desiredYawRate);
                 // Controller::GetInstance().SetAccSetpoint(cmd.desiredVel);
-                if (!sArmed && ToArm(cmd)) {
+                if (!sArmed && (ToArm(cmd) || ToCalibrateESC(cmd))) {
                     sArmed = true;
+                    MotorCtrl::GetInstance().StartMotor();
                     LOGI("MainApp: Armed!!!");
                     LED_SetOn(LED_ONBOARD, true);
                 }

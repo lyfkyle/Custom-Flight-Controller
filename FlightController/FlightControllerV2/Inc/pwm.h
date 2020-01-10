@@ -19,8 +19,7 @@ void PWM_Start();
 void PWM_Stop();
 // bool PWM_SetFrequency();
 
-// dutyCycle : between 0 ~ 100
-void PWM_SetDutyCycle(PWMChannelType channel, uint8_t dutyCycle);
+void PWM_SetDutyCycle(PWMChannelType channel, int dutyCycle);
 
 #ifdef __cplusplus
 }

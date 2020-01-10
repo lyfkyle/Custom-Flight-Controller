@@ -7,6 +7,7 @@ private:
 public:
     static MotorCtrl& GetInstance();
     bool StopMotor();
+    bool StartMotor();
     bool OutputMotor(float pitchThrust, float rollThrust, float yawThrust, float heightThrust);
 };
 

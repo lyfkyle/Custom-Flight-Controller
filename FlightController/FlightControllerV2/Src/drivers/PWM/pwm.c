@@ -1,6 +1,8 @@
 #include "stm32f1xx_hal.h"
-#include "pwm.h"
 #include "logging.h"
+#include "UAV_Defines.h"
+
+#include "pwm.h"
 
 /*
 * Defines
@@ -16,15 +18,13 @@
 #endif
 
 #define PWM_FREQUENCY_DEFAULT (50) // 50hz
-#define TIM_FREQUENCY (100000) // 100khz
-#define TIM_PER_CNT (0.01) // ms
+#define TIM_FREQUENCY (1000000) // 1mhz
+#define TIM_PER_CNT (0.001) // ms
 
-#define PWM_DUTYCYCLE_MAX (100)
-#define PWM_DUTYCYCLE_MIN (0)
 #define PWN_MAX_PULSEWIDTH (2) // ms
 #define PWM_MIN_PULSEWIDTH (1) // ms
 
-#define DUTYCYCLE_MIN (100) // PWM_MIN_PULSEWIDTH / TIM_PER_CNT
+#define DUTYCYCLE_MIN (1000) // PWM_MIN_PULSEWIDTH / TIM_PER_CNT
 
 /*
 * Static
@@ -149,6 +149,10 @@ bool PWM_Init()
 
 void PWM_Start()
 {
+    htim1.Instance->CCR1 = 0;
+    htim1.Instance->CCR2 = 0;
+    htim1.Instance->CCR3 = 0;
+    htim1.Instance->CCR4 = 0;
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
@@ -163,11 +167,11 @@ void PWM_Stop()
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_4);
 }
 
-void PWM_SetDutyCycle(PWMChannelType channel, uint8_t dutyCycle)
+void PWM_SetDutyCycle(PWMChannelType channel, int dutyCycle)
 {
     LOG("PWM channel %d, dutycycle %d\r\n", channel, dutyCycle);
-    if (dutyCycle > PWM_DUTYCYCLE_MAX) dutyCycle = PWM_DUTYCYCLE_MAX;
-    if (dutyCycle < PWM_DUTYCYCLE_MIN) dutyCycle = PWM_DUTYCYCLE_MIN;
+    if (dutyCycle > UAV_MOTOR_MAX_DUTYCYCLE) dutyCycle = UAV_MOTOR_MAX_DUTYCYCLE;
+    if (dutyCycle < UAV_MOTOR_MIN_DUTYCYCLE) dutyCycle = UAV_MOTOR_MIN_DUTYCYCLE;
 
     switch (channel) {
     case PWM_CHANNEL_1:

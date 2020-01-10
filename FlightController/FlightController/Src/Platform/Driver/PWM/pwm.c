@@ -133,9 +133,9 @@ bool PWM_Init()
 
     // set all dutycycle to 0 upon init
     htim1.Instance->CCR1 = 0;
-    htim1.Instance->CCR1 = 0;
-    htim1.Instance->CCR1 = 0;
-    htim1.Instance->CCR1 = 0;
+    htim1.Instance->CCR2 = 0;
+    htim1.Instance->CCR3 = 0;
+    htim1.Instance->CCR4 = 0;
 
     return true;
 }

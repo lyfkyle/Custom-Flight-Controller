@@ -34,8 +34,15 @@
 #define UAV_PWM_MAX_DUTYCYCLE (80) // to prevent propeller from stopping // To Confirm
 #define VEL_SETPOINT_TO_MOTOR_THRUST_KP (20)
 
+// unit m/s
 #define CMD_ACC_MIN (-1.0f)
 #define CMD_ACC_MAX (1.0f)
+#define CMD_VEL_MIN (-1.0f)
+#define CMD_VEL_MAX (1.0f)
+
+// unit dps
+#define CMD_YAW_RATE_MIN (-90)
+#define CMD_YAW_RATE_MAX (90)
 
 /*
  * Struct

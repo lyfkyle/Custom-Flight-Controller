@@ -20,7 +20,6 @@ bool CmdListener::Init()
     Receiver& receiver = Receiver::GetInstance();
     if (!receiver.Init()) return false;
 
-
     return true;
 }
 

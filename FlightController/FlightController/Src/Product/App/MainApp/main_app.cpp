@@ -7,6 +7,7 @@
 #include "cmd_listener.h"
 #include "controller.h"
 #include "sensor_reader.h"
+#include "led.h"
 
 #define LOG_TAG ("MainApp")
 
@@ -37,7 +38,7 @@
 
 #define READ_SENSOR_CNT 20 // 1000/50hz
 #define ESTIMATE_STATE_CNT 20 // 1000/50hz
-#define CONTROLL_CNT 1000 // 1000/50hz
+#define CONTROLL_CNT 50 // 1000/50hz
 #define LISTEN_CMD_CNT 1000 // 1000/1hz
 
 /*
@@ -56,9 +57,20 @@ static volatile bool sEstimateStateFlag = false;
 
 static FCSensorMeasType sMeas;
 
+static bool sArmed = false;
+
 /*
  * Code
  */
+
+static bool ToArm(FCCmdType& cmd)
+{
+    if (cmd.desiredVel.x == CMD_VEL_MIN && cmd.desiredVel.y == CMD_VEL_MIN
+        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredVel.z == CMD_VEL_MIN) {
+            return true;
+    }
+    return false;
+}
 
 static void OnCoreTimerTick(void)
 {
@@ -100,7 +112,7 @@ void MainApp()
             sReadSensorFlag = false;
             LOG("readsensor : sTimerCnt = %d\r\n", sTimerCnt);
             SensorReader::GetInstance().GetSensorMeas(sMeas);
-            LOGI("readsensor: sTimerCnt = %d\r\n", sTimerCnt);
+            LOG("readsensor: sTimerCnt = %d\r\n", sTimerCnt);
             LOG("sensor meas: gyro: %f %f %f, acc: %f %f %f\r\n", sMeas.gyroData.x, sMeas.gyroData.y, sMeas.gyroData.z, sMeas.accData.x, sMeas.accData.y, sMeas.accData.z);
         }
         if (sListenCmdFlag) {
@@ -111,12 +123,24 @@ void MainApp()
             if (status != RECEIVER_FAIL) {
 //                LOGI("Cmd: acc.x %f acc.y %f acc.z %f, yaw %f\r\n", cmd.desiredAcc.x, cmd.desiredAcc.y, cmd.desiredAcc.z, cmd.desiredYaw);
                 // Controller::GetInstance().SetAccSetpoint(cmd.desiredVel);
-                Controller::GetInstance().SetVelSetpoint(cmd.desiredVel);
-                Controller::GetInstance().SetYawRateSetpoint(cmd.desiredYawRate);
+                if (!sArmed && ToArm(cmd)) {
+                    sArmed = true;
+                    // TODO
+                    LED_SetOn(LED_GREEN, true);
+                }
+                if (sArmed && ToArm(cmd)) {
+                    sArmed = false;
+                    LED_SetOn(LED_GREEN, false);
+                }
+
+                if (sArmed) {
+                    Controller::GetInstance().SetVelSetpoint(cmd.desiredVel);
+                    Controller::GetInstance().SetYawRateSetpoint(cmd.desiredYawRate);
+                }
             } else {
                 LOGE("sCmdListener.GetCmd returns fail, skip\r\n");
             }
-            LOGI("listencmd: sTimerCnt = %d\r\n", sTimerCnt);
+            LOG("listencmd: sTimerCnt = %d\r\n", sTimerCnt);
         }
         if (sEstimateStateFlag) {
             sEstimateStateFlag = false;
@@ -126,13 +150,13 @@ void MainApp()
 //                 StateEstimator::GetInstance().mState.att.yaw, StateEstimator::GetInstance().mState.attRate.roll, StateEstimator::GetInstance().mState.attRate.pitch, StateEstimator::GetInstance().mState.attRate.yaw);
             Controller::GetInstance().SetCurAtt(StateEstimator::GetInstance().mState.att);
             Controller::GetInstance().SetCurAttRate(StateEstimator::GetInstance().mState.attRate);
-            LOGI("estimateState: sTimerCnt = %d\r\n", sTimerCnt);
+            LOG("estimateState: sTimerCnt = %d\r\n", sTimerCnt);
         }
         if (sControllerFlag) {
             LOG("controller: sTimerCnt = %d\r\n", sTimerCnt);
             sControllerFlag = false;
-            Controller::GetInstance().Run();
-            LOGI("controller: sTimerCnt = %d\r\n", sTimerCnt);
+            if (sArmed) Controller::GetInstance().Run();
+            LOG("controller: sTimerCnt = %d\r\n", sTimerCnt);
         }
     }
 }

@@ -50,3 +50,4 @@ Temporary Items
 # IAR Obj Files
 # =========================
 /FlightController/FlightController/EWARM/FlightController/Obj/*
+/FlightController/FlightControllerV2/EWARM/FlightControllerV2/Obj/*

@@ -16,7 +16,7 @@ stlinkfoundProbes=
 stlinkResetStyle=0
 stlinkResetStrategy=1
 [DebugChecksum]
-Checksum=-1444170836
+Checksum=-487222328
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0

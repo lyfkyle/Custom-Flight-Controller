@@ -2,7 +2,7 @@
 
 "--cpu=Cortex-M4" 
 
-"--fpu=VFPv4_SP" 
+"--fpu=None" 
 
 "-p" 
 

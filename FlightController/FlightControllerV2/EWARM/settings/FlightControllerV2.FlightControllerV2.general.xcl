@@ -1,0 +1,15 @@
+"E:\software\IAR\arm\bin\armproc.dll" 
+
+"E:\software\IAR\arm\bin\armstlink2.dll" 
+
+"D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightControllerV2\EWARM\FlightControllerV2\Exe\FlightControllerV2.out" 
+
+--plugin "E:\software\IAR\arm\bin\armbat.dll" 
+
+--device_macro "E:\software\IAR\arm\config\debugger\ST\STM32F1xx_XL.dmac" 
+
+--flash_loader "E:\software\IAR\arm\config\flashloader\ST\FlashSTM32F10xx8.board" 
+
+
+
+

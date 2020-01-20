@@ -111,7 +111,7 @@ void MPU9250::Init()
     //set gyro range to 2000dps.
     setFullScaleGyroRange(MPU9250_GYRO_FS_2000);
     //set accel output data rate to 1000hz
-    setAccDLPFMode(1);
+    setAccDLPFMode(4);
     //set accel range to 2g
     setFullScaleAccelRange(MPU9250_ACCEL_FS_2);
     //setSleepEnabled(false); // thanks to Jack Elston for pointing this one out!

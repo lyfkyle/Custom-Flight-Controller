@@ -11,7 +11,7 @@
 
 #define UAV_Debug (0)
 
-#define UAV_G (9.81)
+#define UAV_G (9.7760)
 #define UAV_PI (3.1415926)
 #define UAV_RADIANS_TO_DEGREE (57.2957805)
 

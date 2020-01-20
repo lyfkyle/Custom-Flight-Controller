@@ -40,10 +40,5 @@ bool SensorReader::GetSensorMeas(FCSensorMeasType& meas)
     IMU& imu = IMU::GetInstance();
     imu.GetGyroData(&(meas.gyroData));
     imu.GetAccelData(&(meas.accData));
-    /*
-    meas.accData.z *= (-1.0); // flip z value as IMU is mounted upside down
-    meas.gyroData.x *= (-1.0);
-    meas.gyroData.y *= (-1.0);
-    */
     return true;
 }

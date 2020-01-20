@@ -42,10 +42,10 @@ bool MotorCtrl::StartMotor()
 bool MotorCtrl::OutputMotor(float pitchThrust, float rollThrust, float yawThrust, float heightThrust)
 {
     int motorPWM[4];
-    motorPWM[0] = (int) (pitchThrust + rollThrust - yawThrust + heightThrust); // frontleft
-    motorPWM[1] = (int) (pitchThrust - rollThrust + yawThrust + heightThrust); // frontright
-    motorPWM[2] = (int) (-pitchThrust + rollThrust + yawThrust + heightThrust); // backleft
-    motorPWM[3] = (int) (-pitchThrust - rollThrust - yawThrust + heightThrust); // backright
+    motorPWM[0] = (int) (-pitchThrust + rollThrust - yawThrust + heightThrust); // frontleft
+    motorPWM[1] = (int) (-pitchThrust - rollThrust + yawThrust + heightThrust); // frontright
+    motorPWM[2] = (int) (pitchThrust + rollThrust + yawThrust + heightThrust); // backleft
+    motorPWM[3] = (int) (pitchThrust - rollThrust - yawThrust + heightThrust); // backright
 
     for (int i = 0; i < 4; ++i) {
         if (motorPWM[i] < UAV_MOTOR_MIN_DUTYCYCLE) {

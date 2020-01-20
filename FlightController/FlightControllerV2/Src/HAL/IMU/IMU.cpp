@@ -20,6 +20,8 @@
 #define LOG(...)
 #endif
 
+#define LOW_PASS_FILTER_ACC_GAMMA 0.8
+
 /*
 * Constants
 */
@@ -54,6 +56,10 @@ IMU::IMU()
     mMagCalibrateFlag = false;
     mReadyToStart = false;
     mMagEnabled = false;
+
+    // LPS
+    mFirstTime = false;
+
 #if USE_INTERRUPT
     mDataReadyCb = NULL;
 #endif
@@ -198,9 +204,30 @@ void IMU::GetAccelData(FCSensorDataType* pAccData)
 {
     int16_t ax, ay, az;
     mIMU.getAcceleration(&ax,&ay,&az);
-    pAccData->x = (float) ax * mIMU.mAccSensitivity * 0.001f;
-    pAccData->y = (float) ay * mIMU.mAccSensitivity * 0.001f;
-    pAccData->z = (float) az * mIMU.mAccSensitivity * 0.001f;
+    float accX = (float) ax * mIMU.mAccSensitivity * 0.001f;
+    float accY = (float) ay * mIMU.mAccSensitivity * 0.001f;
+    float accZ = (float) az * mIMU.mAccSensitivity * 0.001f;
+
+    //Low Pass Filter
+    /*
+    if (!mFirstTime) {
+        mPrevAccX = accX * LOW_PASS_FILTER_ACC_GAMMA + mPrevAccX * (1 - LOW_PASS_FILTER_ACC_GAMMA);
+        mPrevAccY = accY * LOW_PASS_FILTER_ACC_GAMMA + mPrevAccY * (1 - LOW_PASS_FILTER_ACC_GAMMA);
+        mPrevAccZ = accZ * LOW_PASS_FILTER_ACC_GAMMA + mPrevAccZ * (1 - LOW_PASS_FILTER_ACC_GAMMA);
+    } else {
+        mPrevAccX = accX;
+        mPrevAccY = accY;
+        mPrevAccZ = accZ;
+        mFirstTime = true;
+    }
+
+    pAccData->x = mPrevAccX;
+    pAccData->y = mPrevAccY;
+    pAccData->z = mPrevAccZ;
+    */
+    pAccData->x = accX;
+    pAccData->y = accY;
+    pAccData->z = accZ;
 }
 
 bool IMU::GetCompassData(FCSensorDataType* pMagData)

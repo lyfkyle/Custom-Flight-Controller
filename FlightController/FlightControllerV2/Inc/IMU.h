@@ -31,6 +31,12 @@ private:
     bool mMagCalibrateFlag;
     bool mMagEnabled;
 
+    // for Low pass filter
+    float mPrevAccX;
+    float mPrevAccY;
+    float mPrevAccZ;
+    bool mFirstTime;
+
     //FCSensorDataType gyroData;
     //FCSensorDataType accData;
     //FCSensorDataType magData;

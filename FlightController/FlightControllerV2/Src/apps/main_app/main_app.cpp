@@ -255,7 +255,7 @@ void MainApp()
             sEstimateStateFlag = false;
             LOG("estimateState: sTimerCnt = %d\r\n", sTimerCnt);
             StateEstimator::GetInstance().EstimateState(sMeas);
-            LOGV("Estimated State: roll %f, pitch %f, yaw %f, rollRate %f, pitchRate %f, yawRate %f\r\n", StateEstimator::GetInstance().mState.att.roll, StateEstimator::GetInstance().mState.att.pitch,
+            LOGI("Estimated State: roll %f, pitch %f, yaw %f, rollRate %f, pitchRate %f, yawRate %f\r\n", StateEstimator::GetInstance().mState.att.roll, StateEstimator::GetInstance().mState.att.pitch,
                  StateEstimator::GetInstance().mState.att.yaw, StateEstimator::GetInstance().mState.attRate.roll, StateEstimator::GetInstance().mState.attRate.pitch, StateEstimator::GetInstance().mState.attRate.yaw);
             Controller::GetInstance().SetCurAtt(StateEstimator::GetInstance().mState.att);
             Controller::GetInstance().SetCurAttRate(StateEstimator::GetInstance().mState.attRate);

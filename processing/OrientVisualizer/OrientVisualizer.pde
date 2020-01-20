@@ -107,7 +107,7 @@ void draw() {
     // different coordinate system orientation assumptions between Processing
     // and InvenSense DMP)
     float[] axis = quat.toAxisAngle();
-    rotate(axis[0], axis[1], -axis[3], -axis[2]);
+    rotate(axis[0], axis[2], axis[3], axis[1]);
 
     // draw main body in red
     fill(255, 0, 0, 200);

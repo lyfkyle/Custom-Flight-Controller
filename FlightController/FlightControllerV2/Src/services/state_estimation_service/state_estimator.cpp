@@ -38,12 +38,13 @@ bool StateEstimator::EstimateState(FCSensorMeasType& meas)
     // All this flipping is because IMU is mounted upside down
     mFilter.updateIMU(-meas.gyroData.x, -meas.gyroData.y, -meas.gyroData.z,
                       meas.accData.x, meas.accData.y, -meas.accData.z);
-    mState.att.roll = -mFilter.getPitchRadians();
-    mState.att.pitch = mFilter.getRollRadians();
+    mState.att.roll = -mFilter.getRollRadians();
+    mState.att.pitch = mFilter.getPitchRadians();
     mState.att.yaw = mFilter.getYawRadians();
-    mState.attRate.roll = meas.gyroData.y;
-    mState.attRate.pitch = -meas.gyroData.x;
+    mState.attRate.roll = meas.gyroData.x;
+    mState.attRate.pitch = -meas.gyroData.y;
     mState.attRate.yaw = -meas.gyroData.z;
+
     /*
     FCQuaternionType quat;
     mFilter.GetQuat(&quat);

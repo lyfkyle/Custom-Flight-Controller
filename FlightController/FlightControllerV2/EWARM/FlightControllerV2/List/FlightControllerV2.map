@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.80.3.12102/W32 for ARM                19/Jan/2020  17:19:57
+# IAR ELF Linker V7.80.3.12102/W32 for ARM                30/Jan/2020  17:49:18
 # Copyright 2007-2016 IAR Systems AB.
 #
 #    Output file  =  
@@ -94,7 +94,7 @@ initialize by copy { rw };
   .intvec             ro code  0x08000000    0xec  startup_stm32f103xb.o [1]
                              - 0x080000ec    0xec
 
-"P1":                                      0x7c1d
+"P1":                                      0x7c65
   .text               ro code  0x080000ec  0x14f4  dlmalloc.o [3]
   .text               ro code  0x080015e0     0x6  abort.o [3]
   .rodata             const    0x080015e6     0x1  unwind_debug.o [7]
@@ -146,64 +146,46 @@ initialize by copy { rw };
   .text               ro code  0x0800577c    0xb4  pwm.o [1]
   .text               ro code  0x08005830   0x5de  MadgwickAHRS.o [1]
   .text               ro code  0x08005e10   0x488  IMU.o [1]
-  .text               ro code  0x08006298    0xf8  receiver.o [1]
-  .text               ro code  0x08006390    0xe6  FltSub.o [5]
-  .text               ro code  0x08006478    0x44  FltToS32.o [5]
-  .text               ro code  0x080064bc    0x84  FltAdd.o [5]
-  .text               ro code  0x08006540     0x6  ABImemclr.o [6]
-  .text               ro code  0x08006546     0x8  arm_mat_init_f32.o [4]
-  .text               ro code  0x08006550    0xd8  FltMul.o [5]
-  .text               ro code  0x08006628    0x24  FltCmpGe.o [5]
-  .text               ro code  0x0800664c    0x72  sqrtf.o [5]
-  .text               ro code  0x080066c0    0xfc  FltDiv.o [5]
-  .text               ro code  0x080067bc    0x8c  arm_cos_f32.o [4]
-  .text               ro code  0x08006848    0xa0  arm_sin_f32.o [4]
-  .text               ro code  0x080068e8   0x154  arm_mat_mult_f32.o [4]
-  .text               ro code  0x08006a3c    0x6c  atanf.o [5]
-  .text               ro code  0x08006aa8    0xb0  asinf.o [5]
-  .text               ro code  0x08006b58    0x24  FltCmpLe.o [5]
-  .text               ro code  0x08006b7c    0x32  I32ToFlt.o [5]
-  .text               ro code  0x08006bae    0xcc  atan2f.o [5]
-  .text               ro code  0x08006c7c   0x42c  MPU9250.o [1]
-  .text               ro code  0x080070a8    0x5e  util.o [1]
-  .text               ro code  0x08007108    0x5e  ABImemset.o [6]
-  .text               ro code  0x08007168     0xc  iarEdom.o [6]
-  .text               ro code  0x08007174    0xf4  xfatan.o [5]
-  .text               ro code  0x08007268     0xc  errno.o [3]
-  .text               ro code  0x08007274     0x2  xtls.o [3]
-  .rodata             const    0x08007278   0x804  arm_common_tables.o [4]
-  .text               ro code  0x08007a7c    0x5c  system_stm32f1xx.o [1]
-  .text               ro code  0x08007ad8    0x48  stm32f1xx_it.o [1]
-  .text               ro code  0x08007b20    0x10  stm32f1xx_hal.o [1]
-  .text               ro code  0x08007b30    0x40  zero_init3.o [6]
-  .text               ro code  0x08007b70    0x38  packbits_init_single.o [6]
-  .text               ro code  0x08007ba8    0x28  data_init.o [6]
-  .iar.init_table     const    0x08007bd0    0x20  - Linker created -
-  .text               ro code  0x08007bf0    0x1a  cmain.o [6]
-  .text               ro code  0x08007c0a     0x4  low_level_init.o [3]
-  .text               ro code  0x08007c0e     0x4  exit.o [3]
-  .text               ro code  0x08007c14     0xa  cexit.o [6]
-  .text               ro code  0x08007c20    0x10  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c30     0xc  cstartup_M.o [6]
-  .rodata             const    0x08007c3c     0x8  system_stm32f1xx.o [1]
-  .text               ro code  0x08007c44     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c48     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c4c     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c50     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c54     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c58     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c5c     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c60     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c64     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c68     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c6c     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c70     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c74     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c78     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c7c     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c80     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c84     0x4  startup_stm32f103xb.o [1]
-  .text               ro code  0x08007c88     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08006298   0x140  receiver.o [1]
+  .text               ro code  0x080063d8    0xe6  FltSub.o [5]
+  .text               ro code  0x080064c0    0x44  FltToS32.o [5]
+  .text               ro code  0x08006504    0x84  FltAdd.o [5]
+  .text               ro code  0x08006588     0x6  ABImemclr.o [6]
+  .text               ro code  0x0800658e     0x8  arm_mat_init_f32.o [4]
+  .text               ro code  0x08006598    0xd8  FltMul.o [5]
+  .text               ro code  0x08006670    0x24  FltCmpGe.o [5]
+  .text               ro code  0x08006694    0x72  sqrtf.o [5]
+  .text               ro code  0x08006708    0xfc  FltDiv.o [5]
+  .text               ro code  0x08006804    0x8c  arm_cos_f32.o [4]
+  .text               ro code  0x08006890    0xa0  arm_sin_f32.o [4]
+  .text               ro code  0x08006930   0x154  arm_mat_mult_f32.o [4]
+  .text               ro code  0x08006a84    0x6c  atanf.o [5]
+  .text               ro code  0x08006af0    0xb0  asinf.o [5]
+  .text               ro code  0x08006ba0    0x24  FltCmpLe.o [5]
+  .text               ro code  0x08006bc4    0x32  I32ToFlt.o [5]
+  .text               ro code  0x08006bf6    0xcc  atan2f.o [5]
+  .text               ro code  0x08006cc4   0x42c  MPU9250.o [1]
+  .text               ro code  0x080070f0    0x5e  util.o [1]
+  .text               ro code  0x08007150    0x5e  ABImemset.o [6]
+  .text               ro code  0x080071b0     0xc  iarEdom.o [6]
+  .text               ro code  0x080071bc    0xf4  xfatan.o [5]
+  .text               ro code  0x080072b0     0xc  errno.o [3]
+  .text               ro code  0x080072bc     0x2  xtls.o [3]
+  .rodata             const    0x080072c0   0x804  arm_common_tables.o [4]
+  .text               ro code  0x08007ac4    0x5c  system_stm32f1xx.o [1]
+  .text               ro code  0x08007b20    0x48  stm32f1xx_it.o [1]
+  .text               ro code  0x08007b68    0x10  stm32f1xx_hal.o [1]
+  .text               ro code  0x08007b78    0x40  zero_init3.o [6]
+  .text               ro code  0x08007bb8    0x38  packbits_init_single.o [6]
+  .text               ro code  0x08007bf0    0x28  data_init.o [6]
+  .iar.init_table     const    0x08007c18    0x20  - Linker created -
+  .text               ro code  0x08007c38    0x1a  cmain.o [6]
+  .text               ro code  0x08007c52     0x4  low_level_init.o [3]
+  .text               ro code  0x08007c56     0x4  exit.o [3]
+  .text               ro code  0x08007c5c     0xa  cexit.o [6]
+  .text               ro code  0x08007c68    0x10  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007c78     0xc  cstartup_M.o [6]
+  .rodata             const    0x08007c84     0x8  system_stm32f1xx.o [1]
   .text               ro code  0x08007c8c     0x4  startup_stm32f103xb.o [1]
   .text               ro code  0x08007c90     0x4  startup_stm32f103xb.o [1]
   .text               ro code  0x08007c94     0x4  startup_stm32f103xb.o [1]
@@ -227,10 +209,28 @@ initialize by copy { rw };
   .text               ro code  0x08007cdc     0x4  startup_stm32f103xb.o [1]
   .text               ro code  0x08007ce0     0x4  startup_stm32f103xb.o [1]
   .text               ro code  0x08007ce4     0x4  startup_stm32f103xb.o [1]
-  .rodata             const    0x08007ce8     0x0  zero_init3.o [6]
-  .rodata             const    0x08007ce8     0x0  packbits_init_single.o [6]
-  Initializer bytes   const    0x08007ce8    0x21  <for P2-1>
-                             - 0x08007d09  0x7c1d
+  .text               ro code  0x08007ce8     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007cec     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007cf0     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007cf4     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007cf8     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007cfc     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d00     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d04     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d08     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d0c     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d10     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d14     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d18     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d1c     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d20     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d24     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d28     0x4  startup_stm32f103xb.o [1]
+  .text               ro code  0x08007d2c     0x4  startup_stm32f103xb.o [1]
+  .rodata             const    0x08007d30     0x0  zero_init3.o [6]
+  .rodata             const    0x08007d30     0x0  packbits_init_single.o [6]
+  Initializer bytes   const    0x08007d30    0x21  <for P2-1>
+                             - 0x08007d51  0x7c65
 
 "P2", part 1 of 3:                           0x48
   P2-1                         0x20000000    0x48  <Init block>
@@ -279,7 +279,7 @@ Zero (__iar_zero_init3)
 
 Copy/packbits (__iar_packbits_init_single3)
     1 source range, total size 0x21 (45% of destination):
-          0x08007ce8   0x21
+          0x08007d30   0x21
     1 destination range, total size 0x48:
           0x20000000   0x48
 
@@ -311,7 +311,7 @@ D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightControllerV2\
     motor_ctrl.o                316                 8
     ping_pong_buffer.o          364
     pwm.o                       180
-    receiver.o                  248                 8
+    receiver.o                  320                 8
     sbus.o                      680                36
     sensor_reader.o             236                16
     startup_stm32f103xb.o       416
@@ -331,7 +331,7 @@ D:\MyLife\work\UAV\Custom-Flight-Controller\FlightController\FlightControllerV2\
     uart.o                        4
     util.o                       94
     -------------------------------------------------
-    Total:                   20 532       39    1 765
+    Total:                   20 604       39    1 765
 
 command line: [2]
     -------------------------------------------------
@@ -404,7 +404,7 @@ shb_l.a: [7]
     Gaps                         39        2
     Linker created                        32    1 536
 -----------------------------------------------------
-    Grand Total:             29 881    2 128    3 805
+    Grand Total:             29 953    2 128    3 805
 
 
 *******************************************************************************
@@ -413,11 +413,11 @@ shb_l.a: [7]
 
 Entry                      Address   Size  Type      Object
 -----                      -------   ----  ----      ------
-.iar.init_table$$Base   0x08007bd0          --   Gb  - Linker created -
-.iar.init_table$$Limit  0x08007bf0          --   Gb  - Linker created -
-?main                   0x08007bf1         Code  Gb  cmain.o [6]
-AHBPrescTable           0x08007ac8   0x10  Data  Gb  system_stm32f1xx.o [1]
-APBPrescTable           0x08007c3c    0x8  Data  Gb  system_stm32f1xx.o [1]
+.iar.init_table$$Base   0x08007c18          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x08007c38          --   Gb  - Linker created -
+?main                   0x08007c39         Code  Gb  cmain.o [6]
+AHBPrescTable           0x08007b10   0x10  Data  Gb  system_stm32f1xx.o [1]
+APBPrescTable           0x08007c84    0x8  Data  Gb  system_stm32f1xx.o [1]
 AttController::AttController(int)
                         0x08004fed   0x6a  Code  Gb  controller_att.o [1]
 AttController::GetDesiredAttRateSetpoint(float, float)
@@ -444,7 +444,7 @@ AttRateController::SetPID(float, float, float)
                         0x080046ad    0xc  Code  Gb  controller_att_rate.o [1]
 AttRateController::SetPeriodMs(int)
                         0x080046d5    0xc  Code  Gb  controller_att_rate.o [1]
-BusFault_Handler        0x08007adf    0x2  Code  Gb  stm32f1xx_it.o [1]
+BusFault_Handler        0x08007b27    0x2  Code  Gb  stm32f1xx_it.o [1]
 CSTACK$$Base            0x20000048          --   Gb  - Linker created -
 CSTACK$$Limit           0x20000448          --   Gb  - Linker created -
 CmdListener::GetCmd(FCCmdType &)
@@ -458,9 +458,9 @@ CmdListener::GetInstance()::static guard for cmdListener
 CmdListener::Init()     0x08004c49   0x10  Code  Gb  cmd_listener.o [1]
 CmdListener::Start()    0x08004c59   0x32  Code  Gb  cmd_listener.o [1]
 Controller::Controller()
-                        0x08004241   0xbe  Code  Gb  controller.o [1]
+                        0x08004241   0xc2  Code  Gb  controller.o [1]
 Controller::GetInstance()
-                        0x08004309   0x16  Code  Gb  controller.o [1]
+                        0x08004303   0x16  Code  Gb  controller.o [1]
 Controller::GetInstance()::controller
                         0x2000064c  0x3bc  Data  Lc  controller.o [1]
 Controller::GetInstance()::static guard for controller
@@ -481,10 +481,10 @@ ControllerUtil_Init()   0x08005159   0x36  Code  Gb  controller_util.o [1]
 Controller_GetAttSetpointFromAccSetpoint(FCAttType &, FCSensorDataType &, float)
                         0x0800518f   0xe8  Code  Gb  controller_util.o [1]
 DMA1_Channel3_IRQHandler
-                        0x08007af7   0x10  Code  Gb  stm32f1xx_it.o [1]
+                        0x08007b3f   0x10  Code  Gb  stm32f1xx_it.o [1]
 DMA_SetConfig(__DMA_HandleTypeDef *, unsigned int, unsigned int, unsigned int)
                         0x080029ed   0x22  Code  Lc  stm32f1xx_hal_dma.o [1]
-DebugMon_Handler        0x08007ae5    0x2  Code  Gb  stm32f1xx_it.o [1]
+DebugMon_Handler        0x08007b2d    0x2  Code  Gb  stm32f1xx_it.o [1]
 DeviceInit()            0x08004845   0xd2  Code  Gb  device_ctrl.o [1]
 Error_Handler           0x08002c61    0x2  Code  Gb  main.o [1]
 GetHeightThrustFromVelSetpointZ(float)
@@ -502,7 +502,7 @@ HAL_I2C_Init            0x08001629   0xd4  Code  Gb  stm32f1xx_hal_i2c.o [1]
 HAL_I2C_Mem_Read        0x0800187d  0x10a  Code  Gb  stm32f1xx_hal_i2c.o [1]
 HAL_I2C_Mem_Write       0x08001765   0xba  Code  Gb  stm32f1xx_hal_i2c.o [1]
 HAL_I2C_MspInit         0x08001e8b   0x4a  Code  Gb  stm32f1xx_hal_msp.o [1]
-HAL_IncTick             0x08007b21   0x10  Code  Wk  stm32f1xx_hal.o [1]
+HAL_IncTick             0x08007b69   0x10  Code  Wk  stm32f1xx_hal.o [1]
 HAL_Init                0x08002e1d   0x20  Code  Gb  stm32f1xx_hal.o [1]
 HAL_InitTick            0x08002d31   0x40  Code  Wk  stm32f1xx_hal.o [1]
 HAL_MspInit             0x08001e55   0x36  Code  Gb  stm32f1xx_hal_msp.o [1]
@@ -546,7 +546,7 @@ HAL_UART_TxCpltCallback
                         0x08004221    0x2  Code  Wk  stm32f1xx_hal_uart.o [1]
 HEAP$$Base              0x20000448          --   Gb  - Linker created -
 HEAP$$Limit             0x20000648          --   Gb  - Linker created -
-HardFault_Handler       0x08007adb    0x2  Code  Gb  stm32f1xx_it.o [1]
+HardFault_Handler       0x08007b23    0x2  Code  Gb  stm32f1xx_it.o [1]
 I2C_Init                0x080056a1    0x4  Code  Gb  i2c.o [1]
 I2C_IsAcknowledgeFailed(I2C_HandleTypeDef *)
                         0x08001e2d   0x28  Code  Lc  stm32f1xx_hal_i2c.o [1]
@@ -591,34 +591,34 @@ LED_Toggle              0x08004767   0x1c  Code  Gb  led.o [1]
 LogPrint(int, char const *, char const *, ...)
                         0x0800483d    0x6  Code  Gb  logging.o [1]
 MPU9250::GetMagSensitivityAdjData(float *)
-                        0x0800701d   0x68  Code  Gb  MPU9250.o [1]
-MPU9250::Init()         0x08006cdd   0x4e  Code  Gb  MPU9250.o [1]
-MPU9250::MPU9250()      0x08006c7d   0x54  Code  Gb  MPU9250.o [1]
+                        0x08007065   0x68  Code  Gb  MPU9250.o [1]
+MPU9250::Init()         0x08006d25   0x4e  Code  Gb  MPU9250.o [1]
+MPU9250::MPU9250()      0x08006cc5   0x54  Code  Gb  MPU9250.o [1]
 MPU9250::getAcceleration(short *, short *, short *)
-                        0x08006e4d   0x12  Code  Gb  MPU9250.o [1]
+                        0x08006e95   0x12  Code  Gb  MPU9250.o [1]
 MPU9250::getCompassDataReady()
-                        0x08006ff3   0x1c  Code  Gb  MPU9250.o [1]
-MPU9250::getDeviceID()  0x08006eef   0x1e  Code  Gb  MPU9250.o [1]
+                        0x0800703b   0x1c  Code  Gb  MPU9250.o [1]
+MPU9250::getDeviceID()  0x08006f37   0x1e  Code  Gb  MPU9250.o [1]
 MPU9250::getMagData(short *, short *, short *)
-                        0x08006fa1   0x48  Code  Gb  MPU9250.o [1]
+                        0x08006fe9   0x48  Code  Gb  MPU9250.o [1]
 MPU9250::getRotation(short *, short *, short *)
-                        0x08006e71   0x1e  Code  Gb  MPU9250.o [1]
+                        0x08006eb9   0x1e  Code  Gb  MPU9250.o [1]
 MPU9250::setAccDLPFMode(unsigned char)
-                        0x08006e07   0x22  Code  Gb  MPU9250.o [1]
+                        0x08006e4f   0x22  Code  Gb  MPU9250.o [1]
 MPU9250::setBypassEnable(unsigned char)
-                        0x08006f0d   0x3c  Code  Gb  MPU9250.o [1]
+                        0x08006f55   0x3c  Code  Gb  MPU9250.o [1]
 MPU9250::setClockSource(unsigned char)
-                        0x08006ebb   0x10  Code  Gb  MPU9250.o [1]
+                        0x08006f03   0x10  Code  Gb  MPU9250.o [1]
 MPU9250::setFullScaleAccelRange(unsigned char)
-                        0x08006d9d   0x3a  Code  Gb  MPU9250.o [1]
+                        0x08006de5   0x3a  Code  Gb  MPU9250.o [1]
 MPU9250::setFullScaleGyroRange(unsigned char)
-                        0x08006d59   0x44  Code  Gb  MPU9250.o [1]
+                        0x08006da1   0x44  Code  Gb  MPU9250.o [1]
 MPU9250::setGyroDLPFMode(unsigned char)
-                        0x08006d2b   0x2c  Code  Gb  MPU9250.o [1]
+                        0x08006d73   0x2c  Code  Gb  MPU9250.o [1]
 MPU9250::setMagContMeasMode(unsigned char)
-                        0x08006f5d    0x2  Code  Gb  MPU9250.o [1]
+                        0x08006fa5    0x2  Code  Gb  MPU9250.o [1]
 MPU9250::setMagMeasOutputBit(unsigned char)
-                        0x08006f59    0x4  Code  Gb  MPU9250.o [1]
+                        0x08006fa1    0x4  Code  Gb  MPU9250.o [1]
 MX_TIM1_Init()          0x08002b77   0xbe  Code  Lc  main.o [1]
 Madgwick::Madgwick()    0x08005831   0x22  Code  Gb  MadgwickAHRS.o [1]
 Madgwick::computeAngles()
@@ -630,7 +630,7 @@ Madgwick::updateIMU(float, float, float, float, float, float)
 MainApp()               0x0800351f  0x292  Code  Gb  main_app.o [1]
 MainApp_OnCoreTimerTick()
                         0x08003359   0x64  Code  Gb  main_app.o [1]
-MemManage_Handler       0x08007add    0x2  Code  Gb  stm32f1xx_it.o [1]
+MemManage_Handler       0x08007b25    0x2  Code  Gb  stm32f1xx_it.o [1]
 MotorCtrl::GetInstance()
                         0x08004cc9    0xe  Code  Gb  motor_ctrl.o [1]
 MotorCtrl::GetInstance()::motorCtrl
@@ -642,7 +642,7 @@ MotorCtrl::OutputMotor(float, float, float, float)
 MotorCtrl::StartMotor()
                         0x08004ce7    0xa  Code  Gb  motor_ctrl.o [1]
 MotorCtrl::StopMotor()  0x08004cdd    0xa  Code  Gb  motor_ctrl.o [1]
-NMI_Handler             0x08007ad9    0x2  Code  Gb  stm32f1xx_it.o [1]
+NMI_Handler             0x08007b21    0x2  Code  Gb  stm32f1xx_it.o [1]
 NVIC_SetPriority(IRQn_Type, unsigned int)
                         0x08002c6d   0x1a  Code  Lc  stm32f1xx_hal_cortex.o [1]
 PID::Compute()          0x0800544d   0xbe  Code  Gb  PID.o [1]
@@ -664,7 +664,7 @@ PWM_Init                0x0800577d   0x12  Code  Gb  pwm.o [1]
 PWM_SetDutyCycle        0x080057e9   0x42  Code  Gb  pwm.o [1]
 PWM_Start               0x0800578f   0x32  Code  Gb  pwm.o [1]
 PWM_Stop                0x080057c1   0x28  Code  Gb  pwm.o [1]
-PendSV_Handler          0x08007ae7    0x2  Code  Gb  stm32f1xx_it.o [1]
+PendSV_Handler          0x08007b2f    0x2  Code  Gb  stm32f1xx_it.o [1]
 PingPongBuffer_DeInit(PPBufferType *)
                         0x08004e63   0x22  Code  Gb  ping_pong_buffer.o [1]
 PingPongBuffer_Init(unsigned int)
@@ -678,7 +678,7 @@ PingPongBuffer_Write(PPBufferType *, std::uint8_t const *, unsigned int)::__func
 PingPongBuffer_Write(PPBufferType *, unsigned char const *, unsigned int)
                         0x08004e85   0x38  Code  Gb  ping_pong_buffer.o [1]
 Receiver::GetCmd(FCCmdType &)
-                        0x080062af   0x94  Code  Gb  receiver.o [1]
+                        0x080062af   0xcc  Code  Gb  receiver.o [1]
 Receiver::GetInstance()
                         0x08006299    0xe  Code  Gb  receiver.o [1]
 Receiver::GetInstance()::receiver
@@ -687,15 +687,15 @@ Receiver::GetInstance()::static guard for receiver
                         0x20000ed0    0x1  Data  Lc  receiver.o [1]
 Receiver::Init()        0x080062a7    0x4  Code  Gb  receiver.o [1]
 Receiver::Start()       0x080062ab    0x4  Code  Gb  receiver.o [1]
-Region$$Table$$Base     0x08007bd0          --   Gb  - Linker created -
-Region$$Table$$Limit    0x08007bf0          --   Gb  - Linker created -
+Region$$Table$$Base     0x08007c18          --   Gb  - Linker created -
+Region$$Table$$Limit    0x08007c38          --   Gb  - Linker created -
 SBUS_DMAInterruptHandler
                         0x08003fa3    0x2  Code  Gb  sbus.o [1]
 SBUS_Init               0x08003ff5   0x22  Code  Gb  sbus.o [1]
 SBUS_InterruptHandler   0x08003f79   0x2a  Code  Gb  sbus.o [1]
 SBUS_Read               0x08004053  0x13c  Code  Gb  sbus.o [1]
 SBUS_Start              0x08004017   0x3c  Code  Gb  sbus.o [1]
-SVC_Handler             0x08007ae3    0x2  Code  Gb  stm32f1xx_it.o [1]
+SVC_Handler             0x08007b2b    0x2  Code  Gb  stm32f1xx_it.o [1]
 SensorReader::GetInstance()
                         0x08004b49    0xe  Code  Gb  sensor_reader.o [1]
 SensorReader::GetInstance()::sensorReader
@@ -716,10 +716,10 @@ StateEstimator::GetInstance()::static guard for stateEstimator
 StateEstimator::Init()  0x08004ac9    0x4  Code  Gb  state_estimator.o [1]
 StateEstimator::StateEstimator()
                         0x08004a91   0x18  Code  Gb  state_estimator.o [1]
-SysTick_Handler         0x08007ae9    0xe  Code  Gb  stm32f1xx_it.o [1]
+SysTick_Handler         0x08007b31    0xe  Code  Gb  stm32f1xx_it.o [1]
 SystemClock_Config()    0x08002b21   0x56  Code  Gb  main.o [1]
 SystemCoreClock         0x20000040    0x4  Data  Gb  system_stm32f1xx.o [1]
-SystemInit              0x08007a7d   0x3a  Code  Gb  system_stm32f1xx.o [1]
+SystemInit              0x08007ac5   0x3a  Code  Gb  system_stm32f1xx.o [1]
 TIM_Base_SetConfig      0x08003ca7   0x5e  Code  Gb  stm32f1xx_hal_tim.o [1]
 TIM_CCxChannelCmd       0x08003eb7   0x18  Code  Gb  stm32f1xx_hal_tim.o [1]
 TIM_ETR_SetConfig(TIM_TypeDef *, unsigned int, unsigned int, unsigned int)
@@ -755,79 +755,79 @@ UART_Receive_IT(UART_HandleTypeDef *)
                         0x080031b9   0x92  Code  Lc  stm32f1xx_hal_uart.o [1]
 UART_SetConfig(UART_HandleTypeDef *)
                         0x0800324b   0xdc  Code  Lc  stm32f1xx_hal_uart.o [1]
-USART3_IRQHandler       0x08007b07   0x10  Code  Gb  stm32f1xx_it.o [1]
-UsageFault_Handler      0x08007ae1    0x2  Code  Gb  stm32f1xx_it.o [1]
+USART3_IRQHandler       0x08007b4f   0x10  Code  Gb  stm32f1xx_it.o [1]
+UsageFault_Handler      0x08007b29    0x2  Code  Gb  stm32f1xx_it.o [1]
 Util_Constrain(float, float, float, float, float)
-                        0x080070a9   0x5e  Code  Gb  util.o [1]
+                        0x080070f1   0x5e  Code  Gb  util.o [1]
 VelController::VelController(int)
                         0x08004f75   0x6e  Code  Gb  controller_vel.o [1]
 __aeabi_cfcmpeq         0x08004225         Code  Gb  FltCmpEq.o [5]
-__aeabi_cfcmple         0x08006b59         Code  Gb  FltCmpLe.o [5]
-__aeabi_cfrcmple        0x08006629         Code  Gb  FltCmpGe.o [5]
+__aeabi_cfcmple         0x08006ba1         Code  Gb  FltCmpLe.o [5]
+__aeabi_cfrcmple        0x08006671         Code  Gb  FltCmpGe.o [5]
 __aeabi_d2f             0x080047ad         Code  Gb  DblToFlt.o [5]
 __aeabi_dadd            0x08004511         Code  Gb  DblAdd.o [5]
-__aeabi_errno_addr      0x08007269    0x6  Code  Gb  errno.o [3]
+__aeabi_errno_addr      0x080072b1    0x6  Code  Gb  errno.o [3]
 __aeabi_f2d             0x080044c1         Code  Gb  FltToDbl.o [5]
-__aeabi_f2iz            0x08006479         Code  Gb  FltToS32.o [5]
-__aeabi_fadd            0x080064bd         Code  Gb  FltAdd.o [5]
-__aeabi_fdiv            0x080066c1         Code  Gb  FltDiv.o [5]
-__aeabi_fmul            0x08006551         Code  Gb  FltMul.o [5]
-__aeabi_fsub            0x08006391         Code  Gb  FltSub.o [5]
-__aeabi_i2f             0x08006b7d         Code  Gb  I32ToFlt.o [5]
-__aeabi_memclr          0x08006541         Code  Gb  ABImemclr.o [6]
+__aeabi_f2iz            0x080064c1         Code  Gb  FltToS32.o [5]
+__aeabi_fadd            0x08006505         Code  Gb  FltAdd.o [5]
+__aeabi_fdiv            0x08006709         Code  Gb  FltDiv.o [5]
+__aeabi_fmul            0x08006599         Code  Gb  FltMul.o [5]
+__aeabi_fsub            0x080063d9         Code  Gb  FltSub.o [5]
+__aeabi_i2f             0x08006bc5         Code  Gb  I32ToFlt.o [5]
+__aeabi_memclr          0x08006589         Code  Gb  ABImemclr.o [6]
 __aeabi_memclr4         0x080026cd         Code  Gb  ABImemclr4.o [6]
-__aeabi_ui2f            0x08006b91         Code  Gb  I32ToFlt.o [5]
-__cmain                 0x08007bf1         Code  Gb  cmain.o [6]
+__aeabi_ui2f            0x08006bd9         Code  Gb  I32ToFlt.o [5]
+__cmain                 0x08007c39         Code  Gb  cmain.o [6]
 __data_GetMemChunk      0x080015e9   0x2c  Code  Gb  xgetmemchunk.o [3]
 __data_GetMemChunk::start
                         0x20000ed8    0x4  Data  Lc  xgetmemchunk.o [3]
 __exit                  0x08001615   0x14  Code  Gb  exit.o [7]
 __iar_Errno             0x20000044    0x4  Data  Gb  errno.o [3]
-__iar_FAtan             0x08007175   0xb4  Code  Gb  xfatan.o [5]
+__iar_FAtan             0x080071bd   0xb4  Code  Gb  xfatan.o [5]
 __iar_Memset4_word      0x08002de9         Code  Gb  ABImemset48.o [6]
 __iar_Memset8_word      0x08002de9         Code  Gb  ABImemset48.o [6]
-__iar_Memset_word       0x08007109         Code  Gb  ABImemset.o [6]
+__iar_Memset_word       0x08007151         Code  Gb  ABImemset.o [6]
 __iar_dadd              0x08004525         Code  Gb  DblAdd.o [5]
-__iar_data_init3        0x08007ba9   0x28  Code  Gb  data_init.o [6]
+__iar_data_init3        0x08007bf1   0x28  Code  Gb  data_init.o [6]
 __iar_debug_exceptions  0x080015e6    0x1  Data  Gb  unwind_debug.o [7]
 __iar_dlfree            0x080010bf  0x51a  Code  Gb  dlmalloc.o [3]
 __iar_dlib_perthread_access
-                        0x08007275    0x2  Code  Gb  xtls.o [3]
+                        0x080072bd    0x2  Code  Gb  xtls.o [3]
 __iar_dlmalloc          0x08000e09  0x2aa  Code  Gb  dlmalloc.o [3]
 __iar_dsub              0x080052a1         Code  Gb  DblSub.o [5]
 __iar_dsubStart         0x080052b3         Code  Gb  DblSub.o [5]
-__iar_edom              0x08007169         Code  Gb  iarEdom.o [6]
-__iar_fadd              0x080064cd         Code  Gb  FltAdd.o [5]
-__iar_fsub              0x080063a1         Code  Gb  FltSub.o [5]
-__iar_fsubStart         0x080063b1         Code  Gb  FltSub.o [5]
+__iar_edom              0x080071b1         Code  Gb  iarEdom.o [6]
+__iar_fadd              0x08006515         Code  Gb  FltAdd.o [5]
+__iar_fsub              0x080063e9         Code  Gb  FltSub.o [5]
+__iar_fsubStart         0x080063f9         Code  Gb  FltSub.o [5]
 __iar_packbits_init_single3
-                        0x08007b71   0x38  Code  Gb  packbits_init_single.o [6]
-__iar_program_start     0x08007c31         Code  Gb  cstartup_M.o [6]
-__iar_sqrtf             0x0800664d         Code  Gb  sqrtf.o [5]
-__iar_ui2f              0x08006b95         Code  Gb  I32ToFlt.o [5]
+                        0x08007bb9   0x38  Code  Gb  packbits_init_single.o [6]
+__iar_program_start     0x08007c79         Code  Gb  cstartup_M.o [6]
+__iar_sqrtf             0x08006695         Code  Gb  sqrtf.o [5]
+__iar_ui2f              0x08006bdd         Code  Gb  I32ToFlt.o [5]
 __iar_unaligned___aeabi_memcpy
                         0x08002d71         Code  Gb  ABImemcpy_unaligned.o [6]
 __iar_unaligned___aeabi_memcpy4
                         0x08002d91         Code  Gb  ABImemcpy_unaligned.o [6]
 __iar_unaligned___aeabi_memcpy8
                         0x08002d91         Code  Gb  ABImemcpy_unaligned.o [6]
-__iar_zero_init3        0x08007b31   0x40  Code  Gb  zero_init3.o [6]
-__low_level_init        0x08007c0b    0x4  Code  Gb  low_level_init.o [3]
+__iar_zero_init3        0x08007b79   0x40  Code  Gb  zero_init3.o [6]
+__low_level_init        0x08007c53    0x4  Code  Gb  low_level_init.o [3]
 __vector_table          0x08000000         Data  Gb  startup_stm32f103xb.o [1]
-_call_main              0x08007bfd         Code  Gb  cmain.o [6]
-_exit                   0x08007c15         Code  Gb  cexit.o [6]
+_call_main              0x08007c45         Code  Gb  cmain.o [6]
+_exit                   0x08007c5d         Code  Gb  cexit.o [6]
 _gm_                    0x20000a08  0x1d8  Data  Lc  dlmalloc.o [3]
-_main                   0x08007c07         Code  Gb  cmain.o [6]
-a                       0x08007248   0x20  Data  Lc  xfatan.o [5]
+_main                   0x08007c4f         Code  Gb  cmain.o [6]
+a                       0x08007290   0x20  Data  Lc  xfatan.o [5]
 abort                   0x080015e1    0x6  Code  Gb  abort.o [3]
-arm_cos_f32             0x080067bd   0x8c  Code  Gb  arm_cos_f32.o [4]
-arm_mat_init_f32        0x08006547    0x8  Code  Gb  arm_mat_init_f32.o [4]
-arm_mat_mult_f32        0x080068e9  0x154  Code  Gb  arm_mat_mult_f32.o [4]
-arm_sin_f32             0x08006849   0xa0  Code  Gb  arm_sin_f32.o [4]
-asinf                   0x08006aa9   0xb0  Code  Gb  asinf.o [5]
-atan2f                  0x08006baf   0xcc  Code  Gb  atan2f.o [5]
-atanf                   0x08006a3d   0x6c  Code  Gb  atanf.o [5]
-exit                    0x08007c0f    0x4  Code  Gb  exit.o [3]
+arm_cos_f32             0x08006805   0x8c  Code  Gb  arm_cos_f32.o [4]
+arm_mat_init_f32        0x0800658f    0x8  Code  Gb  arm_mat_init_f32.o [4]
+arm_mat_mult_f32        0x08006931  0x154  Code  Gb  arm_mat_mult_f32.o [4]
+arm_sin_f32             0x08006891   0xa0  Code  Gb  arm_sin_f32.o [4]
+asinf                   0x08006af1   0xb0  Code  Gb  asinf.o [5]
+atan2f                  0x08006bf7   0xcc  Code  Gb  atan2f.o [5]
+atanf                   0x08006a85   0x6c  Code  Gb  atanf.o [5]
+exit                    0x08007c57    0x4  Code  Gb  exit.o [3]
 hdma_usart3_rx          0x20000da0   0x44  Data  Gb  main.o [1]
 hi2c1                   0x20000be0   0x54  Data  Gb  main.o [1]
 htim1                   0x20000e28   0x40  Data  Gb  main.o [1]
@@ -862,9 +862,9 @@ sVectorData_Temp        0x20000d7c    0xc  Data  Lc  controller_util.o [1]
 sVector_DesiredAtt      0x20000d90    0x8  Data  Lc  controller_util.o [1]
 sVector_Temp            0x20000d98    0x8  Data  Lc  controller_util.o [1]
 segment_holding         0x080000ed   0x1c  Code  Lc  dlmalloc.o [3]
-sinTable_f32            0x08007278  0x804  Data  Gb  arm_common_tables.o [4]
+sinTable_f32            0x080072c0  0x804  Data  Gb  arm_common_tables.o [4]
 spPPBuffer              0x20000e88    0x4  Data  Lc  sbus.o [1]
-sqrtf                   0x0800664d         Code  Gb  sqrtf.o [5]
+sqrtf                   0x08006695         Code  Gb  sqrtf.o [5]
 sys_alloc               0x080004e1  0x388  Code  Lc  dlmalloc.o [3]
 tmalloc_large           0x08000875  0x380  Code  Lc  dlmalloc.o [3]
 tmalloc_small           0x08000bf5  0x206  Code  Lc  dlmalloc.o [3]
@@ -881,7 +881,7 @@ uwTickPrio              0x2000003c    0x4  Data  Gb  stm32f1xx_hal.o [1]
 [6] = rt7M_tl.a
 [7] = shb_l.a
 
-  29 881 bytes of readonly  code memory
+  29 953 bytes of readonly  code memory
    2 128 bytes of readonly  data memory
    3 805 bytes of readwrite data memory
 

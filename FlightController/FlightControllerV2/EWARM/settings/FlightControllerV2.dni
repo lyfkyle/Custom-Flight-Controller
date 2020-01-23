@@ -16,7 +16,11 @@ stlinkResetStrategy=3
 stlinkserialNo=67023937
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=842228472
+<<<<<<< Updated upstream
+Checksum=-648247760
+=======
+Checksum=1531808222
+>>>>>>> Stashed changes
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0

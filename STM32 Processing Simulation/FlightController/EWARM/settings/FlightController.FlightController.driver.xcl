@@ -6,7 +6,7 @@
 
 "-p" 
 
-"D:\software\IAR\arm\CONFIG\debugger\ST\STM32F429ZI.ddf" 
+"E:\software\IAR\arm\CONFIG\debugger\ST\STM32F429ZI.ddf" 
 
 "--drv_verify_download" 
 

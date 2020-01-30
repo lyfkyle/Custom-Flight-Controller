@@ -2,8 +2,10 @@
 
 <Workspace>
   <ConfigDictionary>
-    
-  <CurrentConfigs><Project>FlightControllerV2/FlightControllerV2</Project></CurrentConfigs></ConfigDictionary>
+    <CurrentConfigs>
+      <Project>FlightControllerV2/FlightControllerV2</Project>
+    </CurrentConfigs>
+  </ConfigDictionary>
   <Desktop>
     <Static>
       <Debug-Log>

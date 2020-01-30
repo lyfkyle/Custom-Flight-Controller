@@ -520,7 +520,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\Src\drivers\MPU9250_DMP\SparkFunMPU9250-DMP.cpp</name>
+      <name>$PROJ_DIR$\..\Src\libraries\MadgwickAHRS\MadgwickAHRS.cpp</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -711,10 +711,6 @@
     <file>
       <name>$PROJ_DIR$\..\Src\HAL\Receiver\receiver.cpp</name>
       <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 108</file>
-        </tool>
         <tool>
           <name>ICCARM</name>
           <file> 183</file>
@@ -1007,7 +1003,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\Src\system_stm32f1xx.c</name>
+      <name>$PROJ_DIR$\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_gpio.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -1034,7 +1030,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\Src\services\controller_service\controller_att_rate.cpp</name>
+      <name>$PROJ_DIR$\..\Src\services\device_ctrl_service\device_ctrl.cpp</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -1196,7 +1192,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\Src\services\sensor_reader_service\sensor_reader.cpp</name>
+      <name>$PROJ_DIR$\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_rcc_ex.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -1223,7 +1219,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\Src\main.c</name>
+      <name>$PROJ_DIR$\..\Src\services\controller_service\controller_att_rate.cpp</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -1439,7 +1435,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_rcc_ex.c</name>
+      <name>$PROJ_DIR$\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_rcc.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -1627,6 +1623,10 @@
         </tool>
       </inputs>
     </file>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>ILINK</tool>
+    </forcedrebuild>
   </configuration>
 </project>
 

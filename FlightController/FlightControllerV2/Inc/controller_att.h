@@ -19,6 +19,9 @@ public:
    bool SetKp(float kp);
    bool SetKd(float kd);
    bool SetKi(float ki);
+   float GetKp();
+   float GetKd();
+   float GetKi();
    bool SetPeriodMs(int periodMs);
 private:
    PID mAttPID;

@@ -57,10 +57,11 @@ bool MotorCtrl::OutputMotor(float pitchThrust, float rollThrust, float yawThrust
 
     LOGI("motorPWM: 1 %d , 2 %d, 3 %d, 4 %d\r\n", motorPWM[0], motorPWM[1], motorPWM[2], motorPWM[3]);
 
+#if UAV_ENABLE_MOTORS
     PWM_SetDutyCycle(PWM_CHANNEL_1, motorPWM[0]);
     PWM_SetDutyCycle(PWM_CHANNEL_2, motorPWM[1]);
     PWM_SetDutyCycle(PWM_CHANNEL_3, motorPWM[2]);
     PWM_SetDutyCycle(PWM_CHANNEL_4, motorPWM[3]);
-
+#endif
     return true;
 }

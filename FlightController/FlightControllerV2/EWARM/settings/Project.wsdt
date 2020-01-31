@@ -6,69 +6,58 @@
   <CurrentConfigs><Project>FlightControllerV2/FlightControllerV2</Project></CurrentConfigs></ConfigDictionary>
   <Desktop>
     <Static>
+      <Debug-Log>
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1861</ColumnWidth1></Debug-Log>
       <Workspace>
         <ColumnWidths>
           
           
           
           
-        <Column0>290</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>263</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
-      <Debug-Log>
-        
-        
-      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1861</ColumnWidth1></Debug-Log>
-      <Find-All-References>
-        
-        
-        
-      <ColumnWidth0>664</ColumnWidth0><ColumnWidth1>94</ColumnWidth1><ColumnWidth2>1138</ColumnWidth2></Find-All-References>
-    <Build><ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1395</ColumnWidth1><ColumnWidth2>372</ColumnWidth2><ColumnWidth3>93</ColumnWidth3></Build><TerminalIO/><Disassembly><ShowCodeCoverage>1</ShowCodeCoverage><ShowInstrProfiling>1</ShowInstrProfiling><col-names><item>Disassembly</item><item>_I0</item></col-names><col-widths><item>500</item><item>20</item></col-widths><DisasmHistory/></Disassembly><Select-Ambiguous-Definitions><ColumnWidth0>529</ColumnWidth0><ColumnWidth1>75</ColumnWidth1><ColumnWidth2>908</ColumnWidth2></Select-Ambiguous-Definitions><PROJECT_GUI_CALL_GRAPH><PreferedWindows><Position>3</Position><ScreenPosX>0</ScreenPosX><ScreenPosY>0</ScreenPosY><Windows/></PreferedWindows><col-names><item>File</item><item>Function</item><item>Line</item></col-names><col-widths><item>200</item><item>700</item><item>100</item></col-widths></PROJECT_GUI_CALL_GRAPH></Static>
+    <Build><ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1395</ColumnWidth1><ColumnWidth2>372</ColumnWidth2><ColumnWidth3>93</ColumnWidth3></Build><TerminalIO/></Static>
     <Windows>
       
       
-    <Wnd1>
+    <Wnd0>
         <Tabs>
           <Tab>
-            <Identity>TabID-16462-28702</Identity>
+            <Identity>TabID-20187-5129</Identity>
             <TabName>Workspace</TabName>
             <Factory>Workspace</Factory>
             <Session>
               
-            <NodeDict><ExpandedNode>FlightControllerV2</ExpandedNode><ExpandedNode>FlightControllerV2/Application</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/HAL</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/HAL/IMU</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/HAL/receiver</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/app</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/app/main_app</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/app/test_app</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/drivers</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/drivers/I2C</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/drivers/LED</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/drivers/MPU9250</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/drivers/PWM</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/drivers/SBUS</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/drivers/UART</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/libraries</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/libraries/MadgwickAHRS</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/libraries/PID</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/libraries/logging</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/libraries/ping_pong_buffer</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/cmd_listener_service</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/controller_service</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/device_ctrl_service</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/motor_ctrl_service</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/sensor_reader_service</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/state_estimation_service</ExpandedNode></NodeDict></Session>
+            <NodeDict><ExpandedNode>FlightControllerV2</ExpandedNode><ExpandedNode>FlightControllerV2/Application</ExpandedNode><ExpandedNode>FlightControllerV2/Application/EWARM</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/HAL</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/HAL/IMU</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/HAL/receiver</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/app</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/app/main_app</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/app/test_app</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/cmd_listener_service</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/controller_service</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/motor_ctrl_service</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/sensor_reader_service</ExpandedNode><ExpandedNode>FlightControllerV2/Application/User/services/state_estimation_service</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd1><Wnd3>
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
         <Tabs>
           <Tab>
-            <Identity>TabID-27210-28706</Identity>
+            <Identity>TabID-30935-5132</Identity>
             <TabName>Debug Log</TabName>
             <Factory>Debug-Log</Factory>
             <Session/>
           </Tab>
-          <Tab>
-            <Identity>TabID-13347-2952</Identity>
-            <TabName>References</TabName>
-            <Factory>Find-All-References</Factory>
-            <Session/>
-          </Tab>
-        <Tab><Identity>TabID-27991-5730</Identity><TabName>Build</TabName><Factory>Build</Factory><Session/></Tab><Tab><Identity>TabID-4400-8279</Identity><TabName>Ambiguous Definitions</TabName><Factory>Select-Ambiguous-Definitions</Factory><Session/></Tab></Tabs>
+        <Tab><Identity>TabID-3571-28070</Identity><TabName>Build</TabName><Factory>Build</Factory><Session/></Tab></Tabs>
         
-      <SelectedTab>2</SelectedTab></Wnd3></Windows>
+      <SelectedTab>1</SelectedTab></Wnd1></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\services\cmd_listener_service\cmd_listener.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>327</SelStart2><SelEnd2>338</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\HAL\Receiver\receiver.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>13</YPos2><SelStart2>1516</SelStart2><SelEnd2>1516</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>82</YPos2><SelStart2>3811</SelStart2><SelEnd2>3811</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_uart.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>2131</YPos2><SelStart2>76254</SelStart2><SelEnd2>76254</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>304</YPos2><SelStart2>12806</SelStart2><SelEnd2>12806</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Inc\controller.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>0</SelStart2><SelEnd2>0</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\services\controller_service\controller.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>48</YPos2><SelStart2>0</SelStart2><SelEnd2>0</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Inc\UAV_Defines.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>647</SelStart2><SelEnd2>647</SelEnd2></Tab><ActiveTab>7</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\apps\main_app\main_app.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>137</YPos2><SelStart2>5060</SelStart2><SelEnd2>5062</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\stm32f1xx_it.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>0</SelStart2><SelEnd2>0</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\services\controller_service\controller.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>38</YPos2><SelStart2>3802</SelStart2><SelEnd2>3802</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\apps\main_app\main_app.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>223</YPos2><SelStart2>7598</SelStart2><SelEnd2>7618</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Inc\UAV_Defines.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>202</SelStart2><SelEnd2>202</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>82</YPos2><SelStart2>3811</SelStart2><SelEnd2>3811</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\services\state_estimation_service\state_estimator.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>17</YPos2><SelStart2>949</SelStart2><SelEnd2>955</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Inc\MadgwickAHRS.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>25</YPos2><SelStart2>2467</SelStart2><SelEnd2>2467</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\HAL\Receiver\receiver.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>26</YPos2><SelStart2>2488</SelStart2><SelEnd2>2488</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_uart.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>2131</YPos2><SelStart2>76144</SelStart2><SelEnd2>76144</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>304</YPos2><SelStart2>12806</SelStart2><SelEnd2>12806</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Inc\controller.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>952</SelStart2><SelEnd2>965</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Inc\controller_att.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>449</SelStart2><SelEnd2>504</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\services\controller_service\controller_att.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>58</YPos2><SelStart2>2093</SelStart2><SelEnd2>2093</SelEnd2></Tab><ActiveTab>11</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Src\services\controller_service\controller_att_rate.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>54</YPos2><SelStart2>1862</SelStart2><SelEnd2>2035</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-04E27CD0><key>iaridepm.enu1</key></Toolbar-04E27CD0></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>748</Bottom><Right>381</Right><x>-2</x><y>-2</y><xscreen>200</xscreen><yscreen>200</yscreen><sizeHorzCX>104167</sizeHorzCX><sizeHorzCY>200602</sizeHorzCY><sizeVertCX>199479</sizeVertCX><sizeVertCY>752257</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>204</Bottom><Right>1922</Right><x>-2</x><y>-2</y><xscreen>1924</xscreen><yscreen>206</yscreen><sizeHorzCX>1002083</sizeHorzCX><sizeHorzCY>206620</sizeHorzCY><sizeVertCX>104167</sizeVertCX><sizeVertCY>200602</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-05477CD0><key>iaridepm.enu1</key></Toolbar-05477CD0></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>754</Bottom><Right>354</Right><x>-2</x><y>-2</y><xscreen>200</xscreen><yscreen>200</yscreen><sizeHorzCX>104167</sizeHorzCX><sizeHorzCY>200602</sizeHorzCY><sizeVertCX>185417</sizeVertCX><sizeVertCY>758275</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>198</Bottom><Right>1922</Right><x>-2</x><y>-2</y><xscreen>1924</xscreen><yscreen>200</yscreen><sizeHorzCX>1002083</sizeHorzCX><sizeHorzCY>200602</sizeHorzCY><sizeVertCX>104167</sizeVertCX><sizeVertCY>200602</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

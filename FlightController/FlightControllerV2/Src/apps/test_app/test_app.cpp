@@ -318,8 +318,13 @@ void TestCmdListener()
     FCCmdType cmd;
     while (1) {
         cmdListener.GetCmd(cmd);
-        PRINT("desiredVel.x = %f, desiredVel.y = %f, desiredVel.z = %f, desiredYawRate = %f\r\n",
-              cmd.desiredVel.x, cmd.desiredVel.y, cmd.desiredVel.z, cmd.desiredYawRate);
+#if UAV_CMD_ACC
+        PRINT("desiredAcc.x = %f, desiredAcc.y = %f, desiredAcc.z = %f, desiredYawRate = %f\r\n",
+              cmd.desiredAcc.x, cmd.desiredAcc.y, cmd.desiredAcc.z, cmd.desiredYawRate);
+#elif UAV_CMD_ATT
+        PRINT("desiredPitch = %f, desiredRoll = %f, desiredAccZ = %f, desiredYawRate = %f\r\n",
+              cmd.desiredPitch, cmd.desiredRoll, cmd.desiredAccZ, cmd.desiredYawRate);
+#endif
         HAL_Delay(1000);
     }
 }

@@ -85,3 +85,18 @@ bool AttController::SetPeriodMs(int periodMs)
     mAttPID.SetSampleTime(mPeriodMs);
     return true;
 }
+
+float AttController::GetKp()
+{
+    return mKp;
+}
+
+float AttController::GetKd()
+{
+    return mKd;
+}
+
+float AttController::GetKi()
+{
+    return mKi;
+}

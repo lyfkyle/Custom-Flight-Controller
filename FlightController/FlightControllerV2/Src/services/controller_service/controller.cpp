@@ -49,31 +49,21 @@ bool Controller::SetPeriodMs(int periodMs)
 
 bool Controller::Run()
 {
-    // vel setpoints
-    // TODO
-
-    // get acc
-//    float xAccSetpoint = mVelController_X.GetDesiredAcc(velSetpoint_x, curVel_x);
-//    float yAccSetpoint = mVelController_Y.GetDesiredAcc(velSetpoint_y, curVel_y);
-//    float zAccSetpoint = mVelController_Z.GetDesiredAcc(velSetpoint_z, curVel_z);
-    // vel controller not used, directly treat velocity as acc.
-    mAccSetpoint.x = mVelSetpoint.x;
-    mAccSetpoint.y = mVelSetpoint.y;
-    mAccSetpoint.z = mVelSetpoint.z;
-
+#if UAV_CMD_ACC
     // from accSetpoint to attSetpoint
     Controller_GetAttSetpointFromAccSetpoint(mAttSetpoint, mAccSetpoint, mAttSetpoint.yaw);
+#endif
 
     // att controller
     mAttRateSetpoint.pitch = mAttController_pitch.GetDesiredAttRateSetpoint(mAttSetpoint.pitch, mCurAtt.pitch);
     mAttRateSetpoint.roll = mAttController_roll.GetDesiredAttRateSetpoint(mAttSetpoint.roll, mCurAtt.roll);
-    // mAttRateSetpoint.yaw = mAttController_yaw.GetDesiredAttRateSetpoint(mAttSetpoint.yaw, mCurAtt.yaw); // no need to control yaw angle
+    // no need to control yaw angle
 
     // attRate
     float pitchThrust = mAttRateController_pitch.GetDesiredMotorThrust(mAttRateSetpoint.pitch, mCurAttRate.pitch);
     float rollThrust = mAttRateController_roll.GetDesiredMotorThrust(mAttRateSetpoint.roll, mCurAttRate.roll);
     float yawThrust = mAttRateController_yaw.GetDesiredMotorThrust(mAttRateSetpoint.yaw, mCurAttRate.yaw);
-    float heightThrust = GetHeightThrustFromVelSetpointZ(mVelSetpoint.z);
+    float heightThrust = GetHeightThrustFromVelSetpointZ(mAccSetpoint.z); // get thrust from z accleration.
 
     LOGI("Thrust: pitch: %f roll: %f yaw: %f height: %f\r\n", pitchThrust, rollThrust, yawThrust, heightThrust);
     mMotorCtrl.OutputMotor(pitchThrust, rollThrust, yawThrust, heightThrust);
@@ -110,6 +100,14 @@ bool Controller::SetCurAttRate(FCAttType& attRate)
     mCurAttRate.pitch = attRate.pitch;
     mCurAttRate.roll = attRate.roll;
     mCurAttRate.yaw = attRate.yaw;
+    return true;
+}
+
+bool Controller::SetAttSetpoint(FCAttType& attSetpoint)
+{
+    mAttSetpoint.pitch = attSetpoint.pitch;
+    mAttSetpoint.roll = attSetpoint.roll;
+    mAttSetpoint.yaw = attSetpoint.yaw;
     return true;
 }
 

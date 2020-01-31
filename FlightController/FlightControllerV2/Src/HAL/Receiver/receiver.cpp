@@ -47,15 +47,28 @@ ReceiverStatus Receiver::GetCmd(FCCmdType& cmd)
         return RECEIVER_FAIL;
     }
 
-    cmd.desiredVel.z = Util_Constrain((float)sbusData.channels[0], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_VEL_MIN, CMD_VEL_MAX);
-    cmd.desiredVel.y = Util_Constrain((float)sbusData.channels[1], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_VEL_MIN, CMD_VEL_MAX);
-    cmd.desiredVel.x = Util_Constrain((float)sbusData.channels[2], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_VEL_MIN, CMD_VEL_MAX);
+#if UAV_CMD_ACC
+    cmd.desiredAcc.z = Util_Constrain((float)sbusData.channels[0], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_ACC_MIN, CMD_ACC_MAX);
+    cmd.desiredAcc.y = Util_Constrain((float)sbusData.channels[1], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_ACC_MIN, CMD_ACC_MAX);
+    cmd.desiredAcc.x = Util_Constrain((float)sbusData.channels[2], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_ACC_MIN, CMD_ACC_MAX);
     cmd.desiredYawRate = Util_Constrain((float)sbusData.channels[3], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, (float)CMD_YAW_RATE_MIN, (float)CMD_YAW_RATE_MAX);
 
     if (fabs(cmd.desiredVel.z) < 0.006) cmd.desiredVel.z = 0.0f;
     if (fabs(cmd.desiredVel.y) < 0.006) cmd.desiredVel.y = 0.0f;
     if (fabs(cmd.desiredVel.x) < 0.006) cmd.desiredVel.x = 0.0f;
     if (fabs(cmd.desiredYawRate) < 5) cmd.desiredYawRate = 0.0f;
+
+#elif UAV_CMD_ATT
+    cmd.desiredAccZ = Util_Constrain((float)sbusData.channels[0], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_ACC_MIN, CMD_ACC_MAX);
+    cmd.desiredRoll = Util_Constrain((float)sbusData.channels[1], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_ROLL_MIN, CMD_ROLL_MAX);
+    cmd.desiredPitch = Util_Constrain((float)sbusData.channels[2], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, CMD_PITCH_MIN, CMD_PITCH_MAX);
+    cmd.desiredYawRate = Util_Constrain((float)sbusData.channels[3], (float)SBUS_CHANNEL_MIN, (float)SBUS_CHANNEL_MAX, (float)CMD_YAW_RATE_MIN, (float)CMD_YAW_RATE_MAX);
+
+    if (fabs(cmd.desiredAccZ) < 0.006) cmd.desiredAccZ = 0.0f;
+    if (fabs(cmd.desiredRoll) < 0.2) cmd.desiredRoll = 0.0f;
+    if (fabs(cmd.desiredPitch) < 0.2) cmd.desiredPitch = 0.0f;
+    if (fabs(cmd.desiredYawRate) < 5) cmd.desiredYawRate = 0.0f;
+#endif
 
     if (sbusData.failsafe) return RECEIVER_FAILSAFE;
     if (sbusData.lostFrame) return RECEIVER_LOST_FRAME;

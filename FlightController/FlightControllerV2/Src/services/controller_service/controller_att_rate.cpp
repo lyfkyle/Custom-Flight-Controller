@@ -24,7 +24,7 @@ AttRateController::AttRateController(int periodMs) :
     mOutput = 0;
     mAttRatePID.SetTunings(mKp, mKi, mKd);
     mAttRatePID.SetSampleTime(mPeriodMs);
-    mAttRatePID.SetOutputLimits(UAV_THRUST_MIN, UAV_THRUST_MAX);
+    mAttRatePID.SetOutputLimits(UAV_PID_OUT_MIN, UAV_PID_OUT_MAX);
     mAttRatePID.SetMode(1);
     // TODO read from preference manager/flash?
 }

@@ -17,7 +17,7 @@ VelController::VelController(int periodMs) :
     mAccOutput = 0;
     mVelPID.SetTunings(mKp, mKi, mKd);
     mVelPID.SetSampleTime(mPeriodMs);
-    mVelPID.SetOutputLimits(-125, 125);
+    mVelPID.SetOutputLimits(UAV_PID_OUT_MIN, UAV_PID_OUT_MAX);
     mVelPID.SetMode(1);
 
     // TODO read from preference manager/flash?

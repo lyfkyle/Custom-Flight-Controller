@@ -29,15 +29,15 @@
 #define PID_ATT_KP_ROLL (0.0f)
 #define PID_ATT_KD_ROLL (0.0f)
 #define PID_ATT_KI_ROLL (0.0f)
-#define PID_ATT_RATE_KP_PITCH (0.35f)
-#define PID_ATT_RATE_KD_PITCH (0.0f) // 0.015
-#define PID_ATT_RATE_KI_PITCH (0.0f)
-#define PID_ATT_RATE_KP_ROLL (0.35f)
-#define PID_ATT_RATE_KD_ROLL (0.0f) // 0.015
-#define PID_ATT_RATE_KI_ROLL (0.0f)
-#define PID_ATT_RATE_KP_YAW (0.05f)
+#define PID_ATT_RATE_KP_PITCH (0.215f)
+#define PID_ATT_RATE_KD_PITCH (0.0004f)
+#define PID_ATT_RATE_KI_PITCH (0.001f)
+#define PID_ATT_RATE_KP_ROLL (0.215f)
+#define PID_ATT_RATE_KD_ROLL (0.0004f)
+#define PID_ATT_RATE_KI_ROLL (0.001f)
+#define PID_ATT_RATE_KP_YAW (0.21f)
 #define PID_ATT_RATE_KD_YAW (0.0f)
-#define PID_ATT_RATE_KI_YAW (0.0f)
+#define PID_ATT_RATE_KI_YAW (0.001f)
 #define PID_VEL_KP (1.0f)
 #define PID_VEL_KD (0.0f)
 #define PID_VEL_KI (0.0f)
@@ -69,16 +69,16 @@
 #define CMD_ROLL_MAX (20.0f)
 
 // unit dps
-#define CMD_ROLL_RATE_MIN (-45.0f)
-#define CMD_ROLL_RATE_MAX (45.0f)
-#define CMD_PITCH_RATE_MIN (-45.0f)
-#define CMD_PITCH_RATE_MAX (45.0f)
+#define CMD_ROLL_RATE_MIN (-90.0f)
+#define CMD_ROLL_RATE_MAX (90.0f)
+#define CMD_PITCH_RATE_MIN (-90.0f)
+#define CMD_PITCH_RATE_MAX (90.0f)
 #define CMD_YAW_RATE_MIN (-90.0f)
 #define CMD_YAW_RATE_MAX (90.0f)
 
 // thrust limit
-#define UAV_THRUST_MIN (-125)
-#define UAV_THRUST_MAX (125)
+#define UAV_PID_OUT_MIN (-200)
+#define UAV_PID_OUT_MAX (200)
 
 /*
  * Struct

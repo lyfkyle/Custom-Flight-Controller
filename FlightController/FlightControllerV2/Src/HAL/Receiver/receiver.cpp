@@ -55,8 +55,8 @@ ReceiverStatus Receiver::GetCmd(FCCmdType& cmd)
     cmd.toTunePID = (sbusData.channels[4] == SBUS_CHANNEL_MAX);
 
     if (fabs(cmd.desiredAccZ) < 0.006) cmd.desiredAccZ = 0.0f;
-    if (fabs(cmd.desiredAttRate.roll) < 2.5) cmd.desiredAttRate.roll = 0.0f;
-    if (fabs(cmd.desiredAttRate.pitch) < 2.5) cmd.desiredAttRate.pitch = 0.0f;
+    if (fabs(cmd.desiredAttRate.roll) < 5) cmd.desiredAttRate.roll = 0.0f;
+    if (fabs(cmd.desiredAttRate.pitch) < 5) cmd.desiredAttRate.pitch = 0.0f;
     if (fabs(cmd.desiredAttRate.yaw) < 5) cmd.desiredAttRate.yaw = 0.0f;
 
 #elif UAV_CMD_ACC

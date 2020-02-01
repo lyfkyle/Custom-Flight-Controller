@@ -23,8 +23,11 @@ public:
     static Controller& GetInstance();
 
     bool SetPeriodMs(int periodMs);
+    bool SetAttPeriodMs(int periodMs);
+    bool SetAttRatePeriodMs(int periodMs);
     bool Init();
-    bool Run();
+    bool RunAttCtrl();
+    bool RunAttRateCtrl();
     bool SetAccSetpoint(FCAccDataType& accSetpoint);
     bool SetVelSetpoint(FCVelDataType& velSetpoint);
     bool SetYawRateSetpoint(float yawRate);

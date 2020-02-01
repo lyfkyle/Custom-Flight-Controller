@@ -47,7 +47,23 @@ bool Controller::SetPeriodMs(int periodMs)
     return true;
 }
 
-bool Controller::Run()
+bool Controller::SetAttPeriodMs(int periodMs)
+{
+    mAttController_pitch.SetPeriodMs(periodMs);
+    mAttController_roll.SetPeriodMs(periodMs);
+    mAttController_yaw.SetPeriodMs(periodMs);
+    return true;
+}
+
+bool Controller::SetAttRatePeriodMs(int periodMs)
+{
+    mAttRateController_pitch.SetPeriodMs(periodMs);
+    mAttRateController_roll.SetPeriodMs(periodMs);
+    mAttRateController_yaw.SetPeriodMs(periodMs);
+    return true;
+}
+
+bool Controller::RunAttCtrl()
 {
 #if UAV_CMD_ACC
     // from accSetpoint to attSetpoint
@@ -65,7 +81,11 @@ bool Controller::Run()
     mAttRateSetpoint.roll = mAttController_roll.GetDesiredAttRateSetpoint(mAttSetpoint.roll, mCurAtt.roll);
     // no need to control yaw angle
 #endif
+    return true;
+}
 
+bool Controller::RunAttRateCtrl()
+{
     // attRate
     float pitchThrust = mAttRateController_pitch.GetDesiredMotorThrust(mAttRateSetpoint.pitch, mCurAttRate.pitch);
     float rollThrust = mAttRateController_roll.GetDesiredMotorThrust(mAttRateSetpoint.roll, mCurAttRate.roll);

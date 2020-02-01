@@ -39,8 +39,9 @@
 #define TIMER_CNT_MAX 5000
 
 #define READ_SENSOR_CNT 20 // 1000/50hz
-#define ESTIMATE_STATE_CNT 20 // 1000/50hz
-#define CONTROLL_CNT 20 // 1000/50hz
+#define ESTIMATE_STATE_CNT 50 // 1000/20hz
+#define CONTROL_ATT_CNT 50 // 1000/20hz
+#define CONTROL_ATT_RATE_CNT 10 // 1000/100hz
 #define LISTEN_CMD_CNT 250 // 1000/2hz
 
 /*
@@ -50,11 +51,13 @@
 static int sTimerCnt = 0;
 static int sReadSensorCnt = READ_SENSOR_CNT;
 static int sEstimateStateCnt = ESTIMATE_STATE_CNT;
-static int sControllerCnt = CONTROLL_CNT;
+static int sControllerAttCnt = CONTROL_ATT_CNT;
+static int sControllerAttRateCnt = CONTROL_ATT_RATE_CNT;
 static int sListenCmdCnt = LISTEN_CMD_CNT;
 static volatile bool sReadSensorFlag = false;
 static volatile bool sListenCmdFlag = false;
-static volatile bool sControllerFlag = false;
+static volatile bool sControllerAttFlag = false;
+static volatile bool sControllerAttRateFlag = false;
 static volatile bool sEstimateStateFlag = false;
 
 static FCSensorMeasType sMeas;
@@ -190,16 +193,21 @@ void MainApp_OnCoreTimerTick(void)
         sListenCmdCnt += LISTEN_CMD_CNT;
         sListenCmdFlag = true;
     }
-    if (sTimerCnt >= sControllerCnt) {
-        sControllerCnt += CONTROLL_CNT;
-        sControllerFlag = true;
+    if (sTimerCnt >= sControllerAttCnt) {
+        sControllerAttCnt += CONTROL_ATT_CNT;
+        sControllerAttFlag = true;
+    }
+    if (sTimerCnt >= sControllerAttRateCnt) {
+        sControllerAttRateCnt += CONTROL_ATT_RATE_CNT;
+        sControllerAttRateFlag = true;
     }
     if (sTimerCnt >= TIMER_CNT_MAX) {
         sTimerCnt = 0;
         sReadSensorCnt = READ_SENSOR_CNT;
         sEstimateStateCnt = ESTIMATE_STATE_CNT;
         sListenCmdCnt = LISTEN_CMD_CNT;
-        sControllerCnt = CONTROLL_CNT;
+        sControllerAttCnt = CONTROL_ATT_CNT;
+        sControllerAttRateCnt = CONTROL_ATT_RATE_CNT;
     }
 }
 
@@ -207,28 +215,28 @@ static bool TunePID(FCCmdType& cmd)
 {
 #if UAV_CMD_ATT_RATE
     if (cmd.desiredAttRate.pitch == CMD_PITCH_RATE_MIN) {
-        float curKp = Controller::GetInstance().mAttRateController_pitch.GetKp() - 0.02;
+        float curKp = Controller::GetInstance().mAttRateController_pitch.GetKp() - 0.005;
         LOGI("TunePID: Kp to %f\r\n", curKp);
         Controller::GetInstance().mAttRateController_pitch.SetKp(curKp);
         Controller::GetInstance().mAttRateController_roll.SetKp(curKp);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredAttRate.pitch == CMD_PITCH_RATE_MAX) {
-        float curKp = Controller::GetInstance().mAttRateController_pitch.GetKp() + 0.02;
+        float curKp = Controller::GetInstance().mAttRateController_pitch.GetKp() + 0.005;
         LOGI("TunePID: Kp to %f\r\n", curKp);
         Controller::GetInstance().mAttRateController_pitch.SetKp(curKp);
         Controller::GetInstance().mAttRateController_roll.SetKp(curKp);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredAttRate.roll == CMD_ROLL_RATE_MIN) {
-        float curKd = Controller::GetInstance().mAttRateController_pitch.GetKd() - 0.001;
+        float curKd = Controller::GetInstance().mAttRateController_pitch.GetKd() - 0.00001;
         LOGI("TunePID: Kd to %f\r\n", curKd);
         Controller::GetInstance().mAttRateController_pitch.SetKd(curKd);
         Controller::GetInstance().mAttRateController_roll.SetKd(curKd);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredAttRate.roll == CMD_ROLL_RATE_MAX) {
-        float curKd = Controller::GetInstance().mAttRateController_pitch.GetKd() + 0.001;
+        float curKd = Controller::GetInstance().mAttRateController_pitch.GetKd() + 0.00001;
         LOGI("TunePID: Kd to %\r\n", curKd);
         Controller::GetInstance().mAttRateController_pitch.SetKd(curKd);
         Controller::GetInstance().mAttRateController_roll.SetKd(curKd);
@@ -360,7 +368,8 @@ void MainApp()
     }
 
     // set controller period
-    Controller::GetInstance().SetPeriodMs(CONTROLL_CNT);
+    Controller::GetInstance().SetAttPeriodMs(CONTROL_ATT_CNT);
+    Controller::GetInstance().SetAttRatePeriodMs(CONTROL_ATT_RATE_CNT);
     // everything ready. Let's go.
     LOGI("MainApp starts\r\n");
     sStarted = true;
@@ -424,7 +433,6 @@ void MainApp()
                     accSetpoint.y = 0; // not used.
                     accSetpoint.z = cmd.desiredAccZ;
                     Controller::GetInstance().SetAccSetpoint(accSetpoint);
-
 #elif UAV_CMD_ACC
                     Controller::GetInstance().SetAccSetpoint(cmd.desiredAcc);
                     Controller::GetInstance().SetYawRateSetpoint(cmd.desiredYawRate);
@@ -458,10 +466,16 @@ void MainApp()
             Controller::GetInstance().SetCurAttRate(StateEstimator::GetInstance().mState.attRate);
             LOG("estimateState: sTimerCnt = %d\r\n", sTimerCnt);
         }
-        if (sControllerFlag) {
+        if (sControllerAttFlag) {
             LOG("controller: sTimerCnt = %d\r\n", sTimerCnt);
-            sControllerFlag = false;
-            if (sArmed) Controller::GetInstance().Run();
+            sControllerAttFlag = false;
+            if (sArmed) Controller::GetInstance().RunAttCtrl();
+            LOG("controller: sTimerCnt = %d\r\n", sTimerCnt);
+        }
+        if (sControllerAttRateFlag) {
+            LOG("controller: sTimerCnt = %d\r\n", sTimerCnt);
+            sControllerAttRateFlag = false;
+            if (sArmed) Controller::GetInstance().RunAttRateCtrl();
             LOG("controller: sTimerCnt = %d\r\n", sTimerCnt);
         }
     }

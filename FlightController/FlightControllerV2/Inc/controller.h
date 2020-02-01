@@ -29,6 +29,8 @@ public:
     bool SetVelSetpoint(FCVelDataType& velSetpoint);
     bool SetYawRateSetpoint(float yawRate);
     bool SetAttSetpoint(FCAttType& attSetpoint);
+    bool SetAttRateSetpoint(FCAttRateType& attRateSetpoint);
+
     bool SetCurAtt(FCAttType& att);
     bool SetCurAttRate(FCAttType& att);
 

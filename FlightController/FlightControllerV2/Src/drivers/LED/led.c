@@ -47,7 +47,7 @@ bool LED_Toggle(LEDType led)
 bool LED_Blink(LEDType led, uint8_t cnt)
 {
     // we blink every 200ms
-    for (int i = 0; i < cnt; ++i) {
+    for (uint8_t i = 0; i < cnt; ++i) {
         LED_Toggle(led);
         HAL_Delay(200);
     }

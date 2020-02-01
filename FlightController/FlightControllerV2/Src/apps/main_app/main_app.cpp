@@ -40,8 +40,8 @@
 
 #define READ_SENSOR_CNT 20 // 1000/50hz
 #define ESTIMATE_STATE_CNT 20 // 1000/50hz
-#define CONTROLL_CNT 50 // 1000/20hz
-#define LISTEN_CMD_CNT 500 // 1000/2hz
+#define CONTROLL_CNT 20 // 1000/50hz
+#define LISTEN_CMD_CNT 250 // 1000/2hz
 
 /*
 *Static
@@ -69,7 +69,55 @@ static bool sTunePID = false;
 
 static bool ToArm(FCCmdType& cmd)
 {
-#if UAV_CMD_ACC
+#if UAV_CMD_ATT_RATE
+    if (cmd.desiredAttRate.pitch == CMD_PITCH_RATE_MIN && cmd.desiredAttRate.roll == CMD_ROLL_RATE_MIN
+        && cmd.desiredAttRate.yaw == CMD_YAW_RATE_MIN && cmd.desiredAccZ == CMD_ACC_MIN) {
+            return true;
+        }
+    return false;
+#elif UAV_CMD_ACC
+    if (cmd.desiredAcc.x == CMD_ACC_MIN && cmd.desiredAcc.y == CMD_ACC_MIN
+        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredAcc.z == CMD_ACC_MIN) {
+            return true;
+        }
+    return false;
+#elif UAV_CMD_ATT
+    if (cmd.desiredPitch == CMD_PITCH_MIN && cmd.desiredRoll == CMD_ROLL_MIN
+        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredAccZ == CMD_ACC_MIN) {
+            return true;
+        }
+    return false;
+#endif
+}
+
+static bool ToDisArm(FCCmdType& cmd)
+{
+#if UAV_CMD_ATT_RATE
+    if (cmd.desiredAttRate.pitch == CMD_PITCH_RATE_MIN && cmd.desiredAttRate.roll == CMD_ROLL_RATE_MAX
+        && cmd.desiredAttRate.yaw == CMD_YAW_RATE_MAX && cmd.desiredAccZ == CMD_ACC_MIN) {
+            return true;
+        }
+    return false;
+#elif UAV_CMD_ACC
+    if (cmd.desiredAcc.x == CMD_ACC_MIN && cmd.desiredAcc.y == CMD_ACC_MAX
+        && cmd.desiredYawRate == CMD_YAW_RATE_MAX && cmd.desiredAcc.z == CMD_ACC_MIN) {
+            return true;
+        }
+    return false;
+#elif UAV_CMD_ATT
+    if (cmd.desiredPitch == CMD_PITCH_MIN && cmd.desiredRoll == CMD_ROLL_MAX
+        && cmd.desiredYawRate == CMD_YAW_RATE_MAX && cmd.desiredAccZ == CMD_ACC_MIN) {
+            return true;
+        }
+    return false;
+#endif
+}
+
+static bool ToTunePID(FCCmdType& cmd)
+{
+#if UAV_CMD_ATT_RATE
+    return false;
+#elif UAV_CMD_ACC
     if (cmd.desiredAcc.x == CMD_ACC_MIN && cmd.desiredAcc.y == CMD_ACC_MIN
         && cmd.desiredYawRate == CMD_YAW_RATE_MAX && cmd.desiredAcc.z == CMD_ACC_MIN) {
             return true;
@@ -84,45 +132,13 @@ static bool ToArm(FCCmdType& cmd)
 #endif
 }
 
-static bool ToDisArm(FCCmdType& cmd)
-{
-#if UAV_CMD_ACC
-    if (cmd.desiredAcc.x == CMD_ACC_MIN && cmd.desiredAcc.y == CMD_ACC_MAX
-        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredAcc.z == CMD_ACC_MIN) {
-            return true;
-        }
-    return false;
-#elif UAV_CMD_ATT
-    if (cmd.desiredPitch == CMD_PITCH_MIN && cmd.desiredRoll == CMD_ROLL_MAX
-        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredAccZ == CMD_ACC_MIN) {
-            return true;
-        }
-    return false;
-#endif
-}
-
-static bool ToTunePID(FCCmdType& cmd)
-{
-#if UAV_CMD_ACC
-    if (cmd.desiredAcc.x == CMD_ACC_MIN && cmd.desiredAcc.y == CMD_ACC_MIN
-        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredAcc.z == CMD_ACC_MIN) {
-            return true;
-        }
-    return false;
-#elif UAV_CMD_ATT
-    if (cmd.desiredPitch == CMD_PITCH_MIN && cmd.desiredRoll == CMD_ROLL_MIN
-        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredAccZ == CMD_ACC_MIN) {
-            return true;
-        }
-    return false;
-#endif
-}
-
 static bool ToExitTunePID(FCCmdType& cmd)
 {
-#if UAV_CMD_ACC
+#if UAV_CMD_ATT_RATE
+    return false;
+#elif UAV_CMD_ACC
     if (cmd.desiredAcc.x == CMD_ACC_MIN && cmd.desiredAcc.y == CMD_ACC_MAX
-        && cmd.desiredYawRate == CMD_YAW_RATE_MAX && cmd.desiredAcc.z == CMD_ACC_MIN) {
+        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredAcc.z == CMD_ACC_MIN) {
             return true;
         }
     return false;
@@ -137,15 +153,21 @@ static bool ToExitTunePID(FCCmdType& cmd)
 
 static bool ToCalibrateESC(FCCmdType& cmd)
 {
-#if UAV_CMD_ACC
+#if UAV_CMD_ATT_RATE
+    if (cmd.desiredAttRate.pitch == CMD_PITCH_RATE_MAX && cmd.desiredAttRate.roll == CMD_ROLL_RATE_MAX
+        && cmd.desiredAttRate.yaw == CMD_YAW_RATE_MIN && cmd.desiredAccZ == CMD_ACC_MAX) {
+            return true;
+        }
+    return false;
+#elif UAV_CMD_ACC
     if (cmd.desiredAcc.x == CMD_ACC_MAX && cmd.desiredAcc.y == CMD_ACC_MAX
-        && cmd.desiredYawRate == CMD_YAW_RATE_MAX && cmd.desiredAcc.z == CMD_ACC_MAX) {
+        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredAcc.z == CMD_ACC_MAX) {
             return true;
         }
     return false;
 #elif UAV_CMD_ATT
     if (cmd.desiredPitch == CMD_PITCH_MAX && cmd.desiredRoll == CMD_ROLL_MAX
-        && cmd.desiredYawRate == CMD_YAW_RATE_MAX && cmd.desiredAccZ == CMD_ACC_MAX) {
+        && cmd.desiredYawRate == CMD_YAW_RATE_MIN && cmd.desiredAccZ == CMD_ACC_MAX) {
             return true;
         }
     return false;
@@ -183,41 +205,92 @@ void MainApp_OnCoreTimerTick(void)
 
 static bool TunePID(FCCmdType& cmd)
 {
-#if UAV_CMD_ACC
+#if UAV_CMD_ATT_RATE
+    if (cmd.desiredAttRate.pitch == CMD_PITCH_RATE_MIN) {
+        float curKp = Controller::GetInstance().mAttRateController_pitch.GetKp() - 0.02;
+        LOGI("TunePID: Kp to %f\r\n", curKp);
+        Controller::GetInstance().mAttRateController_pitch.SetKp(curKp);
+        Controller::GetInstance().mAttRateController_roll.SetKp(curKp);
+        LED_Blink(LED_ONBOARD, 4);
+    }
+    else if (cmd.desiredAttRate.pitch == CMD_PITCH_RATE_MAX) {
+        float curKp = Controller::GetInstance().mAttRateController_pitch.GetKp() + 0.02;
+        LOGI("TunePID: Kp to %f\r\n", curKp);
+        Controller::GetInstance().mAttRateController_pitch.SetKp(curKp);
+        Controller::GetInstance().mAttRateController_roll.SetKp(curKp);
+        LED_Blink(LED_ONBOARD, 4);
+    }
+    else if (cmd.desiredAttRate.roll == CMD_ROLL_RATE_MIN) {
+        float curKd = Controller::GetInstance().mAttRateController_pitch.GetKd() - 0.001;
+        LOGI("TunePID: Kd to %f\r\n", curKd);
+        Controller::GetInstance().mAttRateController_pitch.SetKd(curKd);
+        Controller::GetInstance().mAttRateController_roll.SetKd(curKd);
+        LED_Blink(LED_ONBOARD, 4);
+    }
+    else if (cmd.desiredAttRate.roll == CMD_ROLL_RATE_MAX) {
+        float curKd = Controller::GetInstance().mAttRateController_pitch.GetKd() + 0.001;
+        LOGI("TunePID: Kd to %\r\n", curKd);
+        Controller::GetInstance().mAttRateController_pitch.SetKd(curKd);
+        Controller::GetInstance().mAttRateController_roll.SetKd(curKd);
+        LED_Blink(LED_ONBOARD, 4);
+    }
+    else if (cmd.desiredAttRate.yaw == CMD_YAW_RATE_MIN) {
+        float curKi = Controller::GetInstance().mAttRateController_pitch.GetKi() - 0.01;
+        LOGI("TunePID: Ki to %f\r\n", curKi);
+        Controller::GetInstance().mAttRateController_pitch.SetKi(curKi);
+        Controller::GetInstance().mAttRateController_roll.SetKi(curKi);
+        LED_Blink(LED_ONBOARD, 4);
+    }
+    else if (cmd.desiredAttRate.yaw == CMD_YAW_RATE_MAX) {
+        float curKi = Controller::GetInstance().mAttRateController_pitch.GetKi() + 0.01;
+        LOGI("TunePID: Ki to %f\r\n", curKi);
+        Controller::GetInstance().mAttRateController_pitch.SetKi(curKi);
+        Controller::GetInstance().mAttRateController_roll.SetKi(curKi);
+        LED_Blink(LED_ONBOARD, 4);
+    }
+    return true;
+
+#elif UAV_CMD_ACC
     if (cmd.desiredAcc.x == CMD_ACC_MIN) {
         float curKp = Controller::GetInstance().mAttRateController_pitch.GetKp();
-        LOGI("TunePID: Kp to %f\r\n", curKp - 0.1);
+        LOGI("TunePID: Kp to %f\r\n", (curKp - 0.1));
         Controller::GetInstance().mAttRateController_pitch.SetKp(curKp - 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKp(curKp - 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredAcc.x == CMD_ACC_MAX) {
         float curKp = Controller::GetInstance().mAttRateController_pitch.GetKp();
-        LOGI("TunePID: Kp to %f\r\n", curKp + 0.1);
+        LOGI("TunePID: Kp to %f\r\n", (curKp + 0.1));
         Controller::GetInstance().mAttRateController_pitch.SetKp(curKp + 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKp(curKp + 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredAcc.y == CMD_ACC_MIN) {
         float curKd = Controller::GetInstance().mAttRateController_pitch.GetKd();
-        LOGI("TunePID: Kd to %f\r\n", curKd - 0.1);
+        LOGI("TunePID: Kd to %f\r\n", (curKd - 0.1));
         Controller::GetInstance().mAttRateController_pitch.SetKd(curKd - 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKd(curKd - 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredAcc.y == CMD_ACC_MAX) {
         float curKd = Controller::GetInstance().mAttRateController_pitch.GetKd();
-        LOGI("TunePID: Kd to %\r\n", curKd + 0.1);
+        LOGI("TunePID: Kd to %\r\n", (curKd + 0.1));
         Controller::GetInstance().mAttRateController_pitch.SetKd(curKd + 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKd(curKd + 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredYawRate == CMD_YAW_RATE_MIN) {
         float curKi = Controller::GetInstance().mAttRateController_pitch.GetKi();
-        LOGI("TunePID: Ki to %f\r\n", curKi - 0.1);
-        Controller::GetInstance().mAttRateController_pitch.SetKd(curKi - 0.1);
+        LOGI("TunePID: Ki to %f\r\n", (curKi - 0.1));
+        Controller::GetInstance().mAttRateController_pitch.SetKi(curKi - 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKi(curKi - 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredYawRate == CMD_YAW_RATE_MAX) {
         float curKi = Controller::GetInstance().mAttRateController_pitch.GetKd();
-        LOGI("TunePID: Ki to %f\r\n", curKi + 0.1);
-        Controller::GetInstance().mAttRateController_pitch.SetKd(curKi + 0.1);
+        LOGI("TunePID: Ki to %f\r\n", (curKi + 0.1));
+        Controller::GetInstance().mAttRateController_pitch.SetKi(curKi + 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKi(curKi + 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
 
@@ -228,36 +301,42 @@ static bool TunePID(FCCmdType& cmd)
         float curKp = Controller::GetInstance().mAttController_pitch.GetKp();
         LOGI("TunePID: Kp to %f\r\n", curKp - 0.1);
         Controller::GetInstance().mAttRateController_pitch.SetKp(curKp - 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKp(curKp + 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredPitch == CMD_PITCH_MAX) {
         float curKp = Controller::GetInstance().mAttController_pitch.GetKp();
         LOGI("TunePID: Kp to %f\r\n", curKp + 0.1);
         Controller::GetInstance().mAttRateController_pitch.SetKp(curKp + 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKp(curKp + 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredRoll == CMD_ROLL_MIN) {
         float curKd = Controller::GetInstance().mAttController_pitch.GetKd();
         LOGI("TunePID: Kd to %f\r\n", curKd - 0.1);
         Controller::GetInstance().mAttRateController_pitch.SetKd(curKd - 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKd(curKd - 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredRoll == CMD_ROLL_MAX) {
         float curKd = Controller::GetInstance().mAttController_pitch.GetKd();
         LOGI("TunePID: Kd to %\r\n", curKd + 0.1);
         Controller::GetInstance().mAttRateController_pitch.SetKd(curKd + 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKd(curKd + 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredYawRate == CMD_YAW_RATE_MIN) {
         float curKi = Controller::GetInstance().mAttController_pitch.GetKi();
         LOGI("TunePID: Ki to %f\r\n", curKi - 0.1);
-        Controller::GetInstance().mAttRateController_pitch.SetKd(curKi - 0.1);
+        Controller::GetInstance().mAttRateController_pitch.SetKi(curKi - 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKi(curKi - 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
     else if (cmd.desiredYawRate == CMD_YAW_RATE_MAX) {
         float curKi = Controller::GetInstance().mAttController_pitch.GetKi();
         LOGI("TunePID: Ki to %f\r\n", curKi + 0.1);
-        Controller::GetInstance().mAttRateController_pitch.SetKd(curKi + 0.1);
+        Controller::GetInstance().mAttRateController_pitch.SetKi(curKi + 0.1);
+        Controller::GetInstance().mAttRateController_roll.SetKi(curKi + 0.1);
         LED_Blink(LED_ONBOARD, 4);
     }
 
@@ -300,7 +379,9 @@ void MainApp()
             FCCmdType cmd;
             ReceiverStatus status = CmdListener::GetInstance().GetCmd(cmd);
             if (status != RECEIVER_FAIL) {
-#if UAV_CMD_ACC
+#if UAV_CMD_ATT_RATE
+                LOGI("Cmd: pitchRate %f rollRate %f acc.z %f, yawRate %f\r\n", cmd.desiredAttRate.pitch, cmd.desiredAttRate.roll, cmd.desiredAccZ, cmd.desiredAttRate.yaw);
+#elif UAV_CMD_ACC
                 LOGI("Cmd: acc.x %f acc.y %f acc.z %f, yawRate %f\r\n", cmd.desiredAcc.x, cmd.desiredAcc.y, cmd.desiredAcc.z, cmd.desiredYawRate);
 #elif UAV_CMD_ATT
                 LOGI("Cmd: pitch %f roll %f acc.z %f, yawRate %f\r\n", cmd.desiredPitch, cmd.desiredRoll, cmd.desiredAccZ, cmd.desiredYawRate);
@@ -308,29 +389,43 @@ void MainApp()
                 // Controller::GetInstance().SetAccSetpoint(cmd.desiredVel);
                 if (!sArmed && (ToArm(cmd) || ToCalibrateESC(cmd))) {
                     sArmed = true;
+                    sTunePID = false;
+                    if (ToCalibrateESC(cmd)) {
+                        // disable thrust clamp during ESC calibration
+                        MotorCtrl::GetInstance().EnableThrustClamp(false);
+                    }
                     MotorCtrl::GetInstance().StartMotor();
                     LOGI("MainApp: Armed!!!");
                     LED_SetOn(LED_ONBOARD, true);
                 }
-                else if (!sArmed && ToTunePID(cmd)) {
+                else if (!sArmed && cmd.toTunePID) {
                     sTunePID = true;
+                    TunePID(cmd);
                     LOGI("MainApp: Tuning PID!!!");
                     LED_SetOn(LED_ONBOARD, true);
-                }
-                else if (sTunePID && ToExitTunePID(cmd)) {
-                    sTunePID = false;
-                    LOGI("MainApp: Exit Tuning PID!!!");
-                    LED_SetOn(LED_ONBOARD, false);
                 }
                 else if (sArmed && ToDisArm(cmd)) {
                     sArmed = false;
                     MotorCtrl::GetInstance().StopMotor();
                     LOGI("MainApp: DisArmed!!!");
                     LED_SetOn(LED_ONBOARD, false);
+                } else if (sTunePID && !cmd.toTunePID) {
+                    LOGI("MainApp: Exit Tuning PID!!!");
+                    sTunePID = false;
+                    LED_SetOn(LED_ONBOARD, false);
                 }
 
                 else if (sArmed) {
-#if UAV_CMD_ACC
+#if UAV_CMD_ATT_RATE
+                    Controller::GetInstance().SetAttRateSetpoint(cmd.desiredAttRate);
+
+                    FCAccDataType accSetpoint;
+                    accSetpoint.x = 0; // not used.
+                    accSetpoint.y = 0; // not used.
+                    accSetpoint.z = cmd.desiredAccZ;
+                    Controller::GetInstance().SetAccSetpoint(accSetpoint);
+
+#elif UAV_CMD_ACC
                     Controller::GetInstance().SetAccSetpoint(cmd.desiredAcc);
                     Controller::GetInstance().SetYawRateSetpoint(cmd.desiredYawRate);
 #elif UAV_CMD_ATT
@@ -348,9 +443,6 @@ void MainApp()
                     Controller::GetInstance().SetYawRateSetpoint(cmd.desiredYawRate);
 #endif
                 }
-                else if (sTunePID) {
-                    TunePID(cmd);
-                }
             } else {
                 LOGE("sCmdListener.GetCmd returns fail, skip\r\n");
             }
@@ -360,7 +452,7 @@ void MainApp()
             sEstimateStateFlag = false;
             LOG("estimateState: sTimerCnt = %d\r\n", sTimerCnt);
             StateEstimator::GetInstance().EstimateState(sMeas);
-            LOGI("Estimated State: roll %f, pitch %f, yaw %f, rollRate %f, pitchRate %f, yawRate %f\r\n", StateEstimator::GetInstance().mState.att.roll, StateEstimator::GetInstance().mState.att.pitch,
+            LOG("Estimated State: roll %f, pitch %f, yaw %f, rollRate %f, pitchRate %f, yawRate %f\r\n", StateEstimator::GetInstance().mState.att.roll, StateEstimator::GetInstance().mState.att.pitch,
                  StateEstimator::GetInstance().mState.att.yaw, StateEstimator::GetInstance().mState.attRate.roll, StateEstimator::GetInstance().mState.attRate.pitch, StateEstimator::GetInstance().mState.attRate.yaw);
             Controller::GetInstance().SetCurAtt(StateEstimator::GetInstance().mState.att);
             Controller::GetInstance().SetCurAttRate(StateEstimator::GetInstance().mState.attRate);

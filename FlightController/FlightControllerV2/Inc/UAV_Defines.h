@@ -14,7 +14,8 @@
 #define UAV_ENABLE_MOTORS (1)
 
 // toggle whether the RC value controls attitude or acceleration
-#define UAV_CMD_ATT (1) // in this mode, user directly controls UAV's attitude directly
+#define UAV_CMD_ATT_RATE (1) // in this mode, uesr directly control UAV's attitude rate
+#define UAV_CMD_ATT (0) // in this mode, user directly controls UAV's attitude
 #define UAV_CMD_ACC (0) // in this mode, user controls UAV's movement in xyz direction according to map coordinate
 
 #define UAV_G (9.7760)
@@ -22,25 +23,25 @@
 #define UAV_RADIANS_TO_DEGREE (57.2957805)
 #define UAV_DEGREE_TO_RADIAN (0.01745329)
 
-#define PID_ATT_KP_PITCH (0.5)
+#define PID_ATT_KP_PITCH (0.0f)
 #define PID_ATT_KD_PITCH (0.0f)
 #define PID_ATT_KI_PITCH (0.0f)
-#define PID_ATT_KP_ROLL (0)
+#define PID_ATT_KP_ROLL (0.0f)
 #define PID_ATT_KD_ROLL (0.0f)
 #define PID_ATT_KI_ROLL (0.0f)
-#define PID_ATT_RATE_KP_PITCH (0.5f)
-#define PID_ATT_RATE_KD_PITCH (0.0f)
+#define PID_ATT_RATE_KP_PITCH (0.35f)
+#define PID_ATT_RATE_KD_PITCH (0.0f) // 0.015
 #define PID_ATT_RATE_KI_PITCH (0.0f)
-#define PID_ATT_RATE_KP_ROLL (0.5f)
-#define PID_ATT_RATE_KD_ROLL (0.0f)
+#define PID_ATT_RATE_KP_ROLL (0.35f)
+#define PID_ATT_RATE_KD_ROLL (0.0f) // 0.015
 #define PID_ATT_RATE_KI_ROLL (0.0f)
-#define PID_ATT_RATE_KP_YAW (0.5f)
+#define PID_ATT_RATE_KP_YAW (0.05f)
 #define PID_ATT_RATE_KD_YAW (0.0f)
-#define PID_ATT_RATE_KI_YAW (0.01f)
+#define PID_ATT_RATE_KI_YAW (0.0f)
 #define PID_VEL_KP (1.0f)
 #define PID_VEL_KD (0.0f)
 #define PID_VEL_KI (0.0f)
-#define VEL_SETPOINT_TO_MOTOR_THRUST_KP (600)
+#define VEL_SETPOINT_TO_MOTOR_THRUST_KP (400)
 
 #define UAV_MAX_ACC_X (0.5)
 #define UAV_MAX_ACC_Y (0.5)
@@ -68,8 +69,12 @@
 #define CMD_ROLL_MAX (20.0f)
 
 // unit dps
-#define CMD_YAW_RATE_MIN (-90)
-#define CMD_YAW_RATE_MAX (90)
+#define CMD_ROLL_RATE_MIN (-45.0f)
+#define CMD_ROLL_RATE_MAX (45.0f)
+#define CMD_PITCH_RATE_MIN (-45.0f)
+#define CMD_PITCH_RATE_MAX (45.0f)
+#define CMD_YAW_RATE_MIN (-90.0f)
+#define CMD_YAW_RATE_MAX (90.0f)
 
 // thrust limit
 #define UAV_THRUST_MIN (-125)
@@ -124,9 +129,18 @@ typedef struct {
 #if UAV_CMD_ATT
 typedef struct {
     float desiredAccZ;
-    float desiredPitch;
-    float desiredRoll;
+    float desiredPitchRate;
+    float desiredRollRate;
     float desiredYawRate;
+    bool toTunePID;
+} FCCmdType;
+#endif
+
+#if UAV_CMD_ATT_RATE
+typedef struct {
+    float desiredAccZ;
+    FCAttRateType desiredAttRate;
+    bool toTunePID;
 } FCCmdType;
 #endif
 
@@ -134,6 +148,7 @@ typedef struct {
 typedef struct {
     FCAccDataType desiredAcc;
     float desiredYawRate;
+    bool toTunePID;
 } FCCmdType;
 #endif
 

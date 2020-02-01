@@ -52,12 +52,19 @@ bool Controller::Run()
 #if UAV_CMD_ACC
     // from accSetpoint to attSetpoint
     Controller_GetAttSetpointFromAccSetpoint(mAttSetpoint, mAccSetpoint, mAttSetpoint.yaw);
-#endif
 
     // att controller
     mAttRateSetpoint.pitch = mAttController_pitch.GetDesiredAttRateSetpoint(mAttSetpoint.pitch, mCurAtt.pitch);
     mAttRateSetpoint.roll = mAttController_roll.GetDesiredAttRateSetpoint(mAttSetpoint.roll, mCurAtt.roll);
     // no need to control yaw angle
+#endif
+
+#if UAV_CMD_ATT
+    // att controller
+    mAttRateSetpoint.pitch = mAttController_pitch.GetDesiredAttRateSetpoint(mAttSetpoint.pitch, mCurAtt.pitch);
+    mAttRateSetpoint.roll = mAttController_roll.GetDesiredAttRateSetpoint(mAttSetpoint.roll, mCurAtt.roll);
+    // no need to control yaw angle
+#endif
 
     // attRate
     float pitchThrust = mAttRateController_pitch.GetDesiredMotorThrust(mAttRateSetpoint.pitch, mCurAttRate.pitch);
@@ -108,6 +115,14 @@ bool Controller::SetAttSetpoint(FCAttType& attSetpoint)
     mAttSetpoint.pitch = attSetpoint.pitch;
     mAttSetpoint.roll = attSetpoint.roll;
     mAttSetpoint.yaw = attSetpoint.yaw;
+    return true;
+}
+
+bool Controller::SetAttRateSetpoint(FCAttRateType& attRateSetpoint)
+{
+    mAttRateSetpoint.pitch = attRateSetpoint.pitch;
+    mAttRateSetpoint.roll = attRateSetpoint.roll;
+    mAttRateSetpoint.yaw = attRateSetpoint.yaw;
     return true;
 }
 

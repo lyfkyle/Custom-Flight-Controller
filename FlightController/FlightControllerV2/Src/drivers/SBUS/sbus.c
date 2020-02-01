@@ -271,7 +271,7 @@ bool SBUS_Read(SBUSDataType* pSBUSData)
     channels_int[15] = (uint16_t) ((receivedMsg[21]>>5| receivedMsg[22]<<3)                       & 0x07FF);
     // parse
     for (int i = 0; i < 16; ++i) {
-        if (i < 4) LOG("SBUSData: channel %d : %d\r\n", i, channels_int[i]);
+        if (i < 5) LOG("SBUSData: channel %d : %d\r\n", i, channels_int[i]);
         // pSBUSData->channels[i] = ((float) (channels_int[i] - SBUS_CHANNEL_MIN)) / (SBUS_CHANNEL_MAX - SBUS_CHANNEL_MIN) * (sChannelOutMax - sChannelOutMin) + sChannelOutMin;
         pSBUSData->channels[i] = channels_int[i];
     }

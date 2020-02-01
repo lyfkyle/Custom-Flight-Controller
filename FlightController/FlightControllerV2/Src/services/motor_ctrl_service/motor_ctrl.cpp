@@ -18,7 +18,7 @@
 
 MotorCtrl::MotorCtrl()
 {
-
+    mToClampThrust = true;
 }
 
 MotorCtrl& MotorCtrl::GetInstance()
@@ -39,13 +39,22 @@ bool MotorCtrl::StartMotor()
     return true;
 }
 
+bool MotorCtrl::EnableThrustClamp(bool enable)
+{
+    mToClampThrust = enable;
+    return true;
+}
+
 bool MotorCtrl::OutputMotor(float pitchThrust, float rollThrust, float yawThrust, float heightThrust)
 {
     int motorPWM[4];
-    motorPWM[0] = (int) (-pitchThrust + rollThrust - yawThrust + heightThrust); // frontleft
-    motorPWM[1] = (int) (-pitchThrust - rollThrust + yawThrust + heightThrust); // frontright
-    motorPWM[2] = (int) (pitchThrust + rollThrust + yawThrust + heightThrust); // backleft
-    motorPWM[3] = (int) (pitchThrust - rollThrust - yawThrust + heightThrust); // backright
+    if (mToClampThrust) {
+        if (heightThrust > 800) heightThrust = 800; // clamp height thrust.
+    }
+    motorPWM[0] = (int) (-pitchThrust + rollThrust + yawThrust + heightThrust); // frontleft
+    motorPWM[1] = (int) (-pitchThrust - rollThrust - yawThrust + heightThrust); // frontright
+    motorPWM[2] = (int) (pitchThrust + rollThrust - yawThrust + heightThrust); // backleft
+    motorPWM[3] = (int) (pitchThrust - rollThrust + yawThrust + heightThrust); // backright
 
     for (int i = 0; i < 4; ++i) {
         if (motorPWM[i] < UAV_MOTOR_MIN_DUTYCYCLE) {

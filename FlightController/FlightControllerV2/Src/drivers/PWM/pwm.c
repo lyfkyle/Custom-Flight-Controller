@@ -149,6 +149,7 @@ bool PWM_Init()
 
 void PWM_Start()
 {
+#if UAV_ENABLE_MOTORS
     htim1.Instance->CCR1 = 0;
     htim1.Instance->CCR2 = 0;
     htim1.Instance->CCR3 = 0;
@@ -157,18 +158,22 @@ void PWM_Start()
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
+#endif
 }
 
 void PWM_Stop()
 {
+#if UAV_ENABLE_MOTORS
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_2);
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_3);
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_4);
+#endif
 }
 
 void PWM_SetDutyCycle(PWMChannelType channel, int dutyCycle)
 {
+#if UAV_ENABLE_MOTORS
     LOG("PWM channel %d, dutycycle %d\r\n", channel, dutyCycle);
     if (dutyCycle > UAV_MOTOR_MAX_DUTYCYCLE) dutyCycle = UAV_MOTOR_MAX_DUTYCYCLE;
     if (dutyCycle < UAV_MOTOR_MIN_DUTYCYCLE) dutyCycle = UAV_MOTOR_MIN_DUTYCYCLE;
@@ -187,4 +192,5 @@ void PWM_SetDutyCycle(PWMChannelType channel, int dutyCycle)
         htim1.Instance->CCR4 = dutyCycle + DUTYCYCLE_MIN;
         break;
     }
+#endif
 }

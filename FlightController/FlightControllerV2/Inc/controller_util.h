@@ -6,6 +6,6 @@
 bool ControllerUtil_Init();
 
 bool Controller_GetAttSetpointFromAccSetpoint(FCAttType& pAtt, FCAccDataType& pAccSetpoint, float yawSetpoint);
-float GetHeightThrustFromVelSetpointZ(float velSetpoint_z);
+float GetHeightThrustFromAccSetpointZ(float velSetpoint_z);
 
 #endif

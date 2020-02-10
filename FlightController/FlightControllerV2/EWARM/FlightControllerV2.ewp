@@ -1189,6 +1189,12 @@
             <name>$PROJ_DIR$\..\Inc\controller.h</name>
           </file>
           <file>
+            <name>$PROJ_DIR$\..\Src\services\controller_service\controller_acc.cpp</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\Inc\controller_acc.h</name>
+          </file>
+          <file>
             <name>$PROJ_DIR$\..\Src\services\controller_service\controller_att.cpp</name>
           </file>
           <file>
@@ -1205,12 +1211,6 @@
           </file>
           <file>
             <name>$PROJ_DIR$\..\Inc\controller_util.h</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Src\services\controller_service\controller_vel.cpp</name>
-          </file>
-          <file>
-            <name>$PROJ_DIR$\..\Inc\controller_vel.h</name>
           </file>
         </group>
         <group>

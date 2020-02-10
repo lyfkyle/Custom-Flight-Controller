@@ -10,20 +10,22 @@
 #define VEL_CONTROLLER_FREQUENCY (100)
 #define VEL_CONTROLLER_DTIME     (0.01)
 
-class VelController
+class AccController
 {
 public:
-   VelController(int periodMs);
-   float GetDesiredAcc(float velSetpoint, float curVel);
+   AccController(int periodMs);
+   float GetOutput(float velSetpoint, float curVel);
    bool SetPID(float kp, float kd, float ki);
    bool SetKp(float kp);
    bool SetKd(float kd);
    bool SetKi(float ki);
+   bool SetOutputLimits(float min, float max);
+
 private:
-   PID mVelPID;
-   float mVelSetpoint;
-   float mCurVel;
-   float mAccOutput;
+   PID mAccPID;
+   float mAccSetpoint;
+   float mCurAcc;
+   float mOutput;
    float mKp;
    float mKd;
    float mKi;

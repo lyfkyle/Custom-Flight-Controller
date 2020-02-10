@@ -10,25 +10,37 @@
  */
 
 #define UAV_Debug (0)
-
 #define UAV_ENABLE_MOTORS (1)
 
 // toggle whether the RC value controls attitude or acceleration
-#define UAV_CMD_ATT_RATE (1) // in this mode, uesr directly control UAV's attitude rate
-#define UAV_CMD_ATT (0) // in this mode, user directly controls UAV's attitude
-#define UAV_CMD_ACC (0) // in this mode, user controls UAV's movement in xyz direction according to map coordinate
+#define UAV_CMD_ATT_RATE (0) // in this mode, uesr directly control UAV's attitude rate
+#define UAV_CMD_ATT (1) // in this mode, user directly controls UAV's attitude
+#define UAV_CMD_ACC (0) // in this mode, user controls UAV's movement in xyz direction according to map coordinate. TODO. this is not supported.
+
+#if UAV_CND_ACC
+#define UAV_CONTROL_ACC (1)
+#define UAV_CONTROL_ATT (1)
+#elif UAV_CMD_ATT
+#define UAV_CONTROL_ACC (0)
+#define UAV_CONTROL_ATT (1)
+#endif
+
+/*
+ * Constants
+ */
 
 #define UAV_G (9.7760)
 #define UAV_PI (3.1415926)
 #define UAV_RADIANS_TO_DEGREE (57.2957805)
 #define UAV_DEGREE_TO_RADIAN (0.01745329)
 
-#define PID_ATT_KP_PITCH (0.0f)
+/* PID */
+#define PID_ATT_KP_PITCH (10.5f)
 #define PID_ATT_KD_PITCH (0.0f)
-#define PID_ATT_KI_PITCH (0.0f)
-#define PID_ATT_KP_ROLL (0.0f)
+#define PID_ATT_KI_PITCH (0.01f)
+#define PID_ATT_KP_ROLL (10.5f)
 #define PID_ATT_KD_ROLL (0.0f)
-#define PID_ATT_KI_ROLL (0.0f)
+#define PID_ATT_KI_ROLL (0.01f)
 #define PID_ATT_RATE_KP_PITCH (0.215f)
 #define PID_ATT_RATE_KD_PITCH (0.0004f)
 #define PID_ATT_RATE_KI_PITCH (0.001f)
@@ -38,21 +50,23 @@
 #define PID_ATT_RATE_KP_YAW (0.21f)
 #define PID_ATT_RATE_KD_YAW (0.0f)
 #define PID_ATT_RATE_KI_YAW (0.001f)
-#define PID_VEL_KP (1.0f)
-#define PID_VEL_KD (0.0f)
-#define PID_VEL_KI (0.0f)
-#define VEL_SETPOINT_TO_MOTOR_THRUST_KP (400)
-
-#define UAV_MAX_ACC_X (0.5)
-#define UAV_MAX_ACC_Y (0.5)
-#define UAV_MAX_ACC_Z (0.5)
-#define UAV_MAX_VEL_X (0.5)
-#define UAV_MAX_VEL_Y (0.5)
-#define UAV_MAX_VEL_Z (0.5)
+#define PID_ACC_KP_Z (1.0f)
+#define PID_ACC_KD_Z (0.0f)
+#define PID_ACC_KI_Z (0.0f)
+#define ACC_SETPOINT_TO_MOTOR_THRUST_KP (400)
 
 #define UAV_PWM_HOVER_DUTYCYCLE (400) // To Confirm
 //#define UAV_PWM_MIN_DUTYCYCLE (0) // to prevent propeller from stopping // To Confirm
 //#define UAV_PWM_MAX_DUTYCYCLE (100) // to prevent propeller from stopping // To Confirm
+
+/* Limits */
+
+#define ACC_PID_OUT_MIN (-10) // TODO not tested.
+#define ACC_PID_OUT_MAX (10) // TODO not tested
+#define ATT_PID_OUT_MIN (-200.0f)
+#define ATT_PID_OUT_MAX (200.0f)
+#define ATT_RATE_PID_OUT_MIN (-200)
+#define ATT_RATE_PID_OUT_MAX (200)
 
 // pwm output to motor. we want 1000 steps between 0ms to 1ms pulse width
 #define UAV_MOTOR_MIN_DUTYCYCLE (0)
@@ -62,7 +76,7 @@
 #define CMD_ACC_MIN (-1.0f)
 #define CMD_ACC_MAX (1.0f)
 
-// uunit radian
+// unit radian
 #define CMD_PITCH_MIN (-20.0f)
 #define CMD_PITCH_MAX (20.0f)
 #define CMD_ROLL_MIN (-20.0f)
@@ -75,10 +89,6 @@
 #define CMD_PITCH_RATE_MAX (90.0f)
 #define CMD_YAW_RATE_MIN (-90.0f)
 #define CMD_YAW_RATE_MAX (90.0f)
-
-// thrust limit
-#define UAV_PID_OUT_MIN (-200)
-#define UAV_PID_OUT_MAX (200)
 
 /*
  * Struct
@@ -129,8 +139,8 @@ typedef struct {
 #if UAV_CMD_ATT
 typedef struct {
     float desiredAccZ;
-    float desiredPitchRate;
-    float desiredRollRate;
+    float desiredPitch;
+    float desiredRoll;
     float desiredYawRate;
     bool toTunePID;
 } FCCmdType;

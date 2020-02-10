@@ -86,10 +86,10 @@ bool Controller_GetAttSetpointFromAccSetpoint(FCAttType& att, FCAccDataType& acc
    return true;
 }
 
-float GetHeightThrustFromVelSetpointZ(float velSetpoint_z)
+float GetHeightThrustFromAccSetpointZ(float accSetpoint_z)
 {
     // open loop
-    float res = UAV_PWM_HOVER_DUTYCYCLE + velSetpoint_z * VEL_SETPOINT_TO_MOTOR_THRUST_KP;
+    float res = UAV_PWM_HOVER_DUTYCYCLE + accSetpoint_z * ACC_SETPOINT_TO_MOTOR_THRUST_KP;
 //    if (res < UAV_MOTOR_MIN_DUTYCYCLE) res = UAV_MOTOR_MIN_DUTYCYCLE;
 //    if (res > UAV_MOTOR_MAX_DUTYCYCLE) res = UAV_MOTOR_MAX_DUTYCYCLE;
     return res;

@@ -4,7 +4,7 @@
 #include "controller_att.h"
 #include "controller_att_rate.h"
 #include "controller_util.h"
-#include "controller_vel.h"
+#include "controller_acc.h"
 #include "motor_ctrl.h"
 #include "UAV_Defines.h"
 
@@ -26,8 +26,6 @@ public:
     bool SetAttPeriodMs(int periodMs);
     bool SetAttRatePeriodMs(int periodMs);
     bool Init();
-    bool RunAttCtrl();
-    bool RunAttRateCtrl();
     bool SetAccSetpoint(FCAccDataType& accSetpoint);
     bool SetVelSetpoint(FCVelDataType& velSetpoint);
     bool SetYawRateSetpoint(float yawRate);
@@ -37,15 +35,24 @@ public:
     bool SetCurAtt(FCAttType& att);
     bool SetCurAttRate(FCAttType& att);
 
-    VelController mVelController_X;
-    VelController mVelController_Y;
-    VelController mVelController_Z;
+    bool RunAttCtrl();
+    bool RunAttRateCtrl();
+    bool RunAccCtrl();
+
+#if UAV_CONTROL_ACC
+    AccController mAccController_X;
+    AccController mAccController_Y;
+#endif
+#if UAV_CONTROL_ATT
     AttController mAttController_pitch;
     AttController mAttController_roll;
     AttController mAttController_yaw;
+#endif
+
     AttRateController mAttRateController_pitch;
     AttRateController mAttRateController_roll;
     AttRateController mAttRateController_yaw;
+    AccController mAccController_Z;
 
 private:
     Controller(); // private constructor, singleton

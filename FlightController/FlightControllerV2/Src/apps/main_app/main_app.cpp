@@ -38,11 +38,11 @@
 #define CORE_TIMER_FREQ 1000
 #define TIMER_CNT_MAX 5000
 
-#define READ_SENSOR_CNT 20 // 1000/50hz
+#define READ_SENSOR_CNT 10 // 1000/100hz
 #define ESTIMATE_STATE_CNT 20 // 1000/50hz
 #define CONTROL_ATT_CNT 50 // 1000/20hz
 #define CONTROL_ATT_RATE_CNT 10 // 1000/100hz
-#define LISTEN_CMD_CNT 250 // 1000/2hz
+#define LISTEN_CMD_CNT 250 // 1000/4hz
 
 /*
 *Static

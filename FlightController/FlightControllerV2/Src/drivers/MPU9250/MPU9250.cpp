@@ -106,11 +106,11 @@ void MPU9250::Init()
 {
     //set clock source
     setClockSource(MPU9250_CLOCK_PLL_XGYRO);
-    //set gyro output data rate to 1000hz
+    //set gyro output data rate to 1000hz. Low pass filter bandwidth 184Hz
     setGyroDLPFMode(1);
     //set gyro range to 2000dps.
     setFullScaleGyroRange(MPU9250_GYRO_FS_2000);
-    //set accel output data rate to 1000hz
+    //set accel output data rate to 1000hz. Low pass filter bandwidth 21.2Hz
     setAccDLPFMode(4);
     //set accel range to 2g
     setFullScaleAccelRange(MPU9250_ACCEL_FS_2);

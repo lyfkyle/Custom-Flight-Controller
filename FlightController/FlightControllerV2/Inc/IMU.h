@@ -1,8 +1,7 @@
 #ifndef HAL_IMU_H_
 #define HAL_IMU_H_
 
-#include <UAV_Defines.h>
-
+#include "UAV_Defines.h"
 #include "MPU9250.h"
 
 /*
@@ -19,6 +18,7 @@ private:
     MPU9250 mIMU;
 
     float gravity[3];
+    float accBias[3];
     float magConst[3];
     float gyroBias[3];
     float mMagOffset[3];
@@ -53,6 +53,7 @@ public:
     bool EnableMag(bool enable);
     bool Start();
     void CalibrateSensorBias();
+    void CalibrateAccBias();
     void CalibrateMag();
     void GetGravityVector(float* pGravity);
     void GetMagConstVector(float* pMagConst);

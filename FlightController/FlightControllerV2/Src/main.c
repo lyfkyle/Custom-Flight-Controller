@@ -97,7 +97,7 @@ static void MX_USART2_UART_Init(void);
 * @brief  The application entry point.
 * @retval int
 */
- int main(void)
+int main(void)
 {
     /* USER CODE BEGIN 1 */
 
@@ -128,7 +128,7 @@ static void MX_USART2_UART_Init(void);
     MX_USART2_UART_Init();
     /* USER CODE BEGIN 2 */
     HAL_Delay(1000);
-    MainApp();
+    MainApp(); //runs my flight controller app
     // TestMadgwickNoMag_Main();
     /* USER CODE END 2 */
 

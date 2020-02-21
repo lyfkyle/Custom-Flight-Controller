@@ -71,6 +71,10 @@ IMU::IMU()
         mMagOffset[i] = 0.0f;
         mMagScale[i] = 1.0f;
     }
+
+    accBias[0] = DEFAULT_ACC_BIAS_X;
+    accBias[1] = DEFAULT_ACC_BIAS_Y;
+    accBias[2] = DEFAULT_ACC_BIAS_Z;
 }
 
 IMU& IMU::GetInstance()
@@ -225,9 +229,9 @@ void IMU::GetAccelData(FCSensorDataType* pAccData)
     pAccData->y = mPrevAccY;
     pAccData->z = mPrevAccZ;
     */
-    pAccData->x = accX;
-    pAccData->y = accY;
-    pAccData->z = accZ;
+    pAccData->x = accX - accBias[0];
+    pAccData->y = accY - accBias[1];
+    pAccData->z = accZ - accBias[2];
 }
 
 bool IMU::GetCompassData(FCSensorDataType* pMagData)
@@ -380,7 +384,7 @@ void IMU::CalibrateSensorBias()
             mGyroAccDataRdyFlag = false;
             ClearInterrupt();
 #else
-            HAL_Delay(5); // read at 200Hz
+            HAL_Delay(10); // read at 100Hz
 #endif
         } else {
             /*data not ready*/
@@ -388,10 +392,32 @@ void IMU::CalibrateSensorBias()
         }
         HAL_Delay(1);
     }
-    LOGI("gyroBias: %.2f, %.2f, %.2f, MagConst: %.2f, %.2f, %.2f\r\n",
+    LOGI("gyroBias: %.2f, %.2f, %.2f, gravity: %.2f, %.2f, %.2f, MagConst: %.2f, %.2f, %.2f\r\n",
          gyroBias[0], gyroBias[1], gyroBias[2],
+         gravity[0], gravity[1], gravity[2],
          magConst[0], magConst[1], magConst[2]);
+}
 
+void IMU::CalibrateAccBias()
+{
+    int counter = 0;
+
+    FCSensorDataType accData;
+
+    while (counter < 500) {
+        GetAccelData(&accData);
+
+        accBias[0] += accData.x;
+        accBias[1] += accData.y;
+        accBias[2] += accData.z - UAV_G;
+
+        ++counter;
+        HAL_Delay(10); // read at 100Hz
+    }
+
+    accBias[0] /= 500;
+    accBias[1] /= 500;
+    accBias[2] /= 500;
 }
 
 #if USE_INTERRUPT

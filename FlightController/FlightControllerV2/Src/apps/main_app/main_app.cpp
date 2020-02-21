@@ -380,7 +380,7 @@ void MainApp()
             LOG("readsensor : sTimerCnt = %d\r\n", sTimerCnt);
             SensorReader::GetInstance().GetSensorMeas(sMeas);
             LOG("readsensor: sTimerCnt = %d\r\n", sTimerCnt);
-            LOG("sensor meas: gyro: %f %f %f, acc: %f %f %f\r\n", sMeas.gyroData.x, sMeas.gyroData.y, sMeas.gyroData.z, sMeas.accData.x, sMeas.accData.y, sMeas.accData.z);
+            LOGI("sensor meas: gyro: %f %f %f, acc: %f %f %f\r\n", sMeas.gyroData.x, sMeas.gyroData.y, sMeas.gyroData.z, sMeas.accData.x, sMeas.accData.y, sMeas.accData.z);
         }
         if (sListenCmdFlag) {
             sListenCmdFlag = false;

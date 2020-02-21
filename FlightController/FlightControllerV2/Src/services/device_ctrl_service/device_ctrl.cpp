@@ -23,7 +23,7 @@
 * Code
 */
 
-static bool DriversInit()
+static bool InitDrivers()
 {
     // Init uart driver
     if (!UART_Init()) {
@@ -65,7 +65,7 @@ static bool DriversInit()
     return true;
 }
 
-static bool ProductInit()
+static bool InitServices()
 {
     if (!StateEstimator::GetInstance().Init()) {
         LOGE("StateEstimator Init failed\r\n");
@@ -87,7 +87,7 @@ static bool ProductInit()
     return true;
 }
 
-static bool ProductStart()
+static bool StartServices()
 {
     if (!CmdListener::GetInstance().Start()) {
         LOGE("CmdListener Start failed\r\n");
@@ -98,15 +98,15 @@ static bool ProductStart()
 
 bool DeviceInit()
 {
-    if (!DriversInit()) {
+    if (!InitDrivers()) {
         LOGE("DriversInit failed\r\n");
         return false;
     }
-    if (!ProductInit()) {
+    if (!InitServices()) {
         LOGE("ProductInit failed\r\n");
         return false;
     }
-    if (!ProductStart()) {
+    if (!StartServices()) {
         LOGE("ProductStart failed\r\n");
         return false;
     }

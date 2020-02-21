@@ -34,13 +34,18 @@
 #define UAV_RADIANS_TO_DEGREE (57.2957805)
 #define UAV_DEGREE_TO_RADIAN (0.01745329)
 
+/* SensorBias */
+#define DEFAULT_ACC_BIAS_X (0.024)
+#define DEFAULT_ACC_BIAS_Y (0.01)
+#define DEFAULT_ACC_BIAS_Z (0.045)
+
 /* PID */
-#define PID_ATT_KP_PITCH (10.5f)
+#define PID_ATT_KP_PITCH (11.0f)
 #define PID_ATT_KD_PITCH (0.0f)
-#define PID_ATT_KI_PITCH (0.01f)
-#define PID_ATT_KP_ROLL (10.5f)
+#define PID_ATT_KI_PITCH (0.1f)
+#define PID_ATT_KP_ROLL (11.0f)
 #define PID_ATT_KD_ROLL (0.0f)
-#define PID_ATT_KI_ROLL (0.01f)
+#define PID_ATT_KI_ROLL (0.1f)
 #define PID_ATT_RATE_KP_PITCH (0.215f)
 #define PID_ATT_RATE_KD_PITCH (0.0004f)
 #define PID_ATT_RATE_KI_PITCH (0.001f)
